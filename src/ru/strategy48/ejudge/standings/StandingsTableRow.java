@@ -23,7 +23,10 @@ public class StandingsTableRow {
     public int getSolvedCnt() {
         int cnt = 0;
         for (StandingsTableCell cell : cells.values()) {
-            if (cell.solved) {
+            if (cell.freezed && cell.freezedSolved) {
+                cnt++;
+            }
+            if (!cell.freezed && cell.solved) {
                 cnt++;
             }
         }
@@ -41,7 +44,7 @@ public class StandingsTableRow {
     public int getScore() {
         int score = 0;
         for (StandingsTableCell cell : cells.values()) {
-            score += cell.score;
+            score += cell.freezed ? cell.freezedScore : cell.score;
         }
         return score;
     }
