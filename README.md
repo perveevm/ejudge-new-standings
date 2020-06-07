@@ -7,6 +7,8 @@ All config files should be placed in one directory. You can choose any directory
 
 There is some basic server configuration in this file. You can place it in `/etc/ejudge-new-standings/config.xml`.
 
+You can start server with: `java -jar ejudge-new-standings.jar /etc/ejudge-new-standings/config.xml`
+
 Example:
 
 ## config.xml
