@@ -107,18 +107,31 @@ public class HTMLUtils {
                         int time = cell.time / 60;
 
                         if (cell.freezed) {
-                            // TODO: freezed cells
                             html.append("<td class=\"freezed\">");
                             time = cell.freezedTime / 60;
-                            if (standings.config.type == StandingsTableType.ICPC) {
-                                html.append("+");
-                                if (cell.freezedAttempts != 0) {
-                                    html.append(cell.freezedAttempts);
-                                }
 
-                                html.append(String.format("<div>%d:%02d</div>", time / 60, time % 60));
-                            } else {
-                                html.append(cell.freezedScore);
+                            if (cell.freezedSolved) {
+                                if (standings.config.type == StandingsTableType.ICPC) {
+                                    html.append("+");
+                                    if (cell.freezedAttempts != 0) {
+                                        html.append(cell.freezedAttempts);
+                                    }
+
+                                    html.append(String.format("<div>%d:%02d</div>", time / 60, time % 60));
+                                } else {
+                                    html.append(cell.freezedScore);
+                                }
+                            } else if (cell.attempts != 0) {
+                                if (standings.config.type == StandingsTableType.ICPC) {
+                                    if (cell.freezedAttempts != 0) {
+                                        html.append("-");
+                                        html.append(cell.freezedAttempts);
+
+                                        html.append(String.format("<div>%d:%02d</div>", time / 60, time % 60));
+                                    }
+                                } else {
+                                    html.append(cell.freezedScore);
+                                }
                             }
 
                         } else if (cell.running) {
