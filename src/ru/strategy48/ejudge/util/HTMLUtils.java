@@ -8,6 +8,26 @@ import java.io.*;
 import java.util.stream.Collectors;
 
 public class HTMLUtils {
+    public static String getStatsHTML(final StandingsTableAgregator standings, final int userId) {
+        StringBuilder html = new StringBuilder();
+
+        if (standings.config.type == StandingsTableType.ICPC) {
+            html.append("<td class=\"stat\">");
+            html.append(standings.solved.get(userId));
+            html.append("</td>");
+
+            html.append("<td class=\"stat\">");
+            html.append(standings.penalty.get(userId));
+            html.append("</td>");
+        } else {
+            html.append("<td class=\"stat\">");
+            html.append(standings.score.get(userId));
+            html.append("</td>");
+        }
+
+        return html.toString();
+    }
+
     public static String getStandingsHTML(final StandingsTableAgregator standings) {
         StringBuilder html = new StringBuilder();
 
@@ -22,6 +42,14 @@ public class HTMLUtils {
         html.append("<tr>\n");
         html.append("<th rowspan=\"2\"><div class=\"new-standings-cell\" valign=\"middle\">Место</div></th>\n");
         html.append("<th rowspan=\"2\">Участник</th>\n");
+
+        if (standings.config.type == StandingsTableType.ICPC) {
+            html.append("<th rowspan=\"2\">Решено задач</th>\n");
+            html.append("<th rowspan=\"2\">Штраф</th>\n");
+        } else {
+            html.append("<th rowspan=\"2\">Баллы</th>\n");
+        }
+
         for (Contest contest : standings.contests) {
             html.append(String.format("<th colspan=\"%d\">%s</th>\n", contest.getProblems().size(), standings.config.contestNames.get(contest.getContestId())));
         }
@@ -60,6 +88,9 @@ public class HTMLUtils {
 
             // Add name
             html.append(String.format("<td>%s</td>\n", standings.users.get(userId).getName()));
+
+            // Add stats
+            html.append(getStatsHTML(standings, userId));
 
             // Add results
             for (StandingsTable table : standings.standings) {
@@ -118,19 +149,8 @@ public class HTMLUtils {
                 }
             }
 
-            if (standings.config.type == StandingsTableType.ICPC) {
-                html.append("<td class=\"stat\">");
-                html.append(standings.solved.get(userId));
-                html.append("</td>");
-
-                html.append("<td class=\"stat\">");
-                html.append(standings.penalty.get(userId));
-                html.append("</td>");
-            } else {
-                html.append("<td class=\"stat\">");
-                html.append(standings.score.get(userId));
-                html.append("</td>");
-            }
+            // Add stats
+            html.append(getStatsHTML(standings, userId));
 
             html.append("</tr>");
         }
