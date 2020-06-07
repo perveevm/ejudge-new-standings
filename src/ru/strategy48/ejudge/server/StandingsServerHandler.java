@@ -92,6 +92,10 @@ public class StandingsServerHandler implements HttpHandler {
                 StandingsTableAgregator agregator = new StandingsTableAgregator(standingsConfig, contests);
                 System.out.println("Standings generated!");
                 String standingsHTML = HTMLUtils.getStandingsHTML(agregator);
+                System.out.println("HTML generated!");
+
+                System.out.println(standingsHTML);
+
                 String html;
                 try {
                     html = HTMLUtils.getStandingsHTMLFormatted(standingsHTML, new File(configDirectory + "/header.html"), new File(configDirectory + "/footer.html"));

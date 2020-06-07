@@ -15,6 +15,9 @@ public class StandingsTableAgregator {
     public final Map<Integer, Integer> penalty = new HashMap<>();
     public final Map<Integer, Integer> score = new HashMap<>();
 
+    public final Map<Integer, Integer> minPlace = new HashMap<>();
+    public final Map<Integer, Integer> maxPlace = new HashMap<>();
+
     public final List<Integer> sortedUsers = new ArrayList<>();
 
     public StandingsTableAgregator(final StandingsTableConfig config, final List<Contest> contests) {
@@ -86,5 +89,35 @@ public class StandingsTableAgregator {
 
         sortedUsers.addAll(users.keySet());
         sortedUsers.sort(usersComparator);
+
+        int l = 0;
+        int lastPlace = 0;
+        for (int i = 0; i < sortedUsers.size(); i++) {
+            int userId = sortedUsers.get(i);
+            int prevUserId = sortedUsers.get(l);
+            if ((config.type == StandingsTableType.IOI && !score.get(userId).equals(score.get(prevUserId)))
+            || (config.type == StandingsTableType.ICPC && (!solved.get(userId).equals(solved.get(prevUserId))|| !penalty.get(userId).equals(penalty.get(prevUserId))))) {
+                int curMin = lastPlace + 1;
+                int curMax = lastPlace + i - l;
+
+                for (int j = l; j < i; j++) {
+                    int curUserId = sortedUsers.get(j);
+                    minPlace.put(curUserId, curMin);
+                    maxPlace.put(curUserId, curMax);
+                }
+
+                l = i;
+                lastPlace = curMax;
+            }
+        }
+
+        int curMin = lastPlace + 1;
+        int curMax = lastPlace + sortedUsers.size() - l;
+
+        for (int j = l; j < sortedUsers.size(); j++) {
+            int curUserId = sortedUsers.get(j);
+            minPlace.put(curUserId, curMin);
+            maxPlace.put(curUserId, curMax);
+        }
     }
 }

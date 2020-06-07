@@ -49,7 +49,14 @@ public class HTMLUtils {
             html.append("<tr>\n");
 
             // Add place
-            html.append("<td>???</td>\n");
+            int minPlace = standings.minPlace.get(userId);
+            int maxPlace = standings.maxPlace.get(userId);
+
+            if (minPlace == maxPlace) {
+                html.append(String.format("<td class=\"stat\" valign=\"center\">%d</td>", minPlace));
+            } else {
+                html.append(String.format("<td class=\"stat\" valign=\"center\">%d-%d</td>", minPlace, maxPlace));
+            }
 
             // Add name
             html.append(String.format("<td>%s</td>\n", standings.users.get(userId).getName()));
@@ -89,8 +96,7 @@ public class HTMLUtils {
 
                                 html.append(String.format("<div>%d:%02d</div>", cell.time / 60, cell.time % 60));
                             } else {
-                                // TODO: IOI-cells
-                                html.append("TODO");
+                                html.append(cell.score);
                             }
                         } else if (cell.attempts != 0) {
                             html.append("<td class=\"rj\">");
@@ -101,8 +107,7 @@ public class HTMLUtils {
 
                                 html.append(String.format("<div>%d:%02d</div>", cell.time / 60, cell.time % 60));
                             } else {
-                                // TODO: IOI-cells
-                                html.append("TODO");
+                                html.append(cell.score);
                             }
                         } else {
                             html.append("<td>");
@@ -114,15 +119,15 @@ public class HTMLUtils {
             }
 
             if (standings.config.type == StandingsTableType.ICPC) {
-                html.append("<td>");
+                html.append("<td class=\"stat\">");
                 html.append(standings.solved.get(userId));
                 html.append("</td>");
 
-                html.append("<td>");
+                html.append("<td class=\"stat\">");
                 html.append(standings.penalty.get(userId));
                 html.append("</td>");
             } else {
-                html.append("<td>");
+                html.append("<td class=\"stat\">");
                 html.append(standings.score.get(userId));
                 html.append("</td>");
             }

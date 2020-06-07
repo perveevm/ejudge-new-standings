@@ -21,7 +21,7 @@ public class StandingsServer implements AutoCloseable {
 
         try {
             server = HttpServer.create();
-            server.bind(new InetSocketAddress(config.host, config.port), 1000);
+            server.bind(new InetSocketAddress(config.host, config.port), 10000);
             server.createContext("/", new StandingsServerHandler(config, Paths.get(serverConfigPath).getParent().toString()));
             server.start();
 
