@@ -117,7 +117,7 @@ public class StandingsTable {
                 }
             }
 
-            if (bestId != -1) {
+            if (bestId != -1 && config.showFirstAC) {
                 rows.get(bestId).cells.get(problem.getId()).firstAC = true;
             }
         }
