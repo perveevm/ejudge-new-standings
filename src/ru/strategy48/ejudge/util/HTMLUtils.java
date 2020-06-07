@@ -104,6 +104,8 @@ public class HTMLUtils {
                     StandingsTableRow row = table.sortedRows.get(rowId);
 
                     for (StandingsTableCell cell : row.cells.values()) {
+                        int time = cell.time / 60;
+
                         if (cell.freezed) {
                             // TODO: freezed cells
                             html.append("<td class=\"freezed\">");
@@ -125,7 +127,7 @@ public class HTMLUtils {
                                     html.append(cell.attempts);
                                 }
 
-                                html.append(String.format("<div>%d:%02d</div>", cell.time / 60, cell.time % 60));
+                                html.append(String.format("<div>%d:%02d</div>", time / 60, time % 60));
                             } else {
                                 html.append(cell.score);
                             }
@@ -136,7 +138,7 @@ public class HTMLUtils {
                                 html.append("-");
                                 html.append(cell.attempts);
 
-                                html.append(String.format("<div>%d:%02d</div>", cell.time / 60, cell.time % 60));
+                                html.append(String.format("<div>%d:%02d</div>", time / 60, time % 60));
                             } else {
                                 html.append(cell.score);
                             }
