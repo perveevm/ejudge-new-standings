@@ -87,16 +87,17 @@ public class StandingsTable {
                         rows.get(run.getUserId()).cells.get(run.getProblemId()).solved = false;
                         rows.get(run.getUserId()).cells.get(run.getProblemId()).score = run.getScore();
                         rows.get(run.getUserId()).cells.get(run.getProblemId()).attempts++;
+                        rows.get(run.getUserId()).cells.get(run.getProblemId()).time = time;
                     } else {
                         int curScore = rows.get(run.getUserId()).cells.get(run.getProblemId()).score;
                         rows.get(run.getUserId()).cells.get(run.getProblemId()).score = Math.max(curScore, run.getScore());
 
                         if (!rows.get(run.getUserId()).cells.get(run.getProblemId()).solved) {
                             rows.get(run.getUserId()).cells.get(run.getProblemId()).attempts++;
+                            rows.get(run.getUserId()).cells.get(run.getProblemId()).time = time;
                         }
                     }
 
-                    rows.get(run.getUserId()).cells.get(run.getProblemId()).time = time;
                     rows.get(run.getUserId()).cells.get(run.getProblemId()).running = false;
                     break;
             }
