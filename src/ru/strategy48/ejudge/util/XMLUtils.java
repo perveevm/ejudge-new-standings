@@ -182,7 +182,7 @@ public class XMLUtils {
         return contest;
     }
 
-    public static StandingsTableConfig parseConfigFile(final File configFile) throws ParserConfigurationException, SAXException, IOException, ParseException {
+    public static StandingsTableConfig parseConfigFile(final File configFile) throws ParserConfigurationException, SAXException, IOException {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document document = builder.parse(configFile);
@@ -231,7 +231,7 @@ public class XMLUtils {
         return config;
     }
 
-    public static StandingsServerConfig parseServerConfigFile(final File configFile) throws ParserConfigurationException, SAXException, IOException, ParseException {
+    public static StandingsServerConfig parseServerConfigFile(final File configFile) throws ParserConfigurationException, SAXException, IOException {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document document = builder.parse(configFile);

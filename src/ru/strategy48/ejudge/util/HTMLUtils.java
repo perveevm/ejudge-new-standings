@@ -8,7 +8,7 @@ import java.io.*;
 import java.util.stream.Collectors;
 
 public class HTMLUtils {
-    public static String getStatsHTML(final StandingsTableAgregator standings, final int userId) {
+    private static String getStatsHTML(final StandingsTableAgregator standings, final int userId) {
         StringBuilder html = new StringBuilder();
 
         if (standings.config.type == StandingsTableType.ICPC) {
@@ -73,12 +73,24 @@ public class HTMLUtils {
         html.append("</tr>\n");
 
         // Add results
+        int groupParity = 1, parity = 0;
+        int prevPlace = -1;
+
         for (Integer userId : standings.sortedUsers) {
-            html.append("<tr>\n");
 
             // Add place
             int minPlace = standings.minPlace.get(userId);
             int maxPlace = standings.maxPlace.get(userId);
+
+            if (maxPlace != prevPlace) {
+                prevPlace = maxPlace;
+                groupParity ^= 1;
+                parity = 0;
+            }
+
+            String rowType = "r" + groupParity + parity;
+
+            html.append(String.format("<tr class=\"%s\">\n", rowType));
 
             if (minPlace == maxPlace) {
                 html.append(String.format("<td class=\"stat\" valign=\"center\">%d</td>", minPlace));
@@ -187,7 +199,7 @@ public class HTMLUtils {
         return html.toString();
     }
 
-    public static String getStandingsHTMLFormatted(final String standingsHTML, final File header, final File footer) throws FileNotFoundException, IOException {
+    public static String getStandingsHTMLFormatted(final String standingsHTML, final File header, final File footer) throws IOException {
         StringBuilder html = new StringBuilder();
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(header)));
