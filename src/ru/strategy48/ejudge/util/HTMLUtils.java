@@ -74,7 +74,7 @@ public class HTMLUtils {
 
         // Add results
         int groupParity = 1, parity = 0;
-        int prevPlace = -1;
+        int prevScore = -1;
 
         for (Integer userId : standings.sortedUsers) {
 
@@ -82,13 +82,21 @@ public class HTMLUtils {
             int minPlace = standings.minPlace.get(userId);
             int maxPlace = standings.maxPlace.get(userId);
 
-            if (maxPlace != prevPlace) {
-                prevPlace = maxPlace;
+            int curScore;
+            if (standings.config.type == StandingsTableType.ICPC) {
+                curScore = standings.solved.get(userId);
+            } else {
+                curScore = standings.score.get(userId);
+            }
+
+            if (prevScore != curScore) {
+                prevScore = curScore;
                 groupParity ^= 1;
                 parity = 0;
             }
 
             String rowType = "r" + groupParity + parity;
+            parity ^= 1;
 
             html.append(String.format("<tr class=\"%s\">\n", rowType));
 
