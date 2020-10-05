@@ -16,9 +16,11 @@ public class HTMLUtils {
             html.append(standings.solved.get(userId));
             html.append("</td>");
 
-            html.append("<td class=\"stat\">");
-            html.append(standings.penalty.get(userId));
-            html.append("</td>");
+            if (standings.config.showPenalty) {
+                html.append("<td class=\"stat\">");
+                html.append(standings.penalty.get(userId));
+                html.append("</td>");
+            }
         } else {
             html.append("<td class=\"stat\">");
             html.append(standings.score.get(userId));
@@ -45,7 +47,9 @@ public class HTMLUtils {
 
         if (standings.config.type == StandingsTableType.ICPC) {
             html.append("<th rowspan=\"2\">Решено задач</th>\n");
-            html.append("<th rowspan=\"2\">Штраф</th>\n");
+            if (standings.config.showPenalty) {
+                html.append("<th rowspan=\"2\">Штраф</th>\n");
+            }
         } else {
             html.append("<th rowspan=\"2\">Баллы</th>\n");
         }
@@ -56,7 +60,9 @@ public class HTMLUtils {
 
         if (standings.config.type == StandingsTableType.ICPC) {
             html.append("<th rowspan=\"2\">Решено задач</th>\n");
-            html.append("<th rowspan=\"2\">Штраф</th>\n");
+            if (standings.config.showPenalty) {
+                html.append("<th rowspan=\"2\">Штраф</th>\n");
+            }
         } else {
             html.append("<th rowspan=\"2\">Баллы</th>\n");
         }
@@ -137,7 +143,9 @@ public class HTMLUtils {
                                         html.append(cell.freezedAttempts);
                                     }
 
-                                    html.append(String.format("<div>%d:%02d</div>", time / 60, time % 60));
+                                    if (standings.config.showPenalty) {
+                                        html.append(String.format("<div>%d:%02d</div>", time / 60, time % 60));
+                                    }
                                 } else {
                                     html.append(cell.freezedScore);
                                 }
@@ -147,7 +155,9 @@ public class HTMLUtils {
                                         html.append("-");
                                         html.append(cell.freezedAttempts);
 
-                                        html.append(String.format("<div>%d:%02d</div>", time / 60, time % 60));
+                                        if (standings.config.showPenalty) {
+                                            html.append(String.format("<div>%d:%02d</div>", time / 60, time % 60));
+                                        }
                                     }
                                 } else {
                                     html.append(cell.freezedScore);
@@ -171,7 +181,9 @@ public class HTMLUtils {
                                     html.append(cell.attempts);
                                 }
 
-                                html.append(String.format("<div>%d:%02d</div>", time / 60, time % 60));
+                                if (standings.config.showPenalty) {
+                                    html.append(String.format("<div>%d:%02d</div>", time / 60, time % 60));
+                                }
                             } else {
                                 html.append(cell.score);
                             }
@@ -182,7 +194,9 @@ public class HTMLUtils {
                                 html.append("-");
                                 html.append(cell.attempts);
 
-                                html.append(String.format("<div>%d:%02d</div>", time / 60, time % 60));
+                                if (standings.config.showPenalty) {
+                                    html.append(String.format("<div>%d:%02d</div>", time / 60, time % 60));
+                                }
                             } else {
                                 html.append(cell.score);
                             }

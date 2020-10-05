@@ -7,6 +7,7 @@ public class StandingsTableConfig {
     public boolean showZeros = true;
     public boolean showUsersWithoutRuns = true;
     public boolean showFirstAC = true;
+    public boolean showPenalty = true;
 
     public StandingsTableType type = StandingsTableType.ICPC;
     public Map<Integer, Set<Integer>> lastACProblems = new HashMap<>();

@@ -215,6 +215,7 @@ public class XMLUtils {
         config.showFirstAC = Boolean.parseBoolean(mainConfig.getAttribute("first_ac"));
         config.showUsersWithoutRuns = Boolean.parseBoolean(mainConfig.getAttribute("empty_users"));
         config.showZeros = Boolean.parseBoolean(mainConfig.getAttribute("show_zero"));
+        config.showPenalty = Boolean.parseBoolean(mainConfig.getAttribute("show_penalty"));
 
         config.standingsName = standingsName.getTextContent();
         switch (standingsType.getTextContent()) {
