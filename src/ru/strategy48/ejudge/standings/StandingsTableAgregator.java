@@ -96,7 +96,7 @@ public class StandingsTableAgregator {
             int userId = sortedUsers.get(i);
             int prevUserId = sortedUsers.get(l);
             if ((config.type == StandingsTableType.IOI && !score.get(userId).equals(score.get(prevUserId)))
-            || (config.type == StandingsTableType.ICPC && (!solved.get(userId).equals(solved.get(prevUserId))|| !penalty.get(userId).equals(penalty.get(prevUserId))))) {
+            || (config.type == StandingsTableType.ICPC && (!solved.get(userId).equals(solved.get(prevUserId)) || (config.showPenalty && !penalty.get(userId).equals(penalty.get(prevUserId)))))) {
                 int curMin = lastPlace + 1;
                 int curMax = lastPlace + i - l;
 
