@@ -54,6 +54,7 @@ Example:
 * `first_ac` (true/false) if first AC runs should be marked
 * `empty_users` (true/false) if users without runs should be in standings
 * `show_zero` (true/false) if users with zero score should be in standings
+* `disable_penalty` (true/false) if you need to disable penalty counting, disables penalty column and problem timings
 * `name` standings name
 * `type` (ICPC/IOI) standings type
 * `contests` contests list
