@@ -1,5 +1,6 @@
 package ru.strategy48.ejudge.util;
 
+import org.jsoup.Jsoup;
 import ru.strategy48.ejudge.contest.Contest;
 import ru.strategy48.ejudge.contest.Problem;
 import ru.strategy48.ejudge.standings.*;
@@ -218,7 +219,7 @@ public class HTMLUtils {
         html.append("</tbody>");
         html.append("</table>");
 
-        return html.toString();
+        return Jsoup.parse(html.toString()).toString();
     }
 
     public static String getStandingsHTMLFormatted(final String standingsHTML, final File header, final File footer) throws IOException {
