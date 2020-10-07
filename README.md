@@ -55,6 +55,10 @@ Example:
 * `empty_users` (true/false) if users without runs should be in standings
 * `show_zero` (true/false) if users with zero score should be in standings
 * `disable_penalty` (true/false) if you need to disable penalty counting, disables penalty column and problem timings
+* `official` (true/false) if contest is official (there will be no submits from upsolving in this case)
+* `start_time` (yyyy/mm/dd hh:mm:ss) contest start time (for official only)
+* `end_time` (yyyy/mm/dd hh:mm:ss) contest end time (for official only)
+* `freeze_time` (yyyy/mm/dd hh:mm:ss) contest freeze time (for official only, works only if `freeze` is true)
 * `name` standings name
 * `type` (ICPC/IOI) standings type
 * `contests` contests list
