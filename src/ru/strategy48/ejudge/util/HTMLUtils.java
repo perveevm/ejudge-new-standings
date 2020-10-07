@@ -226,7 +226,7 @@ public class HTMLUtils {
         html.append(String.format("<td colspan=\"%d\">Всего решений</td>", colspan));
         for (StandingsTable table : standings.standings) {
             for (Problem problem : table.contest.getProblems()) {
-                html.append(String.format("<td>%d</td>", table.submittedRuns.getOrDefault(problem.getId(), 0)));
+                html.append(String.format("<td class=\"stat\" valign=\"center\">%d</td>", table.submittedRuns.getOrDefault(problem.getId(), 0)));
             }
         }
 
@@ -246,7 +246,7 @@ public class HTMLUtils {
         html.append(String.format("<td colspan=\"%d\">Правильных решений</td>", colspan));
         for (StandingsTable table : standings.standings) {
             for (Problem problem : table.contest.getProblems()) {
-                html.append(String.format("<td>%d</td>", table.acceptedRuns.getOrDefault(problem.getId(), 0)));
+                html.append(String.format("<td class=\"stat\" valign=\"center\">%d</td>", table.acceptedRuns.getOrDefault(problem.getId(), 0)));
             }
         }
 
