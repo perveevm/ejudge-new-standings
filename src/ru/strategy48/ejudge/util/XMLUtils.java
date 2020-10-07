@@ -230,10 +230,12 @@ public class XMLUtils {
         config.showPenalty = !Boolean.parseBoolean(mainConfig.getAttribute("disable_penalty"));
         config.isOfficial = Boolean.parseBoolean(mainConfig.getAttribute("official"));
 
-        DateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        config.startDate = format.parse(mainConfig.getAttribute("start_time"));
-        config.freezeDate = format.parse(mainConfig.getAttribute("freeze_time"));
-        config.endDate = format.parse(mainConfig.getAttribute("end_time"));
+        if (config.isOfficial) {
+            DateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            config.startDate = format.parse(mainConfig.getAttribute("start_time"));
+            config.freezeDate = format.parse(mainConfig.getAttribute("freeze_time"));
+            config.endDate = format.parse(mainConfig.getAttribute("end_time"));
+        }
 
         config.standingsName = standingsName.getTextContent();
         switch (standingsType.getTextContent()) {
