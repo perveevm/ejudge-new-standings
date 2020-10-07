@@ -8,6 +8,10 @@ public class StandingsTableConfig {
     public boolean showUsersWithoutRuns = true;
     public boolean showFirstAC = true;
     public boolean showPenalty = true;
+    public boolean isOfficial = false;
+    public Date startDate;
+    public Date endDate;
+    public Date freezeDate;
 
     public StandingsTableType type = StandingsTableType.ICPC;
     public Map<Integer, Set<Integer>> lastACProblems = new HashMap<>();

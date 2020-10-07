@@ -22,7 +22,7 @@ import java.util.Date;
 import java.util.HashSet;
 
 public class XMLUtils {
-    public static Contest parseExternalLog(final File externalLogFile) throws ParserConfigurationException, SAXException, IOException, ParseException {
+    public static Contest parseExternalLog(final File externalLogFile, final StandingsTableConfig config) throws ParserConfigurationException, SAXException, IOException, ParseException {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document document = builder.parse(externalLogFile);
@@ -51,6 +51,14 @@ public class XMLUtils {
             freezeTime = Integer.parseInt(contestNode.getAttribute("fog_time"));
         }
 
+        if (config.isOfficial) {
+            startTime = config.startDate;
+            if (config.freezeDate != null) {
+                freezeTime = (int) ((config.endDate.getTime() - config.freezeDate.getTime()) / 1000);
+            }
+            duration = (int) ((config.endDate.getTime() - config.startDate.getTime()) / 1000);
+        }
+
         Contest contest = new Contest(name, contestId, startTime, duration, freezeTime);
 
         for (int i = 0; i < problems.getLength(); i++) {
@@ -75,6 +83,10 @@ public class XMLUtils {
             int runId = Integer.parseInt(run.getAttribute("run_id"));
             int time = Integer.parseInt(run.getAttribute("time"));
             Status status;
+
+            if (config.isOfficial && time >= duration) {
+                continue;
+            }
 
             switch (run.getAttribute("status")) {
                 case "OK":
@@ -182,7 +194,7 @@ public class XMLUtils {
         return contest;
     }
 
-    public static StandingsTableConfig parseConfigFile(final File configFile) throws ParserConfigurationException, SAXException, IOException {
+    public static StandingsTableConfig parseConfigFile(final File configFile) throws ParserConfigurationException, SAXException, IOException, ParseException {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document document = builder.parse(configFile);
@@ -216,6 +228,12 @@ public class XMLUtils {
         config.showUsersWithoutRuns = Boolean.parseBoolean(mainConfig.getAttribute("empty_users"));
         config.showZeros = Boolean.parseBoolean(mainConfig.getAttribute("show_zero"));
         config.showPenalty = !Boolean.parseBoolean(mainConfig.getAttribute("disable_penalty"));
+        config.isOfficial = Boolean.parseBoolean(mainConfig.getAttribute("official"));
+
+        DateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        config.startDate = format.parse(mainConfig.getAttribute("start_time"));
+        config.freezeDate = format.parse(mainConfig.getAttribute("freeze_time"));
+        config.endDate = format.parse(mainConfig.getAttribute("end_time"));
 
         config.standingsName = standingsName.getTextContent();
         switch (standingsType.getTextContent()) {

@@ -79,7 +79,7 @@ public class StandingsServerHandler implements HttpHandler {
                     }
 
                     try {
-                        contests.add(XMLUtils.parseExternalLog(externalLog.toFile()));
+                        contests.add(XMLUtils.parseExternalLog(externalLog.toFile(), standingsConfig));
                     } catch (Exception e) {
                         System.out.println("Error parsing external log for contest: " + contestId);
                         exchange.sendResponseHeaders(404, 0);
