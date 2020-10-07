@@ -231,7 +231,7 @@ public class HTMLUtils {
             }
         }
 
-        html.append(String.format("<td colspan=\"%d\">Всего решений</td>", colspan));
+        html.append(String.format("<td colspan=\"%d\" class=\"stat\" valign=\"center\">%d</td>", colspan, standings.standings.stream().map(table -> table.submittedCnt).reduce((a, b) -> a + b).get()));
         html.append("</tr>");
 
         // Problem statistics: AC
@@ -243,7 +243,7 @@ public class HTMLUtils {
             }
         }
 
-        html.append(String.format("<td colspan=\"%d\">Правильных решений</td>", colspan));
+        html.append(String.format("<td colspan=\"%d\" class=\"stat\" valign=\"center\">%d</td>", colspan, standings.standings.stream().map(table -> table.acceptedCnt).reduce((a, b) -> a + b).get()));
         html.append("</tr>");
 
         html.append("</tbody>");
