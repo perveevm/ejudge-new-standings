@@ -9,9 +9,10 @@ public class StandingsTableConfig {
     public boolean showFirstAC = true;
     public boolean showPenalty = true;
     public boolean isOfficial = false;
-    public Date startDate;
-    public Date endDate;
-    public Date freezeDate;
+
+    public Date startDate = null;
+    public Date endDate = null;
+    public Date freezeDate = null;
 
     public StandingsTableType type = StandingsTableType.ICPC;
     public Map<Integer, Set<Integer>> lastACProblems = new HashMap<>();

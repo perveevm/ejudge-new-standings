@@ -191,7 +191,7 @@ public class XMLUtils {
             contest.addRun(new Run(runId, time, status, userId, problemId, score));
         }
 
-        return contest;
+        return contest;isOfficial
     }
 
     public static StandingsTableConfig parseConfigFile(final File configFile) throws ParserConfigurationException, SAXException, IOException, ParseException {
@@ -228,7 +228,10 @@ public class XMLUtils {
         config.showUsersWithoutRuns = Boolean.parseBoolean(mainConfig.getAttribute("empty_users"));
         config.showZeros = Boolean.parseBoolean(mainConfig.getAttribute("show_zero"));
         config.showPenalty = !Boolean.parseBoolean(mainConfig.getAttribute("disable_penalty"));
-        config.isOfficial = Boolean.parseBoolean(mainConfig.getAttribute("official"));
+
+        if (mainConfig.hasAttribute("official")) {
+            config.isOfficial = Boolean.parseBoolean(mainConfig.getAttribute("official"));
+        }
 
         if (config.isOfficial) {
             DateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
