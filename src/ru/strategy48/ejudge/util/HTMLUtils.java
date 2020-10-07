@@ -217,7 +217,7 @@ public class HTMLUtils {
         }
 
         // Problem statistics: all
-        html.append("<tr>");
+        html.append("<tr class=\"allstats\">");
         int colspan = 1;
         if (standings.config.type == StandingsTableType.ICPC && standings.config.showPenalty) {
             colspan++;
@@ -235,6 +235,7 @@ public class HTMLUtils {
         html.append("</tr>");
 
         // Problem statistics: AC
+        html.append("<tr class=\"allstats\">");
         html.append("<td colspan=\"2\">Правильных решений</td>");
         html.append(String.format("<td colspan=\"%d\" class=\"stat\" valign=\"center\">%d</td>", colspan, standings.standings.stream().map(table -> table.acceptedCnt).reduce((a, b) -> a + b).get()));
         for (StandingsTable table : standings.standings) {
