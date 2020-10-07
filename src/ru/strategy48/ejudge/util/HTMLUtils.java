@@ -218,42 +218,31 @@ public class HTMLUtils {
 
         // Problem statistics: all
         html.append("<tr>");
-        int colspan = 3;
+        int colspan = 1;
         if (standings.config.type == StandingsTableType.ICPC && standings.config.showPenalty) {
             colspan++;
         }
 
-        html.append(String.format("<td colspan=\"%d\">Всего решений</td>", colspan));
+        html.append("<td colspan=\"2\">Всего решений</td>");
+        html.append(String.format("<td colspan=\"%d\" class=\"stat\" valign=\"center\">%d</td>", colspan, standings.standings.stream().map(table -> table.submittedCnt).reduce((a, b) -> a + b).get()));
         for (StandingsTable table : standings.standings) {
             for (Problem problem : table.contest.getProblems()) {
                 html.append(String.format("<td class=\"stat\" valign=\"center\">%d</td>", table.submittedRuns.getOrDefault(problem.getId(), 0)));
             }
         }
 
-        colspan = 1;
-        if (standings.config.type == StandingsTableType.ICPC && standings.config.showPenalty) {
-            colspan++;
-        }
         html.append(String.format("<td colspan=\"%d\">Всего решений</td>", colspan));
         html.append("</tr>");
 
         // Problem statistics: AC
-        colspan = 3;
-        if (standings.config.type == StandingsTableType.ICPC && standings.config.showPenalty) {
-            colspan++;
-        }
-
-        html.append(String.format("<td colspan=\"%d\">Правильных решений</td>", colspan));
+        html.append("<td colspan=\"2\">Правильных решений</td>");
+        html.append(String.format("<td colspan=\"%d\" class=\"stat\" valign=\"center\">%d</td>", colspan, standings.standings.stream().map(table -> table.acceptedCnt).reduce((a, b) -> a + b).get()));
         for (StandingsTable table : standings.standings) {
             for (Problem problem : table.contest.getProblems()) {
                 html.append(String.format("<td class=\"stat\" valign=\"center\">%d</td>", table.acceptedRuns.getOrDefault(problem.getId(), 0)));
             }
         }
 
-        colspan = 1;
-        if (standings.config.type == StandingsTableType.ICPC && standings.config.showPenalty) {
-            colspan++;
-        }
         html.append(String.format("<td colspan=\"%d\">Правильных решений</td>", colspan));
         html.append("</tr>");
 

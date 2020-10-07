@@ -23,6 +23,9 @@ public class StandingsTable {
     public Map<Integer, Integer> submittedRuns = new HashMap<>();
     public Map<Integer, Integer> acceptedRuns = new HashMap<>();
 
+    public int submittedCnt = 0;
+    public int acceptedCnt = 0;
+
     public StandingsTable(final Contest contest, final StandingsTableConfig config) {
         this.contest = contest;
         this.config = config;
@@ -81,6 +84,8 @@ public class StandingsTable {
                     if (!nowFreezed) {
                         submittedRuns.put(run.getProblemId(), submittedRuns.getOrDefault(run.getProblemId(), 0) + 1);
                         acceptedRuns.put(run.getProblemId(), acceptedRuns.getOrDefault(run.getProblemId(), 0) + 1);
+                        submittedCnt++;
+                        acceptedCnt++;
                     }
                     break;
                 default:
@@ -109,6 +114,7 @@ public class StandingsTable {
                     rows.get(run.getUserId()).cells.get(run.getProblemId()).running = false;
                     if (!nowFreezed) {
                         submittedRuns.put(run.getProblemId(), submittedRuns.getOrDefault(run.getProblemId(), 0) + 1);
+                        submittedCnt++;
                     }
                     break;
             }
