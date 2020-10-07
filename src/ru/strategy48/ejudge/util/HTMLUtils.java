@@ -35,7 +35,7 @@ public class HTMLUtils {
         StringBuilder html = new StringBuilder();
 
         // Add standings table name
-        html.append(String.format("<div align=\"center\"><h3>%s</h3></div>\n", standings.config.standingsName));
+        html.append(String.format("<div align=\"center\"><h3>%s</h3></div>\n", standings.config.standingsName + (standings.config.needFreeze ? " (Результаты заморожены)" : "")));
 
         // Add standings table header
         html.append("<table class=\"new-standings\">\n");
