@@ -235,7 +235,7 @@ public class HTMLUtils {
             colspan++;
         }
         html.append(String.format("<td colspan=\"%d\">Всего решений</td>", colspan));
-        html.append("<tr/>");
+        html.append("</tr>");
 
         // Problem statistics: AC
         colspan = 3;
@@ -255,7 +255,7 @@ public class HTMLUtils {
             colspan++;
         }
         html.append(String.format("<td colspan=\"%d\">Правильных решений</td>", colspan));
-        html.append("<tr/>");
+        html.append("</tr>");
 
         html.append("</tbody>");
         html.append("</table>");
