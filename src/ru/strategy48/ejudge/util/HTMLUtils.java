@@ -136,9 +136,10 @@ public class HTMLUtils {
                         cur++;
 
                         String style = "";
-                        if (cur == row.cells.size()) {
-                            style = " style=\"border-right: solid black 3px;\"";
-                        }
+                        // TODO: borders
+//                        if (cur == row.cells.size()) {
+//                            style = " style=\"border-right: solid black 3px;\"";
+//                        }
 
                         if (cell.freezed) {
                             html.append(String.format("<td class=\"freezed\">%s", style));
