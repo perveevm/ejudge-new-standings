@@ -219,7 +219,7 @@ public class HTMLUtils {
         html.append("</tbody>");
         html.append("</table>");
 
-        return Jsoup.parse(html.toString()).toString();
+        return html.toString();
     }
 
     public static String getStandingsHTMLFormatted(final String standingsHTML, final File header, final File footer) throws IOException {
@@ -236,6 +236,6 @@ public class HTMLUtils {
         html.append(standingsHTML);
         html.append(footerHTML);
 
-        return html.toString();
+        return Jsoup.parse(html.toString()).toString();
     }
 }
