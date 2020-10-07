@@ -129,12 +129,19 @@ public class HTMLUtils {
                     }
                 } else {
                     StandingsTableRow row = table.sortedRows.get(rowId);
+                    int cur = 0;
 
                     for (StandingsTableCell cell : row.cells.values()) {
                         int time = cell.time / 60;
+                        cur++;
+
+                        String style = "";
+                        if (cur == row.cells.size()) {
+                            style = " style=\"border-right: solid black 3px;\"";
+                        }
 
                         if (cell.freezed) {
-                            html.append("<td class=\"freezed\">");
+                            html.append(String.format("<td class=\"freezed\">%s", style));
                             time = cell.freezedTime / 60;
 
                             if (cell.freezedSolved) {
@@ -167,13 +174,13 @@ public class HTMLUtils {
 
                         } else if (cell.running) {
                             // TODO: running cells
-                            html.append("<td class=\"running\">");
+                            html.append(String.format("<td class=\"running\"%s>", style));
                             html.append("TODO");
                         } else if (cell.solved) {
                             if (cell.firstAC) {
-                                html.append("<td class=\"firstAC\">");
+                                html.append(String.format("<td class=\"firstAC\"%s>", style));
                             } else {
-                                html.append("<td class=\"ok\">");
+                                html.append(String.format("<td class=\"ok\"%s>", style));
                             }
 
                             if (standings.config.type == StandingsTableType.ICPC) {
@@ -189,7 +196,7 @@ public class HTMLUtils {
                                 html.append(cell.score);
                             }
                         } else if (cell.attempts != 0) {
-                            html.append("<td class=\"rj\">");
+                            html.append(String.format("<td class=\"rj\"%s>", style));
 
                             if (standings.config.type == StandingsTableType.ICPC) {
                                 html.append("-");
@@ -202,7 +209,7 @@ public class HTMLUtils {
                                 html.append(cell.score);
                             }
                         } else {
-                            html.append("<td>");
+                            html.append(String.format("<td%s>", style));
                         }
 
                         html.append("</td>");
