@@ -104,6 +104,8 @@ public class StandingsServerHandler implements HttpHandler {
                     return;
                 }
 
+                System.out.println(html);
+
                 exchange.sendResponseHeaders(200, html.getBytes().length);
                 OutputStream stream = exchange.getResponseBody();
                 stream.write(html.getBytes());
