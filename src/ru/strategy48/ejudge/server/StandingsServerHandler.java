@@ -94,7 +94,7 @@ public class StandingsServerHandler implements HttpHandler {
                 String standingsHTML = HTMLUtils.getStandingsHTML(agregator);
                 System.out.println("HTML generated!");
 
-                System.out.println(standingsHTML);
+//                System.out.println(standingsHTML);
 
                 String html;
                 try {
@@ -106,7 +106,7 @@ public class StandingsServerHandler implements HttpHandler {
                     return;
                 }
 
-                System.out.println(html);
+//                System.out.println(html);
 
                 exchange.sendResponseHeaders(200, html.getBytes().length);
                 OutputStream stream = exchange.getResponseBody();
