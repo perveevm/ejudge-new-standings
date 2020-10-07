@@ -191,7 +191,7 @@ public class XMLUtils {
             contest.addRun(new Run(runId, time, status, userId, problemId, score));
         }
 
-        return contest;isOfficial
+        return contest;
     }
 
     public static StandingsTableConfig parseConfigFile(final File configFile) throws ParserConfigurationException, SAXException, IOException, ParseException {
