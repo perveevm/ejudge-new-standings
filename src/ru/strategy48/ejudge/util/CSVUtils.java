@@ -24,6 +24,13 @@ public class CSVUtils {
             return null;
         }
 
+        for (String[] row : rows) {
+            for (String j : row) {
+                System.out.print(j + " ");
+            }
+            System.out.println();
+        }
+
         if (rows.isEmpty() || rows.get(0).length == 0) {
             return null;
         }
