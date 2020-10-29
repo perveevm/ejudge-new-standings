@@ -21,4 +21,6 @@ public class StandingsTableConfig {
     public Map<Integer, String> contestNames = new HashMap<>();
 
     public String standingsName = "";
+    public String usersInfoPath = "";
+    public String usersLoginPath = "";
 }

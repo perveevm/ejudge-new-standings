@@ -2,7 +2,9 @@ package ru.strategy48.ejudge.standings;
 
 import ru.strategy48.ejudge.contest.Contest;
 import ru.strategy48.ejudge.contest.User;
+import ru.strategy48.ejudge.util.CSVUtils;
 
+import java.nio.file.Paths;
 import java.util.*;
 
 public class StandingsTableAgregator {
@@ -20,6 +22,9 @@ public class StandingsTableAgregator {
 
     public final List<Integer> sortedUsers = new ArrayList<>();
 
+    public final StandingsTableUsersInfo usersInfo;
+    public final Map<Integer, String> idToLogin;
+
     public StandingsTableAgregator(final StandingsTableConfig config, final List<Contest> contests) {
         this.config = config;
         this.contests = contests;
@@ -27,6 +32,14 @@ public class StandingsTableAgregator {
 
         for (Contest contest : contests) {
             standings.add(new StandingsTable(contest, config));
+        }
+
+        if (!config.usersInfoPath.isEmpty() && !config.usersLoginPath.isEmpty()) {
+            this.usersInfo = CSVUtils.parseUserInfo(Paths.get(config.usersInfoPath).toFile());
+            this.idToLogin = CSVUtils.getLogins(Paths.get(config.usersLoginPath).toFile());
+        } else {
+            this.usersInfo = null;
+            this.idToLogin = null;
         }
 
         processContests();

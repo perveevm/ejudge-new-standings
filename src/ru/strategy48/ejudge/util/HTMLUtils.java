@@ -44,7 +44,14 @@ public class HTMLUtils {
         // Add caption row
         html.append("<tr>\n");
         html.append("<th rowspan=\"2\"><div class=\"new-standings-cell\" valign=\"middle\">Место</div></th>\n");
-        html.append("<th rowspan=\"2\">Участник</th>\n");
+
+        if (standings.usersInfo == null) {
+            html.append("<th rowspan=\"2\">Участник</th>\n");
+        } else {
+            for (String caption : standings.usersInfo.header) {
+                html.append(String.format("<th rowspan=\"2\">%s</th>", caption));
+            }
+        }
 
         if (standings.config.type == StandingsTableType.ICPC) {
             html.append("<th rowspan=\"2\">Решено задач</th>\n");
@@ -114,7 +121,14 @@ public class HTMLUtils {
             }
 
             // Add name
-            html.append(String.format("<td>%s</td>\n", standings.users.get(userId).getName()));
+            if (standings.usersInfo == null) {
+                html.append(String.format("<td>%s</td>\n", standings.users.get(userId).getName()));
+            } else {
+                String login = standings.idToLogin.get(standings.users.get(userId).getId());
+                for (String param : standings.usersInfo.fields.get(login)) {
+                    html.append(String.format("<td>%s</td>\n", param));
+                }
+            }
 
             // Add stats
             html.append(getStatsHTML(standings, userId));

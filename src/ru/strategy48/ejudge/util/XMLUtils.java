@@ -229,6 +229,13 @@ public class XMLUtils {
         config.showZeros = Boolean.parseBoolean(mainConfig.getAttribute("show_zero"));
         config.showPenalty = !Boolean.parseBoolean(mainConfig.getAttribute("disable_penalty"));
 
+        if (mainConfig.hasAttribute("users_info_path")) {
+            config.usersInfoPath = mainConfig.getAttribute("users_info_path");
+        }
+        if (mainConfig.hasAttribute("users_login_path")) {
+            config.usersLoginPath = mainConfig.getAttribute("users_login_path");
+        }
+
         if (mainConfig.hasAttribute("official")) {
             config.isOfficial = Boolean.parseBoolean(mainConfig.getAttribute("official"));
         }
