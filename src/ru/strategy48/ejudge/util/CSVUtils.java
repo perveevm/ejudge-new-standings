@@ -6,19 +6,21 @@ import ru.strategy48.ejudge.standings.StandingsTableUsersInfo;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class CSVUtils {
     public static StandingsTableUsersInfo parseUserInfo(final File csvFile) {
         System.out.println(csvFile + " started");
 
-        List<String[]> rows;
+        List<String[]> rows = new ArrayList<>();
 
         try (CSVReader reader = new CSVReader(new FileReader(csvFile), ';')) {
-            rows = reader.readAll();
+            String[] line;
+            while ((line = reader.readNext()) != null) {
+                rows.add(line);
+                System.out.println("+1 line");
+            }
+//            rows = reader.readAll();
         } catch (IOException e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
