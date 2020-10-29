@@ -20,6 +20,7 @@ public class CSVUtils {
         try (CSVReader reader = new CSVReader(new FileReader(csvFile), ';')) {
             rows = reader.readAll();
         } catch (IOException e) {
+            System.out.println(e.getMessage());
             e.printStackTrace();
             return null;
         }
