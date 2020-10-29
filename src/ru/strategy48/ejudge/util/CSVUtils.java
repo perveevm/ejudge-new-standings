@@ -13,6 +13,8 @@ import java.util.Map;
 
 public class CSVUtils {
     public static StandingsTableUsersInfo parseUserInfo(final File csvFile) {
+        System.out.println(csvFile + " started");
+
         List<String[]> rows;
 
         try (CSVReader reader = new CSVReader(new FileReader(csvFile), ';')) {
@@ -44,6 +46,8 @@ public class CSVUtils {
     }
 
     public static Map<Integer, String> getLogins(final File csvFile) {
+        System.out.println(csvFile + " started");
+
         Map<Integer, String> result = new HashMap<>();
         List<String[]> rows;
 
