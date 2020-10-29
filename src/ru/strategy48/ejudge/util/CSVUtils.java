@@ -10,30 +10,13 @@ import java.util.*;
 
 public class CSVUtils {
     public static StandingsTableUsersInfo parseUserInfo(final File csvFile) {
-        System.out.println(csvFile + " started");
-
-        List<String[]> rows = new ArrayList<>();
+        List<String[]> rows;
 
         try (CSVReader reader = new CSVReader(new FileReader(csvFile), ';', '\"', 0)) {
-            System.out.println("KEK");
-            String[] line;
-            while ((line = reader.readNext()) != null) {
-                rows.add(line);
-                System.out.println("+1 line");
-            }
-//            rows = reader.readAll();
+            rows = reader.readAll();
         } catch (Exception e) {
-            System.out.println("ERROR!!!");
-            System.out.println(e.getMessage());
             e.printStackTrace();
             return null;
-        }
-
-        for (String[] row : rows) {
-            for (String j : row) {
-                System.out.print(j + " ");
-            }
-            System.out.println();
         }
 
         if (rows.isEmpty() || rows.get(0).length == 0) {
@@ -53,14 +36,10 @@ public class CSVUtils {
             usersInfo.fields.put(login, Arrays.asList(rows.get(i)).subList(1, rows.get(i).length));
         }
 
-        System.out.println(csvFile + " OK!");
-
         return usersInfo;
     }
 
     public static Map<Integer, String> getLogins(final File csvFile) {
-        System.out.println(csvFile + " started");
-
         Map<Integer, String> result = new HashMap<>();
         List<String[]> rows;
 
@@ -76,8 +55,6 @@ public class CSVUtils {
             String login = rows.get(i)[1];
             result.put(userID, login);
         }
-
-        System.out.println(csvFile + " OK!");
 
         return result;
     }

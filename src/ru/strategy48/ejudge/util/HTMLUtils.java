@@ -49,7 +49,6 @@ public class HTMLUtils {
             html.append("<th rowspan=\"2\">Участник</th>\n");
         } else {
             for (String caption : standings.usersInfo.header) {
-                System.out.println(caption);
                 html.append(String.format("<th rowspan=\"2\">%s</th>", caption));
             }
         }
@@ -126,14 +125,12 @@ public class HTMLUtils {
                 html.append(String.format("<td>%s</td>\n", standings.users.get(userId).getName()));
             } else {
                 String login = standings.idToLogin.get(standings.users.get(userId).getId());
-                System.out.println(login);
                 if (!standings.usersInfo.fields.containsKey(login)) {
                     for (int i = 0; i < standings.usersInfo.header.size(); i++) {
                         html.append("<td></td>");
                     }
                 } else {
                     for (String param : standings.usersInfo.fields.get(login)) {
-                        System.out.println(param);
                         html.append(String.format("<td>%s</td>\n", param));
                     }
                 }
