@@ -20,6 +20,7 @@ public class CSVUtils {
         try (CSVReader reader = new CSVReader(new FileReader(csvFile), ';')) {
             rows = reader.readAll();
         } catch (IOException e) {
+            e.printStackTrace();
             return null;
         }
 
@@ -54,6 +55,7 @@ public class CSVUtils {
         try (CSVReader reader = new CSVReader(new FileReader(csvFile), ';')) {
             rows = reader.readAll();
         } catch (IOException e) {
+            e.printStackTrace();
             return null;
         }
 
