@@ -38,6 +38,8 @@ public class CSVUtils {
             usersInfo.fields.put(login, Arrays.asList(rows.get(i)).subList(1, rows.get(i).length));
         }
 
+        System.out.println(csvFile + " OK!");
+
         return usersInfo;
     }
 
@@ -56,6 +58,8 @@ public class CSVUtils {
             String login = rows.get(i)[1];
             result.put(userID, login);
         }
+
+        System.out.println(csvFile + " OK!");
 
         return result;
     }
