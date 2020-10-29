@@ -14,7 +14,7 @@ public class CSVUtils {
 
         List<String[]> rows = new ArrayList<>();
 
-        try (CSVReader reader = new CSVReader(new FileReader(csvFile), ';')) {
+        try (CSVReader reader = new CSVReader(new FileReader(csvFile), ';', '\"', 0)) {
             System.out.println("KEK");
             String[] line;
             while ((line = reader.readNext()) != null) {
