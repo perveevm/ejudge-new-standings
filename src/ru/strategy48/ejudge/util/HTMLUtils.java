@@ -127,9 +127,15 @@ public class HTMLUtils {
             } else {
                 String login = standings.idToLogin.get(standings.users.get(userId).getId());
                 System.out.println(login);
-                for (String param : standings.usersInfo.fields.get(login)) {
-                    System.out.println(param);
-                    html.append(String.format("<td>%s</td>\n", param));
+                if (!standings.usersInfo.fields.containsKey(login)) {
+                    for (int i = 0; i < standings.usersInfo.header.size(); i++) {
+                        html.append("<td></td>");
+                    }
+                } else {
+                    for (String param : standings.usersInfo.fields.get(login)) {
+                        System.out.println(param);
+                        html.append(String.format("<td>%s</td>\n", param));
+                    }
                 }
             }
 
