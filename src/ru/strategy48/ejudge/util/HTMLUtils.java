@@ -245,35 +245,39 @@ public class HTMLUtils {
         }
 
         // Problem statistics: all
-//        html.append("<tr class=\"allstats\">");
-//        int colspan = 1;
-//        if (standings.config.type == StandingsTableType.ICPC && standings.config.showPenalty) {
-//            colspan++;
-//        }
-//
-//        html.append("<td colspan=\"2\">Всего решений</td>");
-//        html.append(String.format("<td colspan=\"%d\" class=\"stat\" valign=\"center\">%d</td>", colspan, standings.standings.stream().map(table -> table.submittedCnt).reduce((a, b) -> a + b).get()));
-//        for (StandingsTable table : standings.standings) {
-//            for (Problem problem : table.contest.getProblems()) {
-//                html.append(String.format("<td class=\"stat\" valign=\"center\">%d</td>", table.submittedRuns.getOrDefault(problem.getId(), 0)));
-//            }
-//        }
-//
-//        html.append(String.format("<td colspan=\"%d\" class=\"stat\" valign=\"center\">%d</td>", colspan, standings.standings.stream().map(table -> table.submittedCnt).reduce((a, b) -> a + b).get()));
-//        html.append("</tr>");
-//
-//        // Problem statistics: AC
-//        html.append("<tr class=\"allstats\">");
-//        html.append("<td colspan=\"2\">Правильных решений</td>");
-//        html.append(String.format("<td colspan=\"%d\" class=\"stat\" valign=\"center\">%d</td>", colspan, standings.standings.stream().map(table -> table.acceptedCnt).reduce((a, b) -> a + b).get()));
-//        for (StandingsTable table : standings.standings) {
-//            for (Problem problem : table.contest.getProblems()) {
-//                html.append(String.format("<td class=\"stat\" valign=\"center\">%d</td>", table.acceptedRuns.getOrDefault(problem.getId(), 0)));
-//            }
-//        }
-//
-//        html.append(String.format("<td colspan=\"%d\" class=\"stat\" valign=\"center\">%d</td>", colspan, standings.standings.stream().map(table -> table.acceptedCnt).reduce((a, b) -> a + b).get()));
-//        html.append("</tr>");
+        html.append("<tr class=\"allstats\">");
+        int colspan = 1;
+        if (standings.config.type == StandingsTableType.ICPC && standings.config.showPenalty) {
+            colspan++;
+        }
+
+        int userSpan = 2;
+        if (standings.usersInfo != null) {
+            userSpan = 1 + standings.usersInfo.header.size();
+        }
+        html.append(String.format("<td colspan=\"%d\">Всего решений</td>", userSpan));
+        html.append(String.format("<td colspan=\"%d\" class=\"stat\" valign=\"center\">%d</td>", colspan, standings.standings.stream().map(table -> table.submittedCnt).reduce((a, b) -> a + b).get()));
+        for (StandingsTable table : standings.standings) {
+            for (Problem problem : table.contest.getProblems()) {
+                html.append(String.format("<td class=\"stat\" valign=\"center\">%d</td>", table.submittedRuns.getOrDefault(problem.getId(), 0)));
+            }
+        }
+
+        html.append(String.format("<td colspan=\"%d\" class=\"stat\" valign=\"center\">%d</td>", colspan, standings.standings.stream().map(table -> table.submittedCnt).reduce((a, b) -> a + b).get()));
+        html.append("</tr>");
+
+        // Problem statistics: AC
+        html.append("<tr class=\"allstats\">");
+        html.append(String.format("<td colspan=\"%d\">Правильных решений</td>", userSpan));
+        html.append(String.format("<td colspan=\"%d\" class=\"stat\" valign=\"center\">%d</td>", colspan, standings.standings.stream().map(table -> table.acceptedCnt).reduce((a, b) -> a + b).get()));
+        for (StandingsTable table : standings.standings) {
+            for (Problem problem : table.contest.getProblems()) {
+                html.append(String.format("<td class=\"stat\" valign=\"center\">%d</td>", table.acceptedRuns.getOrDefault(problem.getId(), 0)));
+            }
+        }
+
+        html.append(String.format("<td colspan=\"%d\" class=\"stat\" valign=\"center\">%d</td>", colspan, standings.standings.stream().map(table -> table.acceptedCnt).reduce((a, b) -> a + b).get()));
+        html.append("</tr>");
 
         html.append("</tbody>");
         html.append("</table>");
