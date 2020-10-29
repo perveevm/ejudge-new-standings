@@ -42,6 +42,8 @@ public class StandingsTableAgregator {
             this.idToLogin = null;
         }
 
+        System.out.println("Parsing completed!");
+
         processContests();
     }
 
