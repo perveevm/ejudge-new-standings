@@ -21,7 +21,7 @@ public class CSVUtils {
                 System.out.println("+1 line");
             }
 //            rows = reader.readAll();
-        } catch (IOException e) {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
             return null;
