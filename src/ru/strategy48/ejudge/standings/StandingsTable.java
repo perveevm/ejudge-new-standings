@@ -101,7 +101,7 @@ public class StandingsTable {
                         rows.get(run.getUserId()).cells.get(run.getProblemId()).score = run.getScore();
                         rows.get(run.getUserId()).cells.get(run.getProblemId()).attempts++;
                         rows.get(run.getUserId()).cells.get(run.getProblemId()).time = time;
-                    } else {
+                    } else if (!rows.get(run.getUserId()).cells.get(run.getProblemId()).solved) {
                         int curScore = rows.get(run.getUserId()).cells.get(run.getProblemId()).score;
                         rows.get(run.getUserId()).cells.get(run.getProblemId()).score = Math.max(curScore, run.getScore());
 
