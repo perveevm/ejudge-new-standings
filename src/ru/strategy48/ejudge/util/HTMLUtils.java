@@ -122,7 +122,12 @@ public class HTMLUtils {
 
             // Add name
             if (standings.usersInfo == null) {
-                html.append(String.format("<td>%s</td>\n", standings.users.get(userId).getName()));
+                if (standings.idToLogin != null) {
+                    String login = standings.idToLogin.get(standings.users.get(userId).getId());
+                    html.append(String.format("<td>%s</td>\n", login));
+                } else {
+                    html.append(String.format("<td>%s</td>\n", standings.users.get(userId).getName()));
+                }
             } else {
                 String login = standings.idToLogin.get(standings.users.get(userId).getId());
                 if (!standings.usersInfo.fields.containsKey(login)) {

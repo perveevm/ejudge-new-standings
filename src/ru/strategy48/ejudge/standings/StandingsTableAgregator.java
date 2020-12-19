@@ -34,15 +34,29 @@ public class StandingsTableAgregator {
             standings.add(new StandingsTable(contest, config));
         }
 
-        if (!config.usersInfoPath.isEmpty() && !config.usersLoginPath.isEmpty()) {
+        if (!config.usersInfoPath.isEmpty()) {
             System.out.println("Users info start");
             this.usersInfo = CSVUtils.parseUserInfo(Paths.get(config.usersInfoPath).toFile());
+        } else {
+            this.usersInfo = null;
+        }
+
+        if (!config.usersLoginPath.isEmpty()) {
             System.out.println("Users login start");
             this.idToLogin = CSVUtils.getLogins(Paths.get(config.usersLoginPath).toFile());
         } else {
-            this.usersInfo = null;
             this.idToLogin = null;
         }
+
+//        if (!config.usersInfoPath.isEmpty() && !config.usersLoginPath.isEmpty()) {
+//            System.out.println("Users info start");
+//            this.usersInfo = CSVUtils.parseUserInfo(Paths.get(config.usersInfoPath).toFile());
+//            System.out.println("Users login start");
+//            this.idToLogin = CSVUtils.getLogins(Paths.get(config.usersLoginPath).toFile());
+//        } else {
+//            this.usersInfo = null;
+//            this.idToLogin = null;
+//        }
 
         System.out.println("Parsing completed!");
 
