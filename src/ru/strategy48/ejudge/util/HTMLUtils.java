@@ -132,17 +132,11 @@ public class HTMLUtils {
                 String login = standings.idToLogin.get(standings.users.get(userId).getId());
                 if (!standings.usersInfo.fields.containsKey(login)) {
                     for (int i = 0; i < standings.usersInfo.header.size(); i++) {
-                        html.append("<td></td>");
+                        html.append(String.format("<td>%s</td>\n", login));
                     }
                 } else {
-                    if (standings.usersInfo.fields.containsKey(login)) {
-                        for (String param : standings.usersInfo.fields.get(login)) {
-                            html.append(String.format("<td>%s</td>\n", param));
-                        }
-                    } else {
-                        for (int i = 0; i < standings.usersInfo.header.size(); i++) {
-                            html.append(String.format("<td>%s</td>\n", login));
-                        }
+                    for (String param : standings.usersInfo.fields.get(login)) {
+                        html.append(String.format("<td>%s</td>\n", param));
                     }
                 }
             }
