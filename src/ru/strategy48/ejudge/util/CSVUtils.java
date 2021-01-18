@@ -58,4 +58,27 @@ public class CSVUtils {
 
         return result;
     }
+
+    public static Map<String, String> getLoginsMatching(final File csvFile) {
+        Map<String, String> result = new HashMap<>();
+        List<String[]> rows;
+
+        try (CSVReader reader = new CSVReader(new FileReader(csvFile), ';')) {
+            rows = reader.readAll();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        for (int i = 1; i < rows.size(); i++) {
+            String primaryLogin = rows.get(i)[0];
+
+            for (int j = 0; j < rows.get(i).length; j++) {
+                String curLogin = rows.get(i)[j];
+                result.put(curLogin, primaryLogin);
+            }
+        }
+
+        return result;
+    }
 }

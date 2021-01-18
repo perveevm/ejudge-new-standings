@@ -24,6 +24,10 @@ public class StandingsTableAgregator {
 
     public final StandingsTableUsersInfo usersInfo;
     public final Map<Integer, String> idToLogin;
+    public final Map<String, Integer> loginToId;
+
+    public final Map<String, String> loginMatching;
+    public final Map<Integer, Integer> idMatching;
 
     public StandingsTableAgregator(final StandingsTableConfig config, final List<Contest> contests) {
         this.config = config;
@@ -44,8 +48,33 @@ public class StandingsTableAgregator {
         if (!config.usersLoginPath.isEmpty()) {
             System.out.println("Users login start");
             this.idToLogin = CSVUtils.getLogins(Paths.get(config.usersLoginPath).toFile());
+
+            this.loginToId = new HashMap<>();
+            for (Map.Entry<Integer, String> e : this.idToLogin.entrySet()) {
+                loginToId.put(e.getValue(), e.getKey());
+            }
         } else {
             this.idToLogin = null;
+            this.loginToId = null;
+        }
+
+        if (!config.usersLoginMatchingPath.isEmpty()) {
+            System.out.println("Users matching start");
+            this.loginMatching = CSVUtils.getLoginsMatching(Paths.get(config.usersLoginMatchingPath).toFile());
+        } else {
+            this.loginMatching = null;
+        }
+
+        if (!config.usersLoginPath.isEmpty() && !config.usersLoginMatchingPath.isEmpty()) {
+            this.idMatching = new HashMap<>();
+
+            for (Map.Entry<String, String> e : this.loginMatching.entrySet()) {
+                int key = loginToId.get(e.getKey());
+                int value = loginToId.get(e.getValue());
+                this.idMatching.put(key, value);
+            }
+        } else {
+            this.idMatching = null;
         }
 
 //        if (!config.usersInfoPath.isEmpty() && !config.usersLoginPath.isEmpty()) {
@@ -67,6 +96,11 @@ public class StandingsTableAgregator {
         for (StandingsTable table : standings) {
             for (Map.Entry<Integer, Integer> entry : table.userToRow.entrySet()) {
                 int userId = entry.getKey();
+
+                if (this.idMatching != null) {
+                    userId = this.idMatching.get(userId);
+                }
+
                 User user = table.sortedRows.get(entry.getValue()).user;
 
                 if (!users.containsKey(userId)) {

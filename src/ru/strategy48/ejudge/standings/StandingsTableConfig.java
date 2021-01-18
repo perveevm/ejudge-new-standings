@@ -23,4 +23,6 @@ public class StandingsTableConfig {
     public String standingsName = "";
     public String usersInfoPath = "";
     public String usersLoginPath = "";
+
+    public String usersLoginMatchingPath = "";
 }
