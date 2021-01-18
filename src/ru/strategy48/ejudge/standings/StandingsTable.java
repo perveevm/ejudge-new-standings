@@ -42,7 +42,7 @@ public class StandingsTable {
         for (int i = 0; i < contest.getUsers().size(); i++) {
             int primaryID = contest.getUsers().get(i).getId();
             if (this.idMatching != null) {
-                primaryID = this.idMatching.get(primaryID);
+                primaryID = this.idMatching.getOrDefault(primaryID, primaryID);
             }
 
             rows.put(primaryID, new StandingsTableRow(contest.getUsers().get(i), contest.getProblems()));
@@ -57,7 +57,7 @@ public class StandingsTable {
         for (Run run : contest.getRuns()) {
             int userId = run.getUserId();
             if (this.idMatching != null && userId != -1) {
-                userId = this.idMatching.get(userId);
+                userId = this.idMatching.getOrDefault(userId, userId);
             }
 
             int time = run.getTime() - virtualStarts.getOrDefault(userId, 0);
@@ -147,7 +147,7 @@ public class StandingsTable {
             for (User user : contest.getUsers()) {
                 int userId = user.getId();
                 if (this.idMatching != null) {
-                    userId = this.idMatching.get(userId);
+                    userId = this.idMatching.getOrDefault(userId, userId);
                 }
 
                 if (rows.get(userId).cells.get(problem.getId()).solved) {
@@ -172,7 +172,7 @@ public class StandingsTable {
             rowStream = rowStream.filter(row -> (config.type == StandingsTableType.ICPC ? row.getSolvedCnt() : row.getScore()) > 0);
         }
         if (!config.showUsersWithoutRuns) {
-            rowStream = rowStream.filter(row -> userWithSubmissions.contains(this.idMatching == null ? row.user.getId() : this.idMatching.get(row.user.getId())));
+            rowStream = rowStream.filter(row -> userWithSubmissions.contains(this.idMatching == null ? row.user.getId() : this.idMatching.getOrDefault(row.user.getId(), row.user.getId())));
         }
 
 //        Comparator<StandingsTableRow> comparator;
@@ -190,7 +190,7 @@ public class StandingsTable {
         for (int i = 0; i < sortedRows.size(); i++) {
             int userId = sortedRows.get(i).user.getId();
             if (this.idMatching != null) {
-                userId = this.idMatching.get(userId);
+                userId = this.idMatching.getOrDefault(userId, userId);
             }
 
             userToRow.put(userId, i);
