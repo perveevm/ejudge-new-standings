@@ -43,6 +43,8 @@ public class StandingsTable {
             rows.put(primaryID, new StandingsTableRow(contest.getUsers().get(i), contest.getProblems()));
         }
 
+        System.out.println("Processing runs...");
+
         processRuns();
     }
 
@@ -138,11 +140,16 @@ public class StandingsTable {
             int bestTime = -1;
 
             for (User user : contest.getUsers()) {
-                if (rows.get(user.getId()).cells.get(problem.getId()).solved) {
-                    int curTime = rows.get(user.getId()).cells.get(problem.getId()).time;
+                int userId = user.getId();
+                if (this.idMatching != null) {
+                    userId = this.idMatching.get(userId);
+                }
+
+                if (rows.get(userId).cells.get(problem.getId()).solved) {
+                    int curTime = rows.get(userId).cells.get(problem.getId()).time;
 
                     if (bestId == -1 || curTime < bestTime) {
-                        bestId = user.getId();
+                        bestId = userId;
                         bestTime = curTime;
                     }
                 }
@@ -153,12 +160,14 @@ public class StandingsTable {
             }
         }
 
+        System.out.println("Filtering...");
+
         Stream<StandingsTableRow> rowStream = rows.values().stream();
         if (!config.showZeros) {
             rowStream = rowStream.filter(row -> (config.type == StandingsTableType.ICPC ? row.getSolvedCnt() : row.getScore()) > 0);
         }
         if (!config.showUsersWithoutRuns) {
-            rowStream = rowStream.filter(row -> userWithSubmissions.contains(row.user.getId()));
+            rowStream = rowStream.filter(row -> userWithSubmissions.contains(this.idMatching == null ? row.user.getId() : this.idMatching.get(row.user.getId())));
         }
 
 //        Comparator<StandingsTableRow> comparator;
@@ -171,8 +180,15 @@ public class StandingsTable {
         sortedRows = rowStream.collect(Collectors.toList());
 //        sortedRows = rowStream.sorted(comparator).collect(Collectors.toList());
 
+        System.out.println("Sorting...");
+
         for (int i = 0; i < sortedRows.size(); i++) {
-            userToRow.put(sortedRows.get(i).user.getId(), i);
+            int userId = sortedRows.get(i).user.getId();
+            if (this.idMatching != null) {
+                userId = this.idMatching.get(userId);
+            }
+
+            userToRow.put(userId, i);
         }
     }
 }
