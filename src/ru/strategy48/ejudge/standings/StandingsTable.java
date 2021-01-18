@@ -35,6 +35,9 @@ public class StandingsTable {
         rows = new HashMap<>(contest.getUsers().size());
 
         System.out.println("Getting users...");
+        if (this.idMatching != null) {
+            System.out.println(this.idMatching.size());
+        }
 
         for (int i = 0; i < contest.getUsers().size(); i++) {
             int primaryID = contest.getUsers().get(i).getId();
