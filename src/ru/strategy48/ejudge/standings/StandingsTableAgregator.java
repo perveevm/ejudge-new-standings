@@ -34,10 +34,6 @@ public class StandingsTableAgregator {
         this.contests = contests;
         this.standings = new ArrayList<>();
 
-        for (Contest contest : contests) {
-            standings.add(new StandingsTable(contest, config));
-        }
-
         if (!config.usersInfoPath.isEmpty()) {
             System.out.println("Users info start");
             this.usersInfo = CSVUtils.parseUserInfo(Paths.get(config.usersInfoPath).toFile());
@@ -75,6 +71,10 @@ public class StandingsTableAgregator {
             }
         } else {
             this.idMatching = null;
+        }
+
+        for (Contest contest : contests) {
+            standings.add(new StandingsTable(contest, config, this.idMatching));
         }
 
 //        if (!config.usersInfoPath.isEmpty() && !config.usersLoginPath.isEmpty()) {

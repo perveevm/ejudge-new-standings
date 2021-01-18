@@ -23,16 +23,24 @@ public class StandingsTable {
     public Map<Integer, Integer> submittedRuns = new HashMap<>();
     public Map<Integer, Integer> acceptedRuns = new HashMap<>();
 
+    public final Map<Integer, Integer> idMatching;
+
     public int submittedCnt = 0;
     public int acceptedCnt = 0;
 
-    public StandingsTable(final Contest contest, final StandingsTableConfig config) {
+    public StandingsTable(final Contest contest, final StandingsTableConfig config, final Map<Integer, Integer> idMatching) {
         this.contest = contest;
         this.config = config;
+        this.idMatching = idMatching;
         rows = new HashMap<>(contest.getUsers().size());
 
         for (int i = 0; i < contest.getUsers().size(); i++) {
-            rows.put(contest.getUsers().get(i).getId(), new StandingsTableRow(contest.getUsers().get(i), contest.getProblems()));
+            int primaryID = contest.getUsers().get(i).getId();
+            if (this.idMatching != null) {
+                primaryID = this.idMatching.get(primaryID);
+            }
+
+            rows.put(primaryID, new StandingsTableRow(contest.getUsers().get(i), contest.getProblems()));
         }
 
         processRuns();
