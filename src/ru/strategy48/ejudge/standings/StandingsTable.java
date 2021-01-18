@@ -48,18 +48,23 @@ public class StandingsTable {
 
     private void processRuns() {
         for (Run run : contest.getRuns()) {
-            int time = run.getTime() - virtualStarts.getOrDefault(run.getUserId(), 0);
+            int userId = run.getUserId();
+            if (this.idMatching != null && userId != -1) {
+                userId = this.idMatching.get(userId);
+            }
+
+            int time = run.getTime() - virtualStarts.getOrDefault(userId, 0);
 
             boolean wasFreezed = false;
-            if (run.getProblemId() != -1 && run.getUserId() != -1) {
-                wasFreezed = rows.get(run.getUserId()).cells.get(run.getProblemId()).freezed;
+            if (run.getProblemId() != -1 && userId != -1) {
+                wasFreezed = rows.get(userId).cells.get(run.getProblemId()).freezed;
             }
 
             boolean nowFreezed = config.needFreeze && contest.needFreeze(time);
 
             switch (run.getStatus()) {
                 case VS:
-                    virtualStarts.put(run.getUserId(), run.getTime());
+                    virtualStarts.put(userId, run.getTime());
                     break;
                 case CE:
                 case CF:
@@ -73,21 +78,21 @@ public class StandingsTable {
                 case CD:
                 case CG:
                 case AV:
-                    userWithSubmissions.add(run.getUserId());
-                    rows.get(run.getUserId()).cells.get(run.getProblemId()).running = true;
+                    userWithSubmissions.add(userId);
+                    rows.get(userId).cells.get(run.getProblemId()).running = true;
                     break;
                 case OK:
-                    userWithSubmissions.add(run.getUserId());
-                    rows.get(run.getUserId()).cells.get(run.getProblemId()).freezed = nowFreezed;
+                    userWithSubmissions.add(userId);
+                    rows.get(userId).cells.get(run.getProblemId()).freezed = nowFreezed;
 
                     if (!wasFreezed && nowFreezed) {
-                        rows.get(run.getUserId()).cells.get(run.getProblemId()).makeFreezed();
+                        rows.get(userId).cells.get(run.getProblemId()).makeFreezed();
                     }
 
-                    rows.get(run.getUserId()).cells.get(run.getProblemId()).solved = true;
-                    rows.get(run.getUserId()).cells.get(run.getProblemId()).score = run.getScore();
-                    rows.get(run.getUserId()).cells.get(run.getProblemId()).time = time;
-                    rows.get(run.getUserId()).cells.get(run.getProblemId()).running = false;
+                    rows.get(userId).cells.get(run.getProblemId()).solved = true;
+                    rows.get(userId).cells.get(run.getProblemId()).score = run.getScore();
+                    rows.get(userId).cells.get(run.getProblemId()).time = time;
+                    rows.get(userId).cells.get(run.getProblemId()).running = false;
 
                     if (!nowFreezed) {
                         submittedRuns.put(run.getProblemId(), submittedRuns.getOrDefault(run.getProblemId(), 0) + 1);
@@ -97,29 +102,29 @@ public class StandingsTable {
                     }
                     break;
                 default:
-                    userWithSubmissions.add(run.getUserId());
-                    rows.get(run.getUserId()).cells.get(run.getProblemId()).freezed = nowFreezed;
+                    userWithSubmissions.add(userId);
+                    rows.get(userId).cells.get(run.getProblemId()).freezed = nowFreezed;
 
                     if (!wasFreezed && nowFreezed) {
-                        rows.get(run.getUserId()).cells.get(run.getProblemId()).makeFreezed();
+                        rows.get(userId).cells.get(run.getProblemId()).makeFreezed();
                     }
 
                     if (config.lastACProblems.get(contest.getContestId()).contains(run.getProblemId())) {
-                        rows.get(run.getUserId()).cells.get(run.getProblemId()).solved = false;
-                        rows.get(run.getUserId()).cells.get(run.getProblemId()).score = run.getScore();
-                        rows.get(run.getUserId()).cells.get(run.getProblemId()).attempts++;
-                        rows.get(run.getUserId()).cells.get(run.getProblemId()).time = time;
-                    } else if (!rows.get(run.getUserId()).cells.get(run.getProblemId()).solved) {
-                        int curScore = rows.get(run.getUserId()).cells.get(run.getProblemId()).score;
-                        rows.get(run.getUserId()).cells.get(run.getProblemId()).score = Math.max(curScore, run.getScore());
+                        rows.get(userId).cells.get(run.getProblemId()).solved = false;
+                        rows.get(userId).cells.get(run.getProblemId()).score = run.getScore();
+                        rows.get(userId).cells.get(run.getProblemId()).attempts++;
+                        rows.get(userId).cells.get(run.getProblemId()).time = time;
+                    } else if (!rows.get(userId).cells.get(run.getProblemId()).solved) {
+                        int curScore = rows.get(userId).cells.get(run.getProblemId()).score;
+                        rows.get(userId).cells.get(run.getProblemId()).score = Math.max(curScore, run.getScore());
 
-                        if (!rows.get(run.getUserId()).cells.get(run.getProblemId()).solved) {
-                            rows.get(run.getUserId()).cells.get(run.getProblemId()).attempts++;
-                            rows.get(run.getUserId()).cells.get(run.getProblemId()).time = time;
+                        if (!rows.get(userId).cells.get(run.getProblemId()).solved) {
+                            rows.get(userId).cells.get(run.getProblemId()).attempts++;
+                            rows.get(userId).cells.get(run.getProblemId()).time = time;
                         }
                     }
 
-                    rows.get(run.getUserId()).cells.get(run.getProblemId()).running = false;
+                    rows.get(userId).cells.get(run.getProblemId()).running = false;
                     if (!nowFreezed) {
                         submittedRuns.put(run.getProblemId(), submittedRuns.getOrDefault(run.getProblemId(), 0) + 1);
                         submittedCnt++;
