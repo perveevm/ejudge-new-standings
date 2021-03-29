@@ -55,12 +55,13 @@ public class HTMLUtils {
             long contestDuration = end.getTime() - start.getTime();
             long curDuration = now.getTime() - start.getTime();
 
-            html.append(String.format("<div align=\"center\">%s из %s</div>", formatDuration(Math.min(curDuration, contestDuration)), formatDuration(contestDuration)));
+            html.append(String.format("<div align=\"center\"><h4>%s из %s<br/>", formatDuration(Math.min(curDuration, contestDuration)), formatDuration(contestDuration)));
             if (curDuration >= contestDuration) {
-                html.append("<div align=\"center\">ЗАВЕРШЕНО</div>");
+                html.append("ЗАВЕРШЕНО");
             } else {
-                html.append("<div align=\"center\">В ПРОЦЕССЕ</div>");
+                html.append("В ПРОЦЕССЕ");
             }
+            html.append("</h4></div>");
         }
 
         // Add standings table header
