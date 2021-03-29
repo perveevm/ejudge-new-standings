@@ -6,6 +6,9 @@ import ru.strategy48.ejudge.contest.Problem;
 import ru.strategy48.ejudge.standings.*;
 
 import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class HTMLUtils {
@@ -31,11 +34,34 @@ public class HTMLUtils {
         return html.toString();
     }
 
+    private static String formatDuration(final long duration) {
+        long hh = TimeUnit.MILLISECONDS.toHours(duration) % 24;
+        long mm = TimeUnit.MILLISECONDS.toMinutes(duration) % 60;
+        long ss = TimeUnit.MILLISECONDS.toSeconds(duration) % 60;
+        return String.format("%d:%02d:%02d", hh, mm, ss);
+    }
+
     public static String getStandingsHTML(final StandingsTableAgregator standings) {
         StringBuilder html = new StringBuilder();
 
         // Add standings table name
         html.append(String.format("<div align=\"center\"><h3>%s</h3></div>\n", standings.config.standingsName + (standings.config.needFreeze ? " (Результаты заморожены)" : "")));
+
+        if (standings.config.isOfficial) {
+            Date start = standings.config.startDate;
+            Date end = standings.config.endDate;
+            Date now = new Date(System.currentTimeMillis());
+
+            long contestDuration = end.getTime() - start.getTime();
+            long curDuration = now.getTime() - start.getTime();
+
+            html.append(String.format("<div align=\"center\">%s из %s</div>", formatDuration(Math.min(curDuration, contestDuration)), formatDuration(contestDuration)));
+            if (curDuration >= contestDuration) {
+                html.append("<div align=\"center\">ЗАВЕРШЕНО</div>");
+            } else {
+                html.append("<div align=\"center\">В ПРОЦЕССЕ</div>");
+            }
+        }
 
         // Add standings table header
         html.append("<table class=\"new-standings\">\n");
