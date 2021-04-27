@@ -35,7 +35,7 @@ public class HTMLUtils {
     }
 
     private static String formatDuration(final long duration) {
-        long hh = TimeUnit.MILLISECONDS.toHours(duration) % 24;
+        long hh = TimeUnit.MILLISECONDS.toHours(duration);
         long mm = TimeUnit.MILLISECONDS.toMinutes(duration) % 60;
         long ss = TimeUnit.MILLISECONDS.toSeconds(duration) % 60;
         return String.format("%d:%02d:%02d", hh, mm, ss);
