@@ -313,7 +313,7 @@ public class HTMLUtils {
         List<Integer> correctStats = new ArrayList<>();
         html.append("<tr class=\"allstats\">");
         html.append(String.format("<td colspan=\"%d\">Правильных решений</td>", userSpan));
-        allCnt = standings.standings.stream().map(table -> table.acceptedCnt).reduce((a, b) -> a + b).get();
+        allCnt = standings.standings.stream().map(table -> table.acceptedCnt).reduce(Integer::sum).get();
         correctStats.add(allCnt);
         html.append(String.format("<td colspan=\"%d\" class=\"stat\" valign=\"center\">%d</td>", colspan, allCnt));
         for (StandingsTable table : standings.standings) {
@@ -328,19 +328,19 @@ public class HTMLUtils {
         html.append("</tr>");
 
         // Problem statistics: percent
-        html.append("<tr class=\"allstats\">");
-        html.append(String.format("<td colspan=\"%d\">Процент правильных решений</td>", userSpan));
-        html.append(String.format("<td colspan=\"%d\" class=\"stat\" valign=\"center\">%s</td>", colspan, getPercent(allStats.get(0), correctStats.get(0))));
-        int ptr = 0;
-        for (StandingsTable table : standings.standings) {
-            for (Problem problem : table.contest.getProblems()) {
-                ptr++;
-                html.append(String.format("<td class=\"stat\" valign=\"center\">%s</td>", getPercent(allStats.get(ptr), correctStats.get(ptr))));
-            }
-        }
-
-        html.append(String.format("<td colspan=\"%d\" class=\"stat\" valign=\"center\">%s</td>", colspan, getPercent(allStats.get(0), correctStats.get(0))));
-        html.append("</tr>");
+//        html.append("<tr class=\"allstats\">");
+//        html.append(String.format("<td colspan=\"%d\">Процент правильных решений</td>", userSpan));
+//        html.append(String.format("<td colspan=\"%d\" class=\"stat\" valign=\"center\">%s</td>", colspan, getPercent(allStats.get(0), correctStats.get(0))));
+//        int ptr = 0;
+//        for (StandingsTable table : standings.standings) {
+//            for (Problem problem : table.contest.getProblems()) {
+//                ptr++;
+//                html.append(String.format("<td class=\"stat\" valign=\"center\">%s</td>", getPercent(allStats.get(ptr), correctStats.get(ptr))));
+//            }
+//        }
+//
+//        html.append(String.format("<td colspan=\"%d\" class=\"stat\" valign=\"center\">%s</td>", colspan, getPercent(allStats.get(0), correctStats.get(0))));
+//        html.append("</tr>");
 
         html.append("</tbody>");
         html.append("</table>");
