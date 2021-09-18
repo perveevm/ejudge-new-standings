@@ -328,19 +328,19 @@ public class HTMLUtils {
         html.append("</tr>");
 
         // Problem statistics: percent
-//        html.append("<tr class=\"allstats\">");
-//        html.append(String.format("<td colspan=\"%d\">Процент правильных решений</td>", userSpan));
-//        html.append(String.format("<td colspan=\"%d\" class=\"stat\" valign=\"center\">%s</td>", colspan, getPercent(allStats.get(0), correctStats.get(0))));
-//        int ptr = 0;
-//        for (StandingsTable table : standings.standings) {
-//            for (Problem problem : table.contest.getProblems()) {
-//                ptr++;
-//                html.append(String.format("<td class=\"stat\" valign=\"center\">%s</td>", getPercent(allStats.get(ptr), correctStats.get(ptr))));
-//            }
-//        }
-//
-//        html.append(String.format("<td colspan=\"%d\" class=\"stat\" valign=\"center\">%s</td>", colspan, getPercent(allStats.get(0), correctStats.get(0))));
-//        html.append("</tr>");
+        html.append("<tr class=\"allstats\">");
+        html.append(String.format("<td colspan=\"%d\">Процент правильных решений</td>", userSpan));
+        html.append(String.format("<td colspan=\"%d\" class=\"stat\" valign=\"center\">%s</td>", colspan, getPercent(allStats.get(0), correctStats.get(0))));
+        int ptr = 0;
+        for (StandingsTable table : standings.standings) {
+            for (Problem problem : table.contest.getProblems()) {
+                ptr++;
+                html.append(String.format("<td class=\"stat\" valign=\"center\">%s</td>", getPercent(allStats.get(ptr), correctStats.get(ptr))));
+            }
+        }
+
+        html.append(String.format("<td colspan=\"%d\" class=\"stat\" valign=\"center\">%s</td>", colspan, getPercent(allStats.get(0), correctStats.get(0))));
+        html.append("</tr>");
 
         html.append("</tbody>");
         html.append("</table>");
@@ -349,7 +349,11 @@ public class HTMLUtils {
     }
 
     public static String getPercent(int all, int correct) {
-        return String.valueOf(correct * 100 / all) + "%";
+        if (all == 0) {
+            return "0%";
+        } else {
+            return (correct * 100 / all) + "%";
+        }
     }
 
     public static String getStandingsHTMLFormatted(final String standingsHTML, final File header, final File footer) throws IOException {
