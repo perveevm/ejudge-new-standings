@@ -7,7 +7,9 @@ import ru.strategy48.ejudge.standings.*;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -290,11 +292,17 @@ public class HTMLUtils {
         if (standings.usersInfo != null) {
             userSpan = 1 + standings.usersInfo.header.size();
         }
+
+        List<Integer> allStats = new ArrayList<>();
         html.append(String.format("<td colspan=\"%d\">Всего решений</td>", userSpan));
-        html.append(String.format("<td colspan=\"%d\" class=\"stat\" valign=\"center\">%d</td>", colspan, standings.standings.stream().map(table -> table.submittedCnt).reduce((a, b) -> a + b).get()));
+        int allCnt = standings.standings.stream().map(table -> table.submittedCnt).reduce((a, b) -> a + b).get();
+        allStats.add(allCnt);
+        html.append(String.format("<td colspan=\"%d\" class=\"stat\" valign=\"center\">%d</td>", colspan, allCnt));
         for (StandingsTable table : standings.standings) {
             for (Problem problem : table.contest.getProblems()) {
-                html.append(String.format("<td class=\"stat\" valign=\"center\">%d</td>", table.submittedRuns.getOrDefault(problem.getId(), 0)));
+                int curCnt = table.submittedRuns.getOrDefault(problem.getId(), 0);
+                allStats.add(curCnt);
+                html.append(String.format("<td class=\"stat\" valign=\"center\">%d</td>", curCnt));
             }
         }
 
@@ -302,22 +310,43 @@ public class HTMLUtils {
         html.append("</tr>");
 
         // Problem statistics: AC
+        List<Integer> correctStats = new ArrayList<>();
         html.append("<tr class=\"allstats\">");
         html.append(String.format("<td colspan=\"%d\">Правильных решений</td>", userSpan));
-        html.append(String.format("<td colspan=\"%d\" class=\"stat\" valign=\"center\">%d</td>", colspan, standings.standings.stream().map(table -> table.acceptedCnt).reduce((a, b) -> a + b).get()));
+        allCnt = standings.standings.stream().map(table -> table.acceptedCnt).reduce((a, b) -> a + b).get();
+        correctStats.add(allCnt);
+        html.append(String.format("<td colspan=\"%d\" class=\"stat\" valign=\"center\">%d</td>", colspan, allCnt));
         for (StandingsTable table : standings.standings) {
             for (Problem problem : table.contest.getProblems()) {
-                html.append(String.format("<td class=\"stat\" valign=\"center\">%d</td>", table.acceptedRuns.getOrDefault(problem.getId(), 0)));
+                int curCnt = table.acceptedRuns.getOrDefault(problem.getId(), 0);
+                correctStats.add(curCnt);
+                html.append(String.format("<td class=\"stat\" valign=\"center\">%d</td>", curCnt));
             }
         }
 
         html.append(String.format("<td colspan=\"%d\" class=\"stat\" valign=\"center\">%d</td>", colspan, standings.standings.stream().map(table -> table.acceptedCnt).reduce((a, b) -> a + b).get()));
         html.append("</tr>");
 
+        // Problem statistics: percent
+        html.append("<tr class=\"allstats\">");
+        html.append(String.format("<td colspan=\"%d\">Процент правильных решений</td>", userSpan));
+        html.append(String.format("<td colspan=\"%d\" class=\"stat\" valign=\"center\">%s</td>", colspan, getPercent(allStats.get(0), correctStats.get(0))));
+        int ptr = 0;
+        for (StandingsTable table : standings.standings) {
+            for (Problem problem : table.contest.getProblems()) {
+                ptr++;
+                html.append(String.format("<td class=\"stat\" valign=\"center\">%s</td>", getPercent(allStats.get(ptr), correctStats.get(ptr))));
+            }
+        }
+
         html.append("</tbody>");
         html.append("</table>");
 
         return html.toString();
+    }
+
+    public static String getPercent(int all, int correct) {
+        return String.valueOf(correct * 100 / all) + "%";
     }
 
     public static String getStandingsHTMLFormatted(final String standingsHTML, final File header, final File footer) throws IOException {
