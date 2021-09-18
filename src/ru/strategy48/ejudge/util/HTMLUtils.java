@@ -339,6 +339,9 @@ public class HTMLUtils {
             }
         }
 
+        html.append(String.format("<td colspan=\"%d\" class=\"stat\" valign=\"center\">%s</td>", colspan, getPercent(allStats.get(0), correctStats.get(0))));
+        html.append("</tr>");
+
         html.append("</tbody>");
         html.append("</table>");
 
