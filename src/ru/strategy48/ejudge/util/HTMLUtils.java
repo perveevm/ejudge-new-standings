@@ -261,7 +261,7 @@ public class HTMLUtils {
                                 int r = (int) (247 + (208 - 247) * Math.sqrt((double) cell.score / 100.0));
                                 int g = (int) (94 + (240 - 94) * Math.sqrt((double) cell.score / 100.0));
                                 int b = (int) (99 + (208 - 99) * Math.sqrt((double) cell.score / 100.0));
-                                html.append(String.format("<td style=\"background-color: rgb(%d, %d, %d);\">", r, g, b));
+                                html.append(String.format("<td style=\"background-color: rgb(%d, %d, %d); text-align: center;\">", r, g, b));
                                 html.append(cell.score);
                             }
                         } else {
