@@ -45,7 +45,7 @@ public class StandingsTable {
                 primaryID = this.idMatching.getOrDefault(primaryID, primaryID);
             }
 
-            rows.put(primaryID, new StandingsTableRow(contest.getUsers().get(i), contest.getProblems()));
+            rows.put(primaryID, new StandingsTableRow(contest.getUsers().get(i), contest.getProblems(), config.maxCountJudge));
         }
 
         System.out.println("Processing runs...");

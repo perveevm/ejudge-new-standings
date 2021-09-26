@@ -9,11 +9,13 @@ public class StandingsTableRow {
     public final LinkedHashMap<Integer, StandingsTableCell> cells;
     public final User user;
     public final List<Problem> problems;
+    public final int maxCount;
 
-    public StandingsTableRow(final User user, final List<Problem> problems) {
+    public StandingsTableRow(final User user, final List<Problem> problems, final int maxCount) {
         cells = new LinkedHashMap(problems.size());
         this.user = user;
         this.problems = problems;
+        this.maxCount = maxCount;
 
         for (int i = 0; i < problems.size(); i++) {
             cells.put(problems.get(i).getId(), new StandingsTableCell(problems.get(i)));
@@ -42,10 +44,23 @@ public class StandingsTableRow {
     }
 
     public int getScore() {
-        int score = 0;
+        List<Integer> scores = new ArrayList<>();
         for (StandingsTableCell cell : cells.values()) {
-            score += cell.freezed ? cell.freezedScore : cell.score;
+            scores.add(cell.freezed ? cell.freezedScore : cell.score);
         }
+        scores.sort((s1, s2) -> -Integer.compare(s1, s2));
+
+        int score = 0;
+        if (maxCount == -1) {
+            for (Integer curScore : scores) {
+                score += curScore;
+            }
+        } else {
+            for (int i = 0; i < Math.min(maxCount, scores.size()); i++) {
+                score += scores.get(i);
+            }
+        }
+
         return score;
     }
 

@@ -25,4 +25,6 @@ public class StandingsTableConfig {
     public String usersLoginPath = "";
 
     public String usersLoginMatchingPath = "";
+
+    public int maxCountJudge = -1;
 }

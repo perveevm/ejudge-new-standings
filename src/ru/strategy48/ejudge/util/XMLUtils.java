@@ -221,6 +221,9 @@ public class XMLUtils {
             }
 
             config.contestNames.put(contestId, contest.getAttribute("name"));
+            if (contest.hasAttribute("max_judge")) {
+                config.maxCountJudge = Integer.parseInt(contest.getAttribute("max_judge"));
+            }
         }
 
         config.needFreeze = Boolean.parseBoolean(mainConfig.getAttribute("freeze"));
