@@ -72,7 +72,7 @@ public class HTMLUtils {
         }
 
         // Add standings table header
-        html.append("<table class=\"new-standings\">\n");
+        html.append("<table class=\"new-standings\" id=\"standings-table-id\">\n");
         html.append("<tbody>\n");
 
         // Add caption row
