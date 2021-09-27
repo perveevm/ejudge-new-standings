@@ -68,7 +68,7 @@ public class HTMLUtils {
 
         html.append("<div class=\"main-table-shit-class\">\n");
         if (standings.config.maxCountJudge != -1) {
-            html.append(String.format("<p class=\"contest-shit-info\">Обратите внимание, что в данном контесте применяется необычная система оценивания! В качетве результата будет взята сумма по %d <b>наилучшим</b> задачам.</p>", standings.config.maxCountJudge));
+            html.append(String.format("<p class=\"contest-shit-info\">Обратите внимание, что в данном контесте применяется необычная система оценивания! В качестве результата будет взята сумма по %d задачам с <b>наилучшими</b> баллами.</p>", standings.config.maxCountJudge));
         }
 
         // Add standings table header
