@@ -66,6 +66,11 @@ public class HTMLUtils {
             html.append("</h4></div>");
         }
 
+        html.append("<div class=\"main-table-shit-class\">\n");
+        if (standings.config.maxCountJudge != -1) {
+            html.append(String.format("<p class=\"contest-shit-info\">Обратите внимание, что в данном контесте применяется необычная система оценивания! В качетве результата будет взята сумма по %d <b>наилучшим</b> задачам.</p>", standings.config.maxCountJudge));
+        }
+
         // Add standings table header
         html.append("<table class=\"new-standings\">\n");
         html.append("<tbody>\n");
@@ -344,6 +349,8 @@ public class HTMLUtils {
 
         html.append("</tbody>");
         html.append("</table>");
+
+        html.append("</div>\n");
 
         return html.toString();
     }
