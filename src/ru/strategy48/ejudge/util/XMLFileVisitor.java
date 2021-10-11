@@ -35,10 +35,13 @@ public class XMLFileVisitor implements FileVisitor<Path> {
             config = XMLUtils.parseConfigFile(file.toFile());
             Path curPath = startPath;
             StringBuilder realPath = new StringBuilder();
-            while (!curPath.getParent().equals(startPath)) {
+            do {
                 realPath.insert(0, curPath.getFileName().toString());
                 curPath = curPath.getParent();
-            }
+                if (curPath == null) {
+                    break;
+                }
+            } while (!curPath.getParent().equals(startPath));
             foundConfigFiles.add(new StandingsTableEntity(config, realPath.toString()));
         } catch (Exception ignored) {
             ignored.printStackTrace();
