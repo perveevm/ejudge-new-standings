@@ -42,7 +42,7 @@ public class XMLFileVisitor implements FileVisitor<Path> {
                     break;
                 }
             } while (!curPath.equals(startPath));
-            foundConfigFiles.add(new StandingsTableEntity(config, realPath.toString()));
+            foundConfigFiles.add(new StandingsTableEntity(config, realPath.substring(0, realPath.toString().length() - 4)));
         } catch (Exception ignored) {
             ignored.printStackTrace();
         }
