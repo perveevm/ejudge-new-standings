@@ -41,7 +41,7 @@ public class XMLFileVisitor implements FileVisitor<Path> {
                 if (curPath == null) {
                     break;
                 }
-            } while (!curPath.getParent().equals(startPath));
+            } while (!curPath.equals(startPath));
             foundConfigFiles.add(new StandingsTableEntity(config, realPath.toString()));
         } catch (Exception ignored) {
             ignored.printStackTrace();
