@@ -33,7 +33,13 @@ public class XMLFileVisitor implements FileVisitor<Path> {
         StandingsTableConfig config;
         try {
             config = XMLUtils.parseConfigFile(file.toFile());
-            foundConfigFiles.add(new StandingsTableEntity(config, file.relativize(startPath).toString()));
+            Path curPath = startPath;
+            StringBuilder realPath = new StringBuilder();
+            while (!curPath.getParent().equals(startPath)) {
+                realPath.insert(0, curPath.getFileName().toString());
+                curPath = curPath.getParent();
+            }
+            foundConfigFiles.add(new StandingsTableEntity(config, realPath.toString()));
         } catch (Exception ignored) {
         }
 
