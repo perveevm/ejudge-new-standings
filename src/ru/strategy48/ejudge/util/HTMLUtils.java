@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -401,6 +402,7 @@ public class HTMLUtils {
                 "            <tr>\n" +
                 "                <th>№</th>\n" +
                 "                <th>Название турнира</th>\n" +
+                "                <th>Список контестов</th>\n" +
                 "                <th>Результаты</th>\n" +
                 "            </tr>");
 
@@ -409,6 +411,7 @@ public class HTMLUtils {
             html.append("<tr class=\"standings-entity\">\n");
             html.append(String.format("<td class=\"standings-id\">%d</td>\n", ++counter));
             html.append(String.format("<td class=\"standings-name\">%s</td>\n", table.standingsName));
+            html.append(String.format("<td class=\"standings-contests\">%s</td>", String.join(", ", table.contestNames.values())));
             html.append("<td>TODO</td>\n");
             html.append("</tr>\n");
         }
