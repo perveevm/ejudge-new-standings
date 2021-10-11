@@ -379,4 +379,43 @@ public class HTMLUtils {
 
         return Jsoup.parse(html.toString()).toString();
     }
+
+    public static String generateStandingsListPage(List<StandingsTableConfig> tables) {
+        StringBuilder html = new StringBuilder();
+        html.append("<div class=\"col-md-12 text-center\">\n" +
+                "        <h3>Доступные таблицы результатов</h3>\n" +
+                "    </div>\n" +
+                "\n" +
+                "    <div class=\"main\">\n" +
+                "        <div class=\"input-group\">\n" +
+                "            <input type=\"text\" class=\"form-control\" placeholder=\"Поиск результатов\" id=\"search-field\">\n" +
+                "            <div class=\"input-group-append\">\n" +
+                "                <button class=\"btn btn-secondary\" type=\"button\" onclick=\"searchStandings()\">\n" +
+                "                    <i class=\"fa fa-search\"></i>\n" +
+                "                </button>\n" +
+                "            </div>\n" +
+                "        </div>\n" +
+                "    </div>");
+        html.append("<div class=\"table-responsive fixed-table-body\">\n" +
+                "        <table class=\"table table-striped table-bordered\">\n" +
+                "            <tr>\n" +
+                "                <th>№</th>\n" +
+                "                <th>Название турнира</th>\n" +
+                "                <th>Результаты</th>\n" +
+                "            </tr>");
+
+        int counter = 0;
+        for (StandingsTableConfig table : tables) {
+            html.append("<tr class=\"standings-entity\">\n");
+            html.append(String.format("<td class=\"standings-id\">%d</td>\n", ++counter));
+            html.append(String.format("<td class=\"standings-name\">%s</td>\n", table.standingsName));
+            html.append("<td>TODO</td>\n");
+            html.append("</tr>\n");
+        }
+
+        html.append("</table>\n" +
+                "</div>");
+
+        return html.toString();
+    }
 }

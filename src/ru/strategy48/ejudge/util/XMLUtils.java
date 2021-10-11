@@ -15,11 +15,13 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileVisitor;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashSet;
+import java.util.*;
 
 public class XMLUtils {
     public static Contest parseExternalLog(final File externalLogFile, final StandingsTableConfig config) throws ParserConfigurationException, SAXException, IOException, ParseException {
@@ -280,5 +282,15 @@ public class XMLUtils {
         Node contestDirNode = document.getElementsByTagName("contests").item(0);
 
         return new StandingsServerConfig(hostNode.getTextContent(), Integer.parseInt(portNode.getTextContent()), contestDirNode.getTextContent());
+    }
+
+    public static List<StandingsTableConfig> parseAllConfigFiles(final Path dir) {
+        XMLFileVisitor visitor = new XMLFileVisitor();
+        try {
+            Files.walkFileTree(dir, visitor);
+        } catch (Exception e) {
+            return Collections.emptyList();
+        }
+        return visitor.getFoundConfigFiles();
     }
 }
