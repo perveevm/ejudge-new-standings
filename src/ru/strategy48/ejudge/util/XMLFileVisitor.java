@@ -24,6 +24,8 @@ public class XMLFileVisitor implements FileVisitor<Path> {
 
     @Override
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+        System.out.println(file.toString());
+
         if (!file.getFileName().endsWith(".xml")) {
             return FileVisitResult.CONTINUE;
         }
