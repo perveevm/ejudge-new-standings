@@ -28,6 +28,8 @@ public class XMLFileVisitor implements FileVisitor<Path> {
             return FileVisitResult.CONTINUE;
         }
 
+        System.out.println(file.toString());
+
         try {
             foundConfigFiles.add(XMLUtils.parseConfigFile(file.toFile()));
         } catch (Exception ignored) {
