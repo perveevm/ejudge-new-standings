@@ -41,6 +41,7 @@ public class XMLFileVisitor implements FileVisitor<Path> {
             }
             foundConfigFiles.add(new StandingsTableEntity(config, realPath.toString()));
         } catch (Exception ignored) {
+            ignored.printStackTrace();
         }
 
         return FileVisitResult.CONTINUE;
