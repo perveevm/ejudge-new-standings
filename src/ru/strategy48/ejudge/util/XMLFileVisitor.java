@@ -33,7 +33,7 @@ public class XMLFileVisitor implements FileVisitor<Path> {
         StandingsTableConfig config;
         try {
             config = XMLUtils.parseConfigFile(file.toFile());
-            Path curPath = startPath;
+            Path curPath = file;
             StringBuilder realPath = new StringBuilder();
             do {
                 realPath.insert(0, curPath.getFileName().toString());
