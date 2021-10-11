@@ -36,7 +36,7 @@ public class XMLFileVisitor implements FileVisitor<Path> {
             Path curPath = file;
             StringBuilder realPath = new StringBuilder();
             do {
-                realPath.insert(0, curPath.getFileName().toString());
+                realPath.insert(0, "/" + curPath.getFileName().toString());
                 curPath = curPath.getParent();
                 if (curPath == null) {
                     break;
