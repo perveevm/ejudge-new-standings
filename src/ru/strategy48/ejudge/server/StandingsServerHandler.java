@@ -3,8 +3,10 @@ package ru.strategy48.ejudge.server;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import ru.strategy48.ejudge.contest.Contest;
+import ru.strategy48.ejudge.standings.StandingsTable;
 import ru.strategy48.ejudge.standings.StandingsTableAgregator;
 import ru.strategy48.ejudge.standings.StandingsTableConfig;
+import ru.strategy48.ejudge.standings.StandingsTableEntity;
 import ru.strategy48.ejudge.util.HTMLUtils;
 import ru.strategy48.ejudge.util.XMLUtils;
 
@@ -34,7 +36,7 @@ public class StandingsServerHandler implements HttpHandler {
         switch (path) {
             case "config":
             case "/":
-                List<StandingsTableConfig> tables = XMLUtils.parseAllConfigFiles(Path.of(configDirectory));
+                List<StandingsTableEntity> tables = XMLUtils.parseAllConfigFiles(Path.of(configDirectory));
                 String allHtml;
                 try {
                     allHtml = HTMLUtils.generateStandingsListPage(tables);

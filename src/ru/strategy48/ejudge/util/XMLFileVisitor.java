@@ -1,6 +1,7 @@
 package ru.strategy48.ejudge.util;
 
 import ru.strategy48.ejudge.standings.StandingsTableConfig;
+import ru.strategy48.ejudge.standings.StandingsTableEntity;
 
 import java.io.IOException;
 import java.nio.file.FileVisitResult;
@@ -11,9 +12,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class XMLFileVisitor implements FileVisitor<Path> {
-    private List<StandingsTableConfig> foundConfigFiles = new ArrayList<>();
+    private final List<StandingsTableEntity> foundConfigFiles = new ArrayList<>();
+    private final Path startPath;
 
-    public List<StandingsTableConfig> getFoundConfigFiles() {
+    public XMLFileVisitor(final Path startPath) {
+        this.startPath = startPath;
+    }
+
+    public List<StandingsTableEntity> getFoundConfigFiles() {
         return foundConfigFiles;
     }
 
@@ -24,19 +30,12 @@ public class XMLFileVisitor implements FileVisitor<Path> {
 
     @Override
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-//        if (!file.getFileName().endsWith(".xml")) {
-//            return FileVisitResult.CONTINUE;
-//        }
-
-//        System.out.println(file.toString());
-
+        StandingsTableConfig config;
         try {
-            foundConfigFiles.add(XMLUtils.parseConfigFile(file.toFile()));
+            config = XMLUtils.parseConfigFile(file.toFile());
+            foundConfigFiles.add(new StandingsTableEntity(config, file.relativize(startPath).toString()));
         } catch (Exception ignored) {
-            ignored.printStackTrace();
         }
-
-        System.out.println(file.toString());
 
         return FileVisitResult.CONTINUE;
     }

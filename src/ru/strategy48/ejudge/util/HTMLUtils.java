@@ -381,7 +381,7 @@ public class HTMLUtils {
         return Jsoup.parse(html.toString()).toString();
     }
 
-    public static String generateStandingsListPage(List<StandingsTableConfig> tables) {
+    public static String generateStandingsListPage(List<StandingsTableEntity> tables) {
         StringBuilder html = new StringBuilder();
         html.append("<div class=\"col-md-12 text-center\">\n" +
                 "        <h3>Доступные таблицы результатов</h3>\n" +
@@ -407,12 +407,12 @@ public class HTMLUtils {
                 "            </tr>");
 
         int counter = 0;
-        for (StandingsTableConfig table : tables) {
+        for (StandingsTableEntity table : tables) {
             html.append("<tr class=\"standings-entity\">\n");
             html.append(String.format("<td class=\"standings-id\">%d</td>\n", ++counter));
-            html.append(String.format("<td class=\"standings-name\">%s</td>\n", table.standingsName));
+            html.append(String.format("<td class=\"standings-name\">%s</td>\n", table.standingsConfig.standingsName));
 //            html.append(String.format("<td class=\"standings-contests\">%s</td>", String.join(", ", table.contestNames.values())));
-            html.append("<td>TODO</td>\n");
+            html.append(String.format("<td><a href=\"%s\">Результаты</a></td>\n", table.standingsName));
             html.append("</tr>\n");
         }
 

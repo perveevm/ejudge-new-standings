@@ -8,6 +8,7 @@ import org.xml.sax.SAXException;
 import ru.strategy48.ejudge.contest.*;
 import ru.strategy48.ejudge.server.StandingsServerConfig;
 import ru.strategy48.ejudge.standings.StandingsTableConfig;
+import ru.strategy48.ejudge.standings.StandingsTableEntity;
 import ru.strategy48.ejudge.standings.StandingsTableType;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -284,8 +285,8 @@ public class XMLUtils {
         return new StandingsServerConfig(hostNode.getTextContent(), Integer.parseInt(portNode.getTextContent()), contestDirNode.getTextContent());
     }
 
-    public static List<StandingsTableConfig> parseAllConfigFiles(final Path dir) {
-        XMLFileVisitor visitor = new XMLFileVisitor();
+    public static List<StandingsTableEntity> parseAllConfigFiles(final Path dir) {
+        XMLFileVisitor visitor = new XMLFileVisitor(dir);
         try {
             Files.walkFileTree(dir, visitor);
         } catch (Exception e) {
