@@ -43,10 +43,8 @@ public class XMLFileVisitor implements FileVisitor<Path> {
                 }
             } while (!curPath.equals(startPath));
             realPath.insert(0, "/ejudge-new-standings");
-//            realPath.insert(0, startPath.getFileName());
             foundConfigFiles.add(new StandingsTableEntity(config, realPath.substring(0, realPath.toString().length() - 4)));
         } catch (Exception ignored) {
-            ignored.printStackTrace();
         }
 
         return FileVisitResult.CONTINUE;
