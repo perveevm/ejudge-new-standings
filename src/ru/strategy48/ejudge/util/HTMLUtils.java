@@ -90,8 +90,9 @@ public class HTMLUtils {
                 "        </div>");
 
         // Add standings table header
+        html.append("<div id=\"table-scroll\" class=\"table-scroll\"><div class=\"table-wrap\">");
         html.append("<table class=\"new-standings\" id=\"standings-table-id\">\n");
-        html.append("<tbody>\n");
+        html.append("<thead>\n");
 
         // Add caption row
         html.append("<tr>\n");
@@ -138,6 +139,9 @@ public class HTMLUtils {
 
         html.append("</tr>\n");
 
+        html.append("</thead>\n");
+        html.append("<tbody>\n");
+
         // Add results
         int groupParity = 1, parity = 0;
         int prevScore = -1;
@@ -164,7 +168,7 @@ public class HTMLUtils {
             String rowType = "r" + groupParity + parity;
             parity ^= 1;
 
-            html.append(String.format("<tr class=\"%s fixed-side\">\n", rowType));
+            html.append(String.format("<tr class=\"%s\">\n", rowType));
 
             if (minPlace == maxPlace) {
                 html.append(String.format("<td class=\"stat fixed-side\" valign=\"center\">%d</td>", minPlace));
@@ -440,7 +444,7 @@ public class HTMLUtils {
         }
 
         html.append("</table>\n" +
-                "</div>");
+                "</div></div></div>");
 
         return html.toString();
     }
