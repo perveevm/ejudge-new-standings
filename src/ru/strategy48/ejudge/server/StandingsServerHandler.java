@@ -36,23 +36,27 @@ public class StandingsServerHandler implements HttpHandler {
         switch (path) {
             case "config":
             case "/":
-                List<StandingsTableEntity> tables = XMLUtils.parseAllConfigFiles(Path.of(configDirectory));
-                String allHtml;
-                try {
-                    allHtml = HTMLUtils.generateStandingsListPage(tables);
-                } catch (Exception e) {
-                    System.out.println("Error generating tables page");
-                    exchange.sendResponseHeaders(404, 0);
-                    exchange.close();
-                    return;
-                }
-                allHtml = HTMLUtils.getStandingsHTMLFormatted(allHtml, new File(configDirectory + "/header.html"), new File(configDirectory + "/footer.html"));
-
-                exchange.sendResponseHeaders(200, allHtml.getBytes().length);
-                OutputStream allStream = exchange.getResponseBody();
-                allStream.write(allHtml.getBytes());
-                allStream.close();
+                exchange.sendResponseHeaders(404, 0);
+                exchange.close();
                 return;
+
+//                List<StandingsTableEntity> tables = XMLUtils.parseAllConfigFiles(Path.of(configDirectory));
+//                String allHtml;
+//                try {
+//                    allHtml = HTMLUtils.generateStandingsListPage(tables);
+//                } catch (Exception e) {
+//                    System.out.println("Error generating tables page");
+//                    exchange.sendResponseHeaders(404, 0);
+//                    exchange.close();
+//                    return;
+//                }
+//                allHtml = HTMLUtils.getStandingsHTMLFormatted(allHtml, new File(configDirectory + "/header.html"), new File(configDirectory + "/footer.html"));
+//
+//                exchange.sendResponseHeaders(200, allHtml.getBytes().length);
+//                OutputStream allStream = exchange.getResponseBody();
+//                allStream.write(allHtml.getBytes());
+//                allStream.close();
+//                return;
             default:
                 Path configPath;
                 try {

@@ -81,10 +81,10 @@ public class HTMLUtils {
         html.append("<th rowspan=\"2\"><div class=\"new-standings-cell\" valign=\"middle\">Место</div></th>\n");
 
         if (standings.usersInfo == null) {
-            html.append("<th rowspan=\"2\">Участник</th>\n");
+            html.append("<th rowspan=\"2\" class=\"user_info_header\">Участник</th>\n");
         } else {
             for (String caption : standings.usersInfo.header) {
-                html.append(String.format("<th rowspan=\"2\">%s</th>", caption));
+                html.append(String.format("<th rowspan=\"2\" class=\"user_info_header\">%s</th>", caption));
             }
         }
 
@@ -159,19 +159,19 @@ public class HTMLUtils {
             if (standings.usersInfo == null) {
                 if (standings.idToLogin != null) {
                     String login = standings.idToLogin.get(standings.users.get(userId).getId());
-                    html.append(String.format("<td>%s</td>\n", login));
+                    html.append(String.format("<td class=\"user_info\">%s</td>\n", login));
                 } else {
-                    html.append(String.format("<td>%s</td>\n", standings.users.get(userId).getName()));
+                    html.append(String.format("<td class=\"user_info\">%s</td>\n", standings.users.get(userId).getName()));
                 }
             } else {
                 String login = standings.idToLogin.get(standings.users.get(userId).getId());
                 if (!standings.usersInfo.fields.containsKey(login)) {
                     for (int i = 0; i < standings.usersInfo.header.size(); i++) {
-                        html.append(String.format("<td>%s</td>\n", login));
+                        html.append(String.format("<td class=\"user_info\">%s</td>\n", login));
                     }
                 } else {
                     for (String param : standings.usersInfo.fields.get(login)) {
-                        html.append(String.format("<td>%s</td>\n", param));
+                        html.append(String.format("<td class=\"user_info\">%s</td>\n", param));
                     }
                 }
             }
