@@ -96,7 +96,7 @@ public class HTMLUtils {
 
         // Add caption row
         html.append("<tr>\n");
-        html.append("<th rowspan=\"2\"><div class=\"new-standings-cell fixed-side\" valign=\"middle\">Место</div></th>\n");
+        html.append("<th rowspan=\"2\" class=\"fixed-side\"><div class=\"new-standings-cell\" valign=\"middle\">Место</div></th>\n");
 
         if (standings.usersInfo == null) {
             html.append("<th rowspan=\"2\" class=\"user_info_header fixed-side\">Участник</th>\n");
