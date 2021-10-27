@@ -91,7 +91,7 @@ public class HTMLUtils {
 
         // Add standings table header
         html.append("<div id=\"table-scroll\" class=\"table-scroll\"><div class=\"table-wrap\">");
-        html.append("<table class=\"new-standings\" id=\"standings-table-id\">\n");
+        html.append("<table class=\"new-standings main-table\" id=\"standings-table-id\">\n");
         html.append("<thead>\n");
 
         // Add caption row
