@@ -72,22 +72,22 @@ public class HTMLUtils {
             html.append(String.format("<p class=\"contest-shit-info\">Обратите внимание, что в данном контесте применяется необычная система оценивания! В качестве результата будет взята сумма по %d задачам с <b>наилучшими</b> баллами.</p>", standings.config.maxCountJudge));
         }
 
-        html.append("<div class=\"main\">\n" +
-                "            <div class=\"input-group\">\n" +
-                "                <input type=\"text\" class=\"form-control\" placeholder=\"Поиск результатов\" id=\"search-field\">\n" +
-                "                <div class=\"input-group-append\">\n" +
-                "                    <button class=\"btn btn-secondary\" type=\"button\" onclick=\"searchStandings()\">\n" +
-                "                        <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-search\" viewBox=\"0 0 16 16\">\n" +
-                "                            <path d=\"M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z\"/>\n" +
-                "                        </svg>\n" +
-                "                        <i class=\"fa fa-search\"></i>\n" +
-                "                    </button>\n" +
-                "                    <button class=\"btn btn-info btn-secondary\" type=\"button\" onclick=\"clearFilter()\">\n" +
-                "                        Сбросить фильтр\n" +
-                "                    </button>\n" +
-                "                </div>\n" +
-                "            </div>\n" +
-                "        </div>");
+//        html.append("<div class=\"main\">\n" +
+//                "            <div class=\"input-group\">\n" +
+//                "                <input type=\"text\" class=\"form-control\" placeholder=\"Поиск результатов\" id=\"search-field\">\n" +
+//                "                <div class=\"input-group-append\">\n" +
+//                "                    <button class=\"btn btn-secondary\" type=\"button\" onclick=\"searchStandings()\">\n" +
+//                "                        <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-search\" viewBox=\"0 0 16 16\">\n" +
+//                "                            <path d=\"M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z\"/>\n" +
+//                "                        </svg>\n" +
+//                "                        <i class=\"fa fa-search\"></i>\n" +
+//                "                    </button>\n" +
+//                "                    <button class=\"btn btn-info btn-secondary\" type=\"button\" onclick=\"clearFilter()\">\n" +
+//                "                        Сбросить фильтр\n" +
+//                "                    </button>\n" +
+//                "                </div>\n" +
+//                "            </div>\n" +
+//                "        </div>");
 
         // Add standings table header
         html.append("<div id=\"table-scroll\" class=\"table-scroll\"><div class=\"table-wrap\">");
