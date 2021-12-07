@@ -74,7 +74,7 @@ public class HTMLUtils {
 
         html.append("<div class=\"main\">\n" +
                 "            <div class=\"input-group\">\n" +
-                "                <input type=\"text\" class=\"form-control\" placeholder=\"ПОИСК ВРЕМЕННО НЕ ДОСТУПЕН\" id=\"search-field\">\n" +
+                "                <input type=\"text\" class=\"form-control\" placeholder=\"Поиск...\" id=\"search-field\">\n" +
                 "                <div class=\"input-group-append\">\n" +
                 "                    <button class=\"btn btn-secondary\" type=\"button\">\n" +
                 "                        <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-search\" viewBox=\"0 0 16 16\">\n" +
