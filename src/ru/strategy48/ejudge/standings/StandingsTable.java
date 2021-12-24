@@ -70,7 +70,7 @@ public class StandingsTable {
 
             boolean nowFreezed = config.needFreeze && contest.needFreeze(time);
 
-            if (!rows.get(userId).cells.containsKey(run.getProblemId())) {
+            if (!rows.get(userId).cells.containsKey(run.getProblemId()) || !rows.get(userId).problems.containsKey(run.getProblemId())) {
                 continue;
             }
 
