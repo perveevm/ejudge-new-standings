@@ -13,7 +13,7 @@ public class StandingsTableRow {
     public final int maxCount;
 
     public StandingsTableRow(final User user, final List<Problem> problems, final int maxCount) {
-        cells = new LinkedHashMap(problems.size());
+        cells = new LinkedHashMap<>();
         this.user = user;
         for (Problem problem : problems) {
             this.problems.put(problem.getId(), problem);
