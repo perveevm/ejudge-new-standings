@@ -61,6 +61,10 @@ public class StandingsTable {
                 userId = this.idMatching.getOrDefault(userId, userId);
             }
 
+            if (!rows.get(userId).cells.containsKey(run.getProblemId()) || !rows.get(userId).problems.containsKey(run.getProblemId())) {
+                continue;
+            }
+
             int time = run.getTime() - virtualStarts.getOrDefault(userId, 0);
 
             boolean wasFreezed = false;
@@ -69,10 +73,6 @@ public class StandingsTable {
             }
 
             boolean nowFreezed = config.needFreeze && contest.needFreeze(time);
-
-            if (!rows.get(userId).cells.containsKey(run.getProblemId()) || !rows.get(userId).problems.containsKey(run.getProblemId())) {
-                continue;
-            }
 
             switch (run.getStatus()) {
                 case VS:
