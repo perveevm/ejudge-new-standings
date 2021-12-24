@@ -55,6 +55,7 @@ public class StandingsTable {
 
     private void processRuns() {
         for (Run run : contest.getRuns()) {
+            System.out.println(run.getId());
             int userId = run.getUserId();
             if (this.idMatching != null && userId != -1) {
                 userId = this.idMatching.getOrDefault(userId, userId);
