@@ -55,7 +55,6 @@ public class StandingsTable {
 
     private void processRuns() {
         for (Run run : contest.getRuns()) {
-            System.out.println("RUN " + run.getId());
             int userId = run.getUserId();
             if (this.idMatching != null && userId != -1) {
                 userId = this.idMatching.getOrDefault(userId, userId);
@@ -69,6 +68,10 @@ public class StandingsTable {
             }
 
             boolean nowFreezed = config.needFreeze && contest.needFreeze(time);
+
+            if (!rows.get(userId).cells.containsKey(run.getProblemId())) {
+                continue;
+            }
 
             switch (run.getStatus()) {
                 case VS:
