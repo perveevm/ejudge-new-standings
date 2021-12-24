@@ -8,13 +8,17 @@ import java.util.*;
 public class StandingsTableRow {
     public final LinkedHashMap<Integer, StandingsTableCell> cells;
     public final User user;
-    public final List<Problem> problems;
+//    public final List<Problem> problems;
+    public final Map<Integer, Problem> problems = new LinkedHashMap<>();
     public final int maxCount;
 
     public StandingsTableRow(final User user, final List<Problem> problems, final int maxCount) {
         cells = new LinkedHashMap(problems.size());
         this.user = user;
-        this.problems = problems;
+        for (Problem problem : problems) {
+            this.problems.put(problem.getId(), problem);
+        }
+//        this.problems = problems;
         this.maxCount = maxCount;
 
         for (int i = 0; i < problems.size(); i++) {
