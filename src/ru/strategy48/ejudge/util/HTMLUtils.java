@@ -116,7 +116,7 @@ public class HTMLUtils {
         }
 
         for (Contest contest : standings.contests) {
-            html.append(String.format("<th colspan=\"%d\"><a href=\"%s\">/ejudge-new-standings%s</a></th>\n", contest.getProblems().size(), url + "?contests=" + contest.getContestId(), standings.config.contestNames.get(contest.getContestId())));
+            html.append(String.format("<th colspan=\"%d\"><a href=\"/ejudge-new-standings%s\">%s</a></th>\n", contest.getProblems().size(), url + "?contests=" + contest.getContestId(), standings.config.contestNames.get(contest.getContestId())));
         }
 
         if (standings.config.type == StandingsTableType.ICPC) {
