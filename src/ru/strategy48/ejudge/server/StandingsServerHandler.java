@@ -134,7 +134,7 @@ public class StandingsServerHandler implements HttpHandler {
                 System.out.println("Generating standings...");
                 StandingsTableAgregator agregator = new StandingsTableAgregator(standingsConfig, contests);
                 System.out.println("Standings generated!");
-                String standingsHTML = HTMLUtils.getStandingsHTML(agregator);
+                String standingsHTML = HTMLUtils.getStandingsHTML(agregator, path);
                 System.out.println("HTML generated!");
 
 //                System.out.println(standingsHTML);

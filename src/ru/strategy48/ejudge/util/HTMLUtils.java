@@ -44,7 +44,7 @@ public class HTMLUtils {
         return String.format("%d:%02d:%02d", hh, mm, ss);
     }
 
-    public static String getStandingsHTML(final StandingsTableAgregator standings) {
+    public static String getStandingsHTML(final StandingsTableAgregator standings, final String url) {
         StringBuilder html = new StringBuilder();
 
         // Add standings table name
@@ -116,7 +116,7 @@ public class HTMLUtils {
         }
 
         for (Contest contest : standings.contests) {
-            html.append(String.format("<th colspan=\"%d\">%s</th>\n", contest.getProblems().size(), standings.config.contestNames.get(contest.getContestId())));
+            html.append(String.format("<th colspan=\"%d\"><a href=\"%s\">%s</a></th>\n", contest.getProblems().size(), url + "?contests=" + contest.getContestId(), standings.config.contestNames.get(contest.getContestId())));
         }
 
         if (standings.config.type == StandingsTableType.ICPC) {
