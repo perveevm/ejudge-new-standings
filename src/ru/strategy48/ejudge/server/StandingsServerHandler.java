@@ -34,7 +34,7 @@ public class StandingsServerHandler implements HttpHandler {
         String path = exchange.getRequestURI().toString();
         Map<String, String> parameters = parseParameters(exchange.getRequestURI().getQuery());
 
-        if (parameters.size() > 1 || (parameters.size() == 1 && !parameters.containsKey("contests"))) {
+        if (parameters != null && (parameters.size() > 1 || (parameters.size() == 1 && !parameters.containsKey("contests")))) {
             exchange.sendResponseHeaders(404, 0);
             exchange.close();
             return;
@@ -42,7 +42,7 @@ public class StandingsServerHandler implements HttpHandler {
 
         boolean hasFilter = false;
         final Set<Integer> filteredContests = new HashSet<>();
-        if (parameters.size() == 1) {
+        if (parameters != null && parameters.size() == 1) {
             hasFilter = true;
             String filterExpression = parameters.get("contests");
             filteredContests.addAll(Arrays.stream(filterExpression.split(",")).map(Integer::parseInt).collect(Collectors.toSet()));
