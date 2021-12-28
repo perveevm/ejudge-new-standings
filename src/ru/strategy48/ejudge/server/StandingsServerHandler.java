@@ -48,6 +48,8 @@ public class StandingsServerHandler implements HttpHandler {
             filteredContests.addAll(Arrays.stream(filterExpression.split(",")).map(Integer::parseInt).collect(Collectors.toSet()));
         }
 
+        System.out.println("Filtering: " + filteredContests.stream().map(String::valueOf).collect(Collectors.joining(", ")));
+
         switch (path) {
             case "config":
             case "/":
