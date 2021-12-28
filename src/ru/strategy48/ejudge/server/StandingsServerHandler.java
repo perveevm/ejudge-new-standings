@@ -32,6 +32,9 @@ public class StandingsServerHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         String path = exchange.getRequestURI().toString();
+        if (path.contains("?")) {
+            path = path.substring(0, path.indexOf("?"));
+        }
         Map<String, String> parameters = parseParameters(exchange.getRequestURI().getQuery());
 
         if (parameters != null && (parameters.size() > 1 || (parameters.size() == 1 && !parameters.containsKey("contests")))) {
@@ -48,7 +51,7 @@ public class StandingsServerHandler implements HttpHandler {
             filteredContests.addAll(Arrays.stream(filterExpression.split(",")).map(Integer::parseInt).collect(Collectors.toSet()));
         }
 
-        System.out.println("Filtering: " + filteredContests.stream().map(String::valueOf).collect(Collectors.joining(", ")));
+//        System.out.println("Filtering: " + filteredContests.stream().map(String::valueOf).collect(Collectors.joining(", ")));
 
         switch (path) {
             case "config":
