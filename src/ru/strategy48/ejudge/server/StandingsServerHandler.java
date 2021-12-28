@@ -17,8 +17,8 @@ import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class StandingsServerHandler implements HttpHandler {
     private final StandingsServerConfig config;
@@ -32,6 +32,21 @@ public class StandingsServerHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         String path = exchange.getRequestURI().toString();
+        Map<String, String> parameters = parseParameters(exchange.getRequestURI().getQuery());
+
+        if (parameters.size() > 1 || (parameters.size() == 1 && !parameters.containsKey("contests"))) {
+            exchange.sendResponseHeaders(404, 0);
+            exchange.close();
+            return;
+        }
+
+        boolean hasFilter = false;
+        final Set<Integer> filteredContests = new HashSet<>();
+        if (parameters.size() == 1) {
+            hasFilter = true;
+            String filterExpression = parameters.get("contests");
+            filteredContests.addAll(Arrays.stream(filterExpression.split(",")).map(Integer::parseInt).collect(Collectors.toSet()));
+        }
 
         switch (path) {
             case "config":
@@ -107,6 +122,10 @@ public class StandingsServerHandler implements HttpHandler {
                     }
                 }
 
+                if (hasFilter) {
+                    contests = contests.stream().filter(contest -> filteredContests.contains(contest.getContestId())).collect(Collectors.toList());
+                }
+
                 System.out.println("Generating standings...");
                 StandingsTableAgregator agregator = new StandingsTableAgregator(standingsConfig, contests);
                 System.out.println("Standings generated!");
@@ -131,5 +150,23 @@ public class StandingsServerHandler implements HttpHandler {
                 stream.write(html.getBytes());
                 stream.close();
         }
+    }
+
+    private Map<String, String> parseParameters(final String query) {
+        if (query == null || query.isEmpty()) {
+            return null;
+        }
+
+        Map<String, String> parameters = new HashMap<>();
+        for (String parameter : query.split("&")) {
+            String[] keyValue = parameter.split("=");
+            if (keyValue.length > 1) {
+                parameters.put(keyValue[0], keyValue[1]);
+            } else {
+                parameters.put(keyValue[0], "");
+            }
+        }
+
+        return parameters;
     }
 }
