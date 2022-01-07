@@ -381,7 +381,7 @@ public class HTMLUtils {
         if (all == 0) {
             return "0%";
         } else {
-            return (correct * 100 / all) + "%";
+            return ((correct * 100 + all - 1) / all) + "%";
         }
     }
 
