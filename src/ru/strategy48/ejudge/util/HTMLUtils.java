@@ -178,11 +178,11 @@ public class HTMLUtils {
 
             // Add name
             if (standings.usersInfo == null) {
-                if (standings.idToLogin != null) {
+                if (!standings.users.get(userId).getName().isEmpty() || standings.idToLogin == null) {
+                    html.append(String.format("<td class=\"user_info fixed-side\">%s</td>\n", standings.users.get(userId).getName()));
+                } else {
                     String login = standings.idToLogin.get(standings.users.get(userId).getId());
                     html.append(String.format("<td class=\"user_info fixed-side\">%s</td>\n", login));
-                } else {
-                    html.append(String.format("<td class=\"user_info fixed-side\">%s</td>\n", standings.users.get(userId).getName()));
                 }
             } else {
                 String login = standings.idToLogin.get(standings.users.get(userId).getId());
