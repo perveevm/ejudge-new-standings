@@ -234,7 +234,7 @@ public class HTMLUtils {
                                     }
 
                                     if (standings.config.showPenalty) {
-                                        html.append(String.format("<div>%d:%02d</div>", time / 60, time % 60));
+                                        html.append(String.format("<div class=\"penalty-time\">%d:%02d</div>", time / 60, time % 60));
                                     }
                                 } else {
                                     html.append(cell.freezedScore);
@@ -246,7 +246,7 @@ public class HTMLUtils {
                                         html.append(cell.freezedAttempts);
 
                                         if (standings.config.showPenalty) {
-                                            html.append(String.format("<div>%d:%02d</div>", time / 60, time % 60));
+                                            html.append(String.format("<div class=\"penalty-time\">%d:%02d</div>", time / 60, time % 60));
                                         }
                                     }
                                 } else {
@@ -272,7 +272,7 @@ public class HTMLUtils {
                                 }
 
                                 if (standings.config.showPenalty) {
-                                    html.append(String.format("<div>%d:%02d</div>", time / 60, time % 60));
+                                    html.append(String.format("<div class=\"penalty-time\">%d:%02d</div>", time / 60, time % 60));
                                 }
                             } else {
                                 html.append(cell.score);
@@ -284,7 +284,7 @@ public class HTMLUtils {
                                 html.append(cell.attempts);
 
                                 if (standings.config.showPenalty) {
-                                    html.append(String.format("<div>%d:%02d</div>", time / 60, time % 60));
+                                    html.append(String.format("<div class=\"penalty-time\">%d:%02d</div>", time / 60, time % 60));
                                 }
                             } else {
                                 int r = (int) (247 + (208 - 247) * Math.sqrt((double) cell.score / 100.0));
