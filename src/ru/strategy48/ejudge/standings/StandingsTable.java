@@ -100,9 +100,12 @@ public class StandingsTable {
                         rows.get(userId).cells.get(run.getProblemId()).makeFreezed();
                     }
 
+                    boolean wasSolved = rows.get(userId).cells.get(run.getProblemId()).solved;
                     rows.get(userId).cells.get(run.getProblemId()).solved = true;
                     rows.get(userId).cells.get(run.getProblemId()).score = run.getScore();
-                    rows.get(userId).cells.get(run.getProblemId()).time = time;
+                    if (!wasSolved) {
+                        rows.get(userId).cells.get(run.getProblemId()).time = time;
+                    }
                     rows.get(userId).cells.get(run.getProblemId()).running = false;
 
                     if (!nowFreezed) {
