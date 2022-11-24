@@ -20,6 +20,11 @@ public class CSVUtils {
         }
 
         if (rows.isEmpty() || rows.get(0).length == 0) {
+            if (rows.isEmpty()) {
+                System.out.println("No rows!");
+            } else {
+                System.out.println("The first row is empty");
+            }
             return null;
         }
 
@@ -30,6 +35,7 @@ public class CSVUtils {
             String login = rows.get(i)[0];
 
             if (usersInfo.fields.containsKey(login)) {
+                System.out.println("Duplicate login: " + login);
                 return null;
             }
 
