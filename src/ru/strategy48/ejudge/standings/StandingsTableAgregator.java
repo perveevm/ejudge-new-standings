@@ -37,6 +37,7 @@ public class StandingsTableAgregator {
         if (!config.usersInfoPath.isEmpty()) {
             System.out.println("Users info start");
             this.usersInfo = CSVUtils.parseUserInfo(Paths.get(config.usersInfoPath).toFile());
+            System.out.println(String.join(", ", this.usersInfo.header));
         } else {
             this.usersInfo = null;
         }
