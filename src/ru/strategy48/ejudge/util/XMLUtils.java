@@ -229,6 +229,9 @@ public class XMLUtils {
             NodeList ignoreList = contest.getElementsByTagName("ignore");
             for (int j = 0; j < ignoreList.getLength(); j++) {
                 Element problem = (Element) ignoreList.item(j);
+                if (!config.ignoreProblems.containsKey(contestId)) {
+                    config.ignoreProblems.put(contestId, new HashSet<>());
+                }
                 config.ignoreProblems.get(contestId).add(Integer.parseInt(problem.getTextContent()));
             }
 
