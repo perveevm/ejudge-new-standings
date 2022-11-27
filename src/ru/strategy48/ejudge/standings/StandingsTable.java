@@ -60,6 +60,9 @@ public class StandingsTable {
                 userId = this.idMatching.getOrDefault(userId, userId);
             }
 
+            if (config.ignoreProblems.get(contest.getContestId()).contains(run.getProblemId())) {
+                continue;
+            }
             if (!rows.get(userId).cells.containsKey(run.getProblemId()) || !rows.get(userId).problems.containsKey(run.getProblemId())) {
                 continue;
             }

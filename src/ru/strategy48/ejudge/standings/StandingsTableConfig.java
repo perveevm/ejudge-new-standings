@@ -16,6 +16,7 @@ public class StandingsTableConfig {
 
     public StandingsTableType type = StandingsTableType.ICPC;
     public Map<Integer, Set<Integer>> lastACProblems = new HashMap<>();
+    public Map<Integer, Set<Integer>> ignoreProblems = new HashMap<>();
 
     public List<Integer> contests = new ArrayList<>();
     public Map<Integer, String> contestNames = new HashMap<>();

@@ -70,6 +70,9 @@ public class XMLUtils {
             String shortName = problem.getAttribute("short_name");
             String longName = problem.getAttribute("long_name");
 
+            if (config.ignoreProblems.get(contestId).contains(problemId)) {
+                continue;
+            }
             contest.addProblem(new Problem(problemId, shortName, longName));
         }
 
@@ -221,6 +224,12 @@ public class XMLUtils {
             for (int j = 0; j < lastACList.getLength(); j++) {
                 Element problem = (Element) lastACList.item(j);
                 config.lastACProblems.get(contestId).add(Integer.parseInt(problem.getTextContent()));
+            }
+
+            NodeList ignoreList = contest.getElementsByTagName("ignore");
+            for (int j = 0; j < ignoreList.getLength(); j++) {
+                Element problem = (Element) ignoreList.item(j);
+                config.ignoreProblems.get(contestId).add(Integer.parseInt(problem.getTextContent()));
             }
 
             config.contestNames.put(contestId, contest.getAttribute("name"));
