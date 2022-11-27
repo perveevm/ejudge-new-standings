@@ -70,7 +70,7 @@ public class XMLUtils {
             String shortName = problem.getAttribute("short_name");
             String longName = problem.getAttribute("long_name");
 
-            if (config.ignoreProblems.get(contestId).contains(problemId)) {
+            if (config.ignoreProblems.getOrDefault(contestId, Collections.emptySet()).contains(problemId)) {
                 continue;
             }
             contest.addProblem(new Problem(problemId, shortName, longName));
