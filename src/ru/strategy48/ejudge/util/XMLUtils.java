@@ -40,10 +40,16 @@ public class XMLUtils {
         Node contestName = document.getElementsByTagName("name").item(0);
 
         DateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        DateFormat newFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         String name = contestName.getTextContent();
         int contestId = Integer.parseInt(contestNode.getAttribute("contest_id"));
-        Date startTime = format.parse(contestNode.getAttribute("start_time"));
+        Date startTime;
+        try {
+            startTime = format.parse(contestNode.getAttribute("start_time"));
+        } catch (Exception ignored) {
+            startTime = newFormat.parse(contestNode.getAttribute("start_time"));
+        }
         int duration = -1;
         int freezeTime = -1;
 
