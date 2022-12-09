@@ -111,7 +111,7 @@ public class StandingsServerHandler implements HttpHandler {
                     try {
                         externalLog = Path.of(String.format("%s/%06d/var/status/dir/external.xml", config.contestsDir, contestId));
                     } catch (InvalidPathException e) {
-                        System.out.println("Error parsing external log for contest: " + contestId);
+                        System.out.println("Error parsing external log for contest " + contestId + ": " + e.getMessage());
                         exchange.sendResponseHeaders(404, 0);
                         exchange.close();
                         return;
@@ -120,7 +120,7 @@ public class StandingsServerHandler implements HttpHandler {
                     try {
                         contests.add(XMLUtils.parseExternalLog(externalLog.toFile(), standingsConfig));
                     } catch (Exception e) {
-                        System.out.println("Error parsing external log for contest: " + contestId);
+                        System.out.println("Error parsing external log for contest " + contestId + ": " + e.getMessage());
                         exchange.sendResponseHeaders(404, 0);
                         exchange.close();
                         return;
