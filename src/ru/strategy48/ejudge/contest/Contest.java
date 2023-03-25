@@ -1,8 +1,6 @@
 package ru.strategy48.ejudge.contest;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class Contest {
     private final int contestId;
@@ -14,6 +12,8 @@ public class Contest {
     private final List<Problem> problems = new ArrayList<>();
     private final List<User> users = new ArrayList<>();
     private final List<Run> runs = new ArrayList<>();
+
+    private final Map<Integer, Long> virtualTimes = new HashMap<>();
 
     public Contest(final String name, final int contestId, final Date startTime, final int duration, final int freezeTime) {
         this.name = name;
@@ -37,6 +37,10 @@ public class Contest {
 
     public int getFreezeTime() {
         return freezeTime;
+    }
+
+    public Map<Integer, Long> getVirtualTimes() {
+        return virtualTimes;
     }
 
     public boolean isInfinite() {

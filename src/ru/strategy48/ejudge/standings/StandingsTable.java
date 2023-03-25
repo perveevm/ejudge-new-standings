@@ -68,6 +68,9 @@ public class StandingsTable {
             }
 
             int time = run.getTime() - virtualStarts.getOrDefault(userId, 0);
+            if (contest.getVirtualTimes().containsKey(userId)) {
+                time = run.getTime() - (int)((contest.getVirtualTimes().get(userId) - contest.getStartTime().getTime()) / 1000);
+            }
 
             boolean wasFreezed = false;
             if (run.getProblemId() != -1 && userId != -1) {

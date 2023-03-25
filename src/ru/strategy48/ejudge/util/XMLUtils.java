@@ -69,6 +69,20 @@ public class XMLUtils {
         }
 
         Contest contest = new Contest(name, contestId, startTime, duration, freezeTime);
+        if (document.getElementsByTagName("userrunheaders").getLength() > 0) {
+            NodeList userRunHeaders = ((Element) document.getElementsByTagName("userrunheaders").item(0))
+                    .getElementsByTagName("userrunheader");
+            for (int i = 0; i < userRunHeaders.getLength(); i++) {
+                Element userRunHeader = (Element) userRunHeaders.item(i);
+                if (!userRunHeader.hasAttribute("is_virtual") || !userRunHeader.getAttribute("is_virtual").equals("yes")) {
+                    continue;
+                }
+
+                int userId = Integer.parseInt(userRunHeader.getAttribute("user_id"));
+                long userStartTime = newFormat.parse(userRunHeader.getAttribute("start_time")).getTime();
+                contest.getVirtualTimes().put(userId, userStartTime);
+            }
+        }
 
         for (int i = 0; i < problems.getLength(); i++) {
             Element problem = (Element) problems.item(i);
