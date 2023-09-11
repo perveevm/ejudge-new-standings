@@ -111,7 +111,7 @@ public class XMLUtils {
             int time = Integer.parseInt(run.getAttribute("time"));
             if (contest.getVirtualTimes().get(userId) != null) {
                 long userStartTime = contest.getVirtualTimes().get(userId);
-                long submissionTime = startTime.getTime() + time * 1000L;
+                long submissionTime = startTime.getTime() * 1000L + time * 1000L;
                 time = (int)((submissionTime - userStartTime) / 1000);
             }
             Status status;
