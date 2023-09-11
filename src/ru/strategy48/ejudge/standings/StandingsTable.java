@@ -28,6 +28,16 @@ public class StandingsTable {
     public int submittedCnt = 0;
     public int acceptedCnt = 0;
 
+    private int maxSolved = 0;
+
+    public double getRating(final int userId) {
+        int rowId = idMatching.get(userId);
+        int n = Math.max(50, sortedRows.size());
+        int place = rowId + 1;
+        int solved = sortedRows.get(rowId).getSolvedCnt();
+        return 200.0 * (double)(n - place + 1) / (double)n * (double)solved / (double)maxSolved;
+    }
+
     public StandingsTable(final Contest contest, final StandingsTableConfig config, final Map<Integer, Integer> idMatching) {
         this.contest = contest;
         this.config = config;
@@ -204,6 +214,7 @@ public class StandingsTable {
             }
 
             userToRow.put(userId, i);
+            maxSolved = Math.max(sortedRows.get(i).getSolvedCnt(), maxSolved);
         }
     }
 }

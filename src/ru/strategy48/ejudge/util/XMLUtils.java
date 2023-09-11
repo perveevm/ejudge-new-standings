@@ -10,6 +10,7 @@ import ru.strategy48.ejudge.server.StandingsServerConfig;
 import ru.strategy48.ejudge.standings.StandingsTableConfig;
 import ru.strategy48.ejudge.standings.StandingsTableEntity;
 import ru.strategy48.ejudge.standings.StandingsTableType;
+import ru.strategy48.ejudge.standings.StandingsType;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -273,6 +274,11 @@ public class XMLUtils {
         config.showUsersWithoutRuns = Boolean.parseBoolean(mainConfig.getAttribute("empty_users"));
         config.showZeros = Boolean.parseBoolean(mainConfig.getAttribute("show_zero"));
         config.showPenalty = !Boolean.parseBoolean(mainConfig.getAttribute("disable_penalty"));
+        if (mainConfig.hasAttribute("type")) {
+            if (mainConfig.getAttribute("type").equalsIgnoreCase("itmo")) {
+                config.standingsType = StandingsType.ITMO;
+            }
+        }
 
         if (mainConfig.hasAttribute("users_info_path")) {
             config.usersInfoPath = mainConfig.getAttribute("users_info_path");

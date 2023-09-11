@@ -17,6 +17,8 @@ public class StandingsTableAgregator {
     public final Map<Integer, Integer> penalty = new HashMap<>();
     public final Map<Integer, Integer> score = new HashMap<>();
 
+    public final Map<Integer, Double> itmoRating = new HashMap<>();
+
     public final Map<Integer, Integer> minPlace = new HashMap<>();
     public final Map<Integer, Integer> maxPlace = new HashMap<>();
 
@@ -109,11 +111,13 @@ public class StandingsTableAgregator {
                     solved.put(userId, 0);
                     penalty.put(userId, 0);
                     score.put(userId, 0);
+                    itmoRating.put(userId, 0.0);
                 }
 
                 solved.put(userId, solved.get(userId) + table.sortedRows.get(entry.getValue()).getSolvedCnt());
                 penalty.put(userId, penalty.get(userId) + table.sortedRows.get(entry.getValue()).getPenalty());
                 score.put(userId, score.get(userId) + table.sortedRows.get(entry.getValue()).getScore());
+                itmoRating.put(userId, itmoRating.get(userId) + table.getRating(userId));
             }
         }
 

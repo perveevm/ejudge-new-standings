@@ -18,7 +18,11 @@ public class HTMLUtils {
     private static String getStatsHTML(final StandingsTableAgregator standings, final int userId, final boolean fixedCol) {
         StringBuilder html = new StringBuilder();
 
-        if (standings.config.type == StandingsTableType.ICPC) {
+        if (standings.config.standingsType == StandingsType.ITMO) {
+            html.append(String.format("<td class=\"stat%s\">", fixedCol ? " fixed-side" : ""));
+            html.append(String.format("%.2f", standings.itmoRating.get(userId)));
+            html.append("</td>");
+        } else if (standings.config.type == StandingsTableType.ICPC) {
             html.append(String.format("<td class=\"stat%s\">", fixedCol ? " fixed-side" : ""));
             html.append(standings.solved.get(userId));
             html.append("</td>");
@@ -106,7 +110,9 @@ public class HTMLUtils {
             }
         }
 
-        if (standings.config.type == StandingsTableType.ICPC) {
+        if (standings.config.standingsType == StandingsType.ITMO) {
+            html.append("<th class=\"fixed-side\">Рейтинг</th>\n");
+        } else if (standings.config.type == StandingsTableType.ICPC) {
             html.append("<th rowspan=\"2\" class=\"fixed-side\">Решено задач</th>\n");
             if (standings.config.showPenalty) {
                 html.append("<th rowspan=\"2\" class=\"fixed-side\">Штраф</th>\n");
@@ -119,7 +125,9 @@ public class HTMLUtils {
             html.append(String.format("<th colspan=\"%d\"><a href=\"/standings%s\" class=\"link-dark\">%s</a> <small><a href=\"/cgi-bin/new-client?contest_id=%d\">(перейти)</a></small></th>\n", contest.getProblems().size(), url + "?contests=" + contest.getContestId(), standings.config.contestNames.get(contest.getContestId()), contest.getContestId()));
         }
 
-        if (standings.config.type == StandingsTableType.ICPC) {
+        if (standings.config.standingsType == StandingsType.ITMO) {
+            html.append("<th class=\"fixed-side\">Рейтинг</th>\n");
+        } else if (standings.config.type == StandingsTableType.ICPC) {
             html.append("<th rowspan=\"2\">Решено задач</th>\n");
             if (standings.config.showPenalty) {
                 html.append("<th rowspan=\"2\">Штраф</th>\n");
@@ -129,15 +137,17 @@ public class HTMLUtils {
         }
 
         html.append("</tr>\n");
-        html.append("<tr>\n");
+        if (standings.config.standingsType == StandingsType.STANDARD) {
+            html.append("<tr>\n");
 
-        for (Contest contest : standings.contests) {
-            for (Problem problem : contest.getProblems()) {
-                html.append(String.format("<th title=\"%s\">%s</th>\n", problem.getLongName(), problem.getShortName()));
+            for (Contest contest : standings.contests) {
+                for (Problem problem : contest.getProblems()) {
+                    html.append(String.format("<th title=\"%s\">%s</th>\n", problem.getLongName(), problem.getShortName()));
+                }
             }
-        }
 
-        html.append("</tr>\n");
+            html.append("</tr>\n");
+        }
 
         html.append("</thead>\n");
         html.append("<tbody>\n");
@@ -204,100 +214,110 @@ public class HTMLUtils {
             for (StandingsTable table : standings.standings) {
                 int rowId = table.userToRow.getOrDefault(userId, -1);
 
-                if (rowId == -1) {
-                    for (int i = 0; i < table.contest.getProblems().size(); i++) {
-                        html.append("<td></td>\n");
-                    }
+                if (standings.config.standingsType == StandingsType.ITMO) {
+                    double curRating = table.getRating(userId);
+                    int r = (int) (247 + (208 - 247) * Math.sqrt(curRating / 200.0));
+                    int g = (int) (94 + (240 - 94) * Math.sqrt(curRating / 200.0));
+                    int b = (int) (99 + (208 - 99) * Math.sqrt(curRating / 200.0));
+                    html.append(String.format("<td style=\"background-color: rgb(%d, %d, %d); text-align: center;\">", r, g, b));
+                    html.append(String.format("%.2f", curRating));
+                    html.append("</td>");
                 } else {
-                    StandingsTableRow row = table.sortedRows.get(rowId);
-                    int cur = 0;
+                    if (rowId == -1) {
+                        for (int i = 0; i < table.contest.getProblems().size(); i++) {
+                            html.append("<td></td>\n");
+                        }
+                    } else {
+                        StandingsTableRow row = table.sortedRows.get(rowId);
+                        int cur = 0;
 
-                    for (StandingsTableCell cell : row.cells.values()) {
-                        int time = cell.time / 60;
-                        cur++;
+                        for (StandingsTableCell cell : row.cells.values()) {
+                            int time = cell.time / 60;
+                            cur++;
 
-                        String style = "";
-                        // TODO: borders
+                            String style = "";
+                            // TODO: borders
 //                        if (cur == row.cells.size()) {
 //                            style = " style=\"border-right: solid black 3px;\"";
 //                        }
 
-                        if (cell.freezed) {
-                            html.append(String.format("<td class=\"freezed\">%s", style));
-                            time = cell.freezedTime / 60;
+                            if (cell.freezed) {
+                                html.append(String.format("<td class=\"freezed\">%s", style));
+                                time = cell.freezedTime / 60;
 
-                            if (cell.freezedSolved) {
+                                if (cell.freezedSolved) {
+                                    if (standings.config.type == StandingsTableType.ICPC) {
+                                        html.append("+");
+                                        if (cell.freezedAttempts != 0) {
+                                            html.append(cell.freezedAttempts);
+                                        }
+
+                                        if (standings.config.showPenalty) {
+                                            html.append(String.format("<div class=\"penalty-time\">%d:%02d</div>", time / 60, time % 60));
+                                        }
+                                    } else {
+                                        html.append(cell.freezedScore);
+                                    }
+                                } else if (cell.attempts != 0) {
+                                    if (standings.config.type == StandingsTableType.ICPC) {
+                                        if (cell.freezedAttempts != 0) {
+                                            html.append("-");
+                                            html.append(cell.freezedAttempts);
+
+                                            if (standings.config.showPenalty) {
+                                                html.append(String.format("<div class=\"penalty-time\">%d:%02d</div>", time / 60, time % 60));
+                                            }
+                                        }
+                                    } else {
+                                        html.append(cell.freezedScore);
+                                    }
+                                }
+
+                            } else if (cell.running) {
+                                // TODO: running cells
+                                html.append(String.format("<td class=\"running\"%s>", style));
+                                html.append("TODO");
+                            } else if (cell.solved) {
+                                if (cell.firstAC) {
+                                    html.append(String.format("<td class=\"firstAC\"%s>", style));
+                                } else {
+                                    html.append(String.format("<td class=\"ok\"%s>", style));
+                                }
+
                                 if (standings.config.type == StandingsTableType.ICPC) {
                                     html.append("+");
-                                    if (cell.freezedAttempts != 0) {
-                                        html.append(cell.freezedAttempts);
+                                    if (cell.attempts != 0) {
+                                        html.append(cell.attempts);
                                     }
 
                                     if (standings.config.showPenalty) {
                                         html.append(String.format("<div class=\"penalty-time\">%d:%02d</div>", time / 60, time % 60));
                                     }
                                 } else {
-                                    html.append(cell.freezedScore);
+                                    html.append(cell.score);
                                 }
                             } else if (cell.attempts != 0) {
                                 if (standings.config.type == StandingsTableType.ICPC) {
-                                    if (cell.freezedAttempts != 0) {
-                                        html.append("-");
-                                        html.append(cell.freezedAttempts);
+                                    html.append(String.format("<td class=\"rj\"%s>", style));
+                                    html.append("-");
+                                    html.append(cell.attempts);
 
-                                        if (standings.config.showPenalty) {
-                                            html.append(String.format("<div class=\"penalty-time\">%d:%02d</div>", time / 60, time % 60));
-                                        }
+                                    if (standings.config.showPenalty) {
+                                        html.append(String.format("<div class=\"penalty-time\">%d:%02d</div>", time / 60, time % 60));
                                     }
                                 } else {
-                                    html.append(cell.freezedScore);
-                                }
-                            }
-
-                        } else if (cell.running) {
-                            // TODO: running cells
-                            html.append(String.format("<td class=\"running\"%s>", style));
-                            html.append("TODO");
-                        } else if (cell.solved) {
-                            if (cell.firstAC) {
-                                html.append(String.format("<td class=\"firstAC\"%s>", style));
-                            } else {
-                                html.append(String.format("<td class=\"ok\"%s>", style));
-                            }
-
-                            if (standings.config.type == StandingsTableType.ICPC) {
-                                html.append("+");
-                                if (cell.attempts != 0) {
-                                    html.append(cell.attempts);
-                                }
-
-                                if (standings.config.showPenalty) {
-                                    html.append(String.format("<div class=\"penalty-time\">%d:%02d</div>", time / 60, time % 60));
+                                    int r = (int) (247 + (208 - 247) * Math.sqrt((double) cell.score / 100.0));
+                                    int g = (int) (94 + (240 - 94) * Math.sqrt((double) cell.score / 100.0));
+                                    int b = (int) (99 + (208 - 99) * Math.sqrt((double) cell.score / 100.0));
+                                    html.append(String.format("<td style=\"background-color: rgb(%d, %d, %d); text-align: center;\">", r, g, b));
+                                    html.append(cell.score);
                                 }
                             } else {
-                                html.append(cell.score);
+                                html.append(String.format("<td%s>", style));
                             }
-                        } else if (cell.attempts != 0) {
-                            if (standings.config.type == StandingsTableType.ICPC) {
-                                html.append(String.format("<td class=\"rj\"%s>", style));
-                                html.append("-");
-                                html.append(cell.attempts);
 
-                                if (standings.config.showPenalty) {
-                                    html.append(String.format("<div class=\"penalty-time\">%d:%02d</div>", time / 60, time % 60));
-                                }
-                            } else {
-                                int r = (int) (247 + (208 - 247) * Math.sqrt((double) cell.score / 100.0));
-                                int g = (int) (94 + (240 - 94) * Math.sqrt((double) cell.score / 100.0));
-                                int b = (int) (99 + (208 - 99) * Math.sqrt((double) cell.score / 100.0));
-                                html.append(String.format("<td style=\"background-color: rgb(%d, %d, %d); text-align: center;\">", r, g, b));
-                                html.append(cell.score);
-                            }
-                        } else {
-                            html.append(String.format("<td%s>", style));
+                            html.append("</td>");
                         }
-
-                        html.append("</td>");
                     }
                 }
             }
@@ -309,65 +329,67 @@ public class HTMLUtils {
         }
 
         // Problem statistics: all
-        html.append("<tr class=\"allstats\">");
-        int colspan = 1;
-        if (standings.config.type == StandingsTableType.ICPC && standings.config.showPenalty) {
-            colspan++;
-        }
-
-        int userSpan = 2;
-        if (standings.usersInfo != null) {
-            userSpan = 1 + standings.usersInfo.header.size();
-        }
-
-        List<Integer> allStats = new ArrayList<>();
-        html.append(String.format("<td colspan=\"%d\" class=\"fixed-side\">Всего решений</td>", userSpan));
-        int allCnt = standings.standings.stream().map(table -> table.submittedCnt).reduce((a, b) -> a + b).get();
-        allStats.add(allCnt);
-        html.append(String.format("<td colspan=\"%d\" class=\"stat fixed-side\" valign=\"center\">%d</td>", colspan, allCnt));
-        for (StandingsTable table : standings.standings) {
-            for (Problem problem : table.contest.getProblems()) {
-                int curCnt = table.submittedRuns.getOrDefault(problem.getId(), 0);
-                allStats.add(curCnt);
-                html.append(String.format("<td class=\"stat\" valign=\"center\">%d</td>", curCnt));
+        if (standings.config.standingsType == StandingsType.STANDARD) {
+            html.append("<tr class=\"allstats\">");
+            int colspan = 1;
+            if (standings.config.type == StandingsTableType.ICPC && standings.config.showPenalty) {
+                colspan++;
             }
-        }
 
-        html.append(String.format("<td colspan=\"%d\" class=\"stat\" valign=\"center\">%d</td>", colspan, standings.standings.stream().map(table -> table.submittedCnt).reduce((a, b) -> a + b).get()));
-        html.append("</tr>");
-
-        // Problem statistics: AC
-        List<Integer> correctStats = new ArrayList<>();
-        html.append("<tr class=\"allstats\">");
-        html.append(String.format("<td colspan=\"%d\" class=\"fixed-side\">Правильных решений</td>", userSpan));
-        allCnt = standings.standings.stream().map(table -> table.acceptedCnt).reduce(Integer::sum).get();
-        correctStats.add(allCnt);
-        html.append(String.format("<td colspan=\"%d\" class=\"stat fixed-side\" valign=\"center\">%d</td>", colspan, allCnt));
-        for (StandingsTable table : standings.standings) {
-            for (Problem problem : table.contest.getProblems()) {
-                int curCnt = table.acceptedRuns.getOrDefault(problem.getId(), 0);
-                correctStats.add(curCnt);
-                html.append(String.format("<td class=\"stat\" valign=\"center\">%d</td>", curCnt));
+            int userSpan = 2;
+            if (standings.usersInfo != null) {
+                userSpan = 1 + standings.usersInfo.header.size();
             }
-        }
 
-        html.append(String.format("<td colspan=\"%d\" class=\"stat\" valign=\"center\">%d</td>", colspan, standings.standings.stream().map(table -> table.acceptedCnt).reduce((a, b) -> a + b).get()));
-        html.append("</tr>");
-
-        // Problem statistics: percent
-        html.append("<tr class=\"allstats\">");
-        html.append(String.format("<td colspan=\"%d\" class=\" fixed-side\">Процент правильных решений</td>", userSpan));
-        html.append(String.format("<td colspan=\"%d\" class=\"stat fixed-side\" valign=\"center\">%s</td>", colspan, getPercent(allStats.get(0), correctStats.get(0))));
-        int ptr = 0;
-        for (StandingsTable table : standings.standings) {
-            for (Problem problem : table.contest.getProblems()) {
-                ptr++;
-                html.append(String.format("<td class=\"stat\" valign=\"center\">%s</td>", getPercent(allStats.get(ptr), correctStats.get(ptr))));
+            List<Integer> allStats = new ArrayList<>();
+            html.append(String.format("<td colspan=\"%d\" class=\"fixed-side\">Всего решений</td>", userSpan));
+            int allCnt = standings.standings.stream().map(table -> table.submittedCnt).reduce((a, b) -> a + b).get();
+            allStats.add(allCnt);
+            html.append(String.format("<td colspan=\"%d\" class=\"stat fixed-side\" valign=\"center\">%d</td>", colspan, allCnt));
+            for (StandingsTable table : standings.standings) {
+                for (Problem problem : table.contest.getProblems()) {
+                    int curCnt = table.submittedRuns.getOrDefault(problem.getId(), 0);
+                    allStats.add(curCnt);
+                    html.append(String.format("<td class=\"stat\" valign=\"center\">%d</td>", curCnt));
+                }
             }
-        }
 
-        html.append(String.format("<td colspan=\"%d\" class=\"stat\" valign=\"center\">%s</td>", colspan, getPercent(allStats.get(0), correctStats.get(0))));
-        html.append("</tr>");
+            html.append(String.format("<td colspan=\"%d\" class=\"stat\" valign=\"center\">%d</td>", colspan, standings.standings.stream().map(table -> table.submittedCnt).reduce((a, b) -> a + b).get()));
+            html.append("</tr>");
+
+            // Problem statistics: AC
+            List<Integer> correctStats = new ArrayList<>();
+            html.append("<tr class=\"allstats\">");
+            html.append(String.format("<td colspan=\"%d\" class=\"fixed-side\">Правильных решений</td>", userSpan));
+            allCnt = standings.standings.stream().map(table -> table.acceptedCnt).reduce(Integer::sum).get();
+            correctStats.add(allCnt);
+            html.append(String.format("<td colspan=\"%d\" class=\"stat fixed-side\" valign=\"center\">%d</td>", colspan, allCnt));
+            for (StandingsTable table : standings.standings) {
+                for (Problem problem : table.contest.getProblems()) {
+                    int curCnt = table.acceptedRuns.getOrDefault(problem.getId(), 0);
+                    correctStats.add(curCnt);
+                    html.append(String.format("<td class=\"stat\" valign=\"center\">%d</td>", curCnt));
+                }
+            }
+
+            html.append(String.format("<td colspan=\"%d\" class=\"stat\" valign=\"center\">%d</td>", colspan, standings.standings.stream().map(table -> table.acceptedCnt).reduce((a, b) -> a + b).get()));
+            html.append("</tr>");
+
+            // Problem statistics: percent
+            html.append("<tr class=\"allstats\">");
+            html.append(String.format("<td colspan=\"%d\" class=\" fixed-side\">Процент правильных решений</td>", userSpan));
+            html.append(String.format("<td colspan=\"%d\" class=\"stat fixed-side\" valign=\"center\">%s</td>", colspan, getPercent(allStats.get(0), correctStats.get(0))));
+            int ptr = 0;
+            for (StandingsTable table : standings.standings) {
+                for (Problem problem : table.contest.getProblems()) {
+                    ptr++;
+                    html.append(String.format("<td class=\"stat\" valign=\"center\">%s</td>", getPercent(allStats.get(ptr), correctStats.get(ptr))));
+                }
+            }
+
+            html.append(String.format("<td colspan=\"%d\" class=\"stat\" valign=\"center\">%s</td>", colspan, getPercent(allStats.get(0), correctStats.get(0))));
+            html.append("</tr>");
+        }
 
         html.append("</tbody>");
         html.append("</table>");

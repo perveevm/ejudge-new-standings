@@ -10,6 +10,8 @@ public class StandingsTableConfig {
     public boolean showPenalty = true;
     public boolean isOfficial = false;
 
+    public StandingsType standingsType = StandingsType.STANDARD;
+
     public Date startDate = null;
     public Date endDate = null;
     public Date freezeDate = null;
