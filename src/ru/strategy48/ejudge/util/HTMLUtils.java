@@ -50,7 +50,7 @@ public class HTMLUtils {
         // Add standings table name
         html.append(String.format("<div align=\"center\"><h3>%s</h3></div>\n", standings.config.standingsName + (standings.config.needFreeze ? " (Результаты заморожены)" : "")));
 
-        if (standings.config.isOfficial) {
+        if (standings.config.isOfficial && standings.config.startDate != null && standings.config.endDate != null) {
             Date start = standings.config.startDate;
             Date end = standings.config.endDate;
             Date now = new Date(System.currentTimeMillis());

@@ -60,7 +60,7 @@ public class XMLUtils {
             freezeTime = Integer.parseInt(contestNode.getAttribute("fog_time"));
         }
 
-        if (config.isOfficial) {
+        if (config.isOfficial && config.startDate != null && config.endDate != null) {
             startTime = config.startDate;
             if (config.freezeDate != null) {
                 freezeTime = (int) ((config.endDate.getTime() - config.freezeDate.getTime()) / 1000);
@@ -281,10 +281,14 @@ public class XMLUtils {
             config.isOfficial = Boolean.parseBoolean(mainConfig.getAttribute("official"));
         }
 
-        if (config.isOfficial) {
-            DateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        DateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        if (mainConfig.hasAttribute("start_time")) {
             config.startDate = format.parse(mainConfig.getAttribute("start_time"));
+        }
+        if (mainConfig.hasAttribute("freeze_time")) {
             config.freezeDate = format.parse(mainConfig.getAttribute("freeze_time"));
+        }
+        if (mainConfig.hasAttribute("end_time")) {
             config.endDate = format.parse(mainConfig.getAttribute("end_time"));
         }
 
