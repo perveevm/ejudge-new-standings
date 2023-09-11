@@ -106,8 +106,14 @@ public class XMLUtils {
 
         for (int i = 0; i < runs.getLength(); i++) {
             Element run = (Element) runs.item(i);
+            int userId = Integer.parseInt(run.getAttribute("user_id"));
             int runId = Integer.parseInt(run.getAttribute("run_id"));
             int time = Integer.parseInt(run.getAttribute("time"));
+            if (contest.getVirtualTimes().get(userId) != null) {
+                long userStartTime = contest.getVirtualTimes().get(userId);
+                long submissionTime = startTime.getTime() + time * 1000L;
+                time = (int)(submissionTime - userStartTime);
+            }
             Status status;
 
             if (config.isOfficial && time >= duration) {
@@ -203,7 +209,6 @@ public class XMLUtils {
                     status = Status.EM;
             }
 
-            int userId = Integer.parseInt(run.getAttribute("user_id"));
             int problemId = -1;
             int score = -1;
 
