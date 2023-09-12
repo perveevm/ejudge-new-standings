@@ -31,7 +31,7 @@ public class StandingsTable {
     private int maxSolved = 0;
 
     public double getRating(final int userId) {
-        int rowId = idMatching.get(userId);
+        int rowId = userToRow.get(userId);
         int n = Math.max(50, sortedRows.size());
         int place = rowId + 1;
         int solved = sortedRows.get(rowId).getSolvedCnt();
