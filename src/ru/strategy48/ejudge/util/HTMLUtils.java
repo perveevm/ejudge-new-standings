@@ -98,15 +98,19 @@ public class HTMLUtils {
         html.append("<table class=\"new-standings main-table\" id=\"standings-table-id\">\n");
         html.append("<thead>\n");
 
+        int defaultRowSpan = 2;
+        if (standings.config.standingsType == StandingsType.ITMO) {
+            defaultRowSpan = 1;
+        }
         // Add caption row
         html.append("<tr>\n");
-        html.append("<th rowspan=\"2\" class=\"fixed-side\"><div class=\"new-standings-cell\" valign=\"middle\">Место</div></th>\n");
+        html.append(String.format("<th rowspan=\"%s\" class=\"fixed-side\"><div class=\"new-standings-cell\" valign=\"middle\">Место</div></th>\n", defaultRowSpan));
 
         if (standings.usersInfo == null) {
-            html.append("<th rowspan=\"2\" class=\"user_info_header fixed-side\">Участник</th>\n");
+            html.append(String.format("<th rowspan=\"%d\" class=\"user_info_header fixed-side\">Участник</th>\n", defaultRowSpan));
         } else {
             for (String caption : standings.usersInfo.header) {
-                html.append(String.format("<th rowspan=\"2\" class=\"user_info_header fixed-side\">%s</th>", caption));
+                html.append(String.format("<th rowspan=\"%d\" class=\"user_info_header fixed-side\">%s</th>", defaultRowSpan, caption));
             }
         }
 
@@ -122,7 +126,11 @@ public class HTMLUtils {
         }
 
         for (Contest contest : standings.contests) {
-            html.append(String.format("<th colspan=\"%d\"><a href=\"/standings%s\" class=\"link-dark\">%s</a> <small><a href=\"/cgi-bin/new-client?contest_id=%d\">(перейти)</a></small></th>\n", contest.getProblems().size(), url + "?contests=" + contest.getContestId(), standings.config.contestNames.get(contest.getContestId()), contest.getContestId()));
+            if (standings.config.standingsType == StandingsType.ITMO) {
+                html.append(String.format("<th><a href=\"/standings%s\" class=\"link-dark\">%s</a> <small><a href=\"/cgi-bin/new-client?contest_id=%d\">(перейти)</a></small></th>\n", url + "?contests=" + contest.getContestId(), standings.config.contestNames.get(contest.getContestId()), contest.getContestId()));
+            } else {
+                html.append(String.format("<th colspan=\"%d\"><a href=\"/standings%s\" class=\"link-dark\">%s</a> <small><a href=\"/cgi-bin/new-client?contest_id=%d\">(перейти)</a></small></th>\n", contest.getProblems().size(), url + "?contests=" + contest.getContestId(), standings.config.contestNames.get(contest.getContestId()), contest.getContestId()));
+            }
         }
 
         if (standings.config.standingsType == StandingsType.ITMO) {
