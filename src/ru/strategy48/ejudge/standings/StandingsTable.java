@@ -198,7 +198,7 @@ public class StandingsTable {
 
         Comparator<StandingsTableRow> comparator;
         if (config.type == StandingsTableType.ICPC) {
-            comparator = Comparator.comparingInt(StandingsTableRow::getSolvedCnt).thenComparing(StandingsTableRow::getPenalty, Comparator.reverseOrder()).thenComparing(StandingsTableRow::getName);
+            comparator = Comparator.comparingInt(StandingsTableRow::getSolvedCnt).reversed().thenComparing(StandingsTableRow::getPenalty).thenComparing(StandingsTableRow::getName);
         } else {
             comparator = Comparator.comparingInt(StandingsTableRow::getScore).thenComparing(StandingsTableRow::getName);
         }
