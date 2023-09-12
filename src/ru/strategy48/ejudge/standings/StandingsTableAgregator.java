@@ -121,8 +121,15 @@ public class StandingsTableAgregator {
             }
         }
 
+        System.out.println("Finishing...");
         Comparator<Integer> usersComparator;
-        if (config.type == StandingsTableType.ICPC) {
+        if (config.standingsType == StandingsType.ITMO) {
+            usersComparator = (user1, user2) -> {
+                double rating1 = itmoRating.get(user1);
+                double rating2 = itmoRating.get(user2);
+                return -Double.compare(rating1, rating2);
+            };
+        } else if (config.type == StandingsTableType.ICPC) {
             usersComparator = (user1, user2) -> {
                 int solved1 = solved.get(user1);
                 int solved2 = solved.get(user2);
