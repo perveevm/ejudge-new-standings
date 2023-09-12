@@ -35,6 +35,7 @@ public class StandingsTable {
         int n = Math.max(50, sortedRows.size());
         int place = rowId + 1;
         int solved = sortedRows.get(rowId).getSolvedCnt();
+        System.out.println(userId + " " + n + " " + place + " " + solved + " " + maxSolved);
         return 200.0 * (double)(n - place + 1) / (double)n * (double)solved / (double)maxSolved;
     }
 
