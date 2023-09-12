@@ -196,14 +196,15 @@ public class StandingsTable {
             rowStream = rowStream.filter(row -> userWithSubmissions.contains(this.idMatching == null ? row.user.getId() : this.idMatching.getOrDefault(row.user.getId(), row.user.getId())));
         }
 
-//        Comparator<StandingsTableRow> comparator;
-//        if (config.type == StandingsTableType.ICPC) {
-//            comparator = Comparator.comparingInt(StandingsTableRow::getSolvedCnt).thenComparing(StandingsTableRow::getPenalty, Comparator.reverseOrder()).thenComparing(StandingsTableRow::getName);
-//        } else {
-//            comparator = Comparator.comparingInt(StandingsTableRow::getScore).thenComparing(StandingsTableRow::getName);
-//        }
+        Comparator<StandingsTableRow> comparator;
+        if (config.type == StandingsTableType.ICPC) {
+            comparator = Comparator.comparingInt(StandingsTableRow::getSolvedCnt).thenComparing(StandingsTableRow::getPenalty, Comparator.reverseOrder()).thenComparing(StandingsTableRow::getName);
+        } else {
+            comparator = Comparator.comparingInt(StandingsTableRow::getScore).thenComparing(StandingsTableRow::getName);
+        }
 
         sortedRows = rowStream.collect(Collectors.toList());
+        sortedRows.sort(comparator);
 //        sortedRows = rowStream.sorted(comparator).collect(Collectors.toList());
 
         System.out.println("Sorting...");
