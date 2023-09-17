@@ -20,7 +20,7 @@ public class HTMLUtils {
 
         if (standings.config.standingsType == StandingsType.ITMO) {
             html.append(String.format("<td class=\"stat%s\">", fixedCol ? " fixed-side" : ""));
-            html.append(String.format("%.2f", standings.itmoRating.get(userId)));
+            html.append(String.format("%.2f", standings.itmoRating.getOrDefault(userId, 0.0) / standings.contests.size()));
             html.append("</td>");
         } else if (standings.config.type == StandingsTableType.ICPC) {
             html.append(String.format("<td class=\"stat%s\">", fixedCol ? " fixed-side" : ""));
