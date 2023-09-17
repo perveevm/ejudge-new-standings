@@ -31,6 +31,8 @@ public class StandingsTableAgregator {
     public final Map<String, String> loginMatching;
     public final Map<Integer, Integer> idMatching;
 
+    public final Map<Integer, Integer> contestsCntByUser = new HashMap<>();
+
     public StandingsTableAgregator(final StandingsTableConfig config, final List<Contest> contests) {
         this.config = config;
         this.contests = contests;
@@ -111,13 +113,21 @@ public class StandingsTableAgregator {
                     solved.put(userId, 0);
                     penalty.put(userId, 0);
                     score.put(userId, 0);
-                    itmoRating.put(userId, 0.0);
                 }
 
                 solved.put(userId, solved.get(userId) + table.sortedRows.get(entry.getValue()).getSolvedCnt());
                 penalty.put(userId, penalty.get(userId) + table.sortedRows.get(entry.getValue()).getPenalty());
                 score.put(userId, score.get(userId) + table.sortedRows.get(entry.getValue()).getScore());
-                itmoRating.put(userId, itmoRating.get(userId) + table.getRating(userId));
+                if (table.getRating(userId) != -1.0) {
+                    if (!itmoRating.containsKey(userId)) {
+                        itmoRating.put(userId, 0.0);
+                    }
+                    if (!contestsCntByUser.containsKey(userId)) {
+                        contestsCntByUser.put(userId, 0);
+                    }
+                    itmoRating.put(userId, itmoRating.get(userId) + table.getRating(userId));
+                    contestsCntByUser.put(userId, contestsCntByUser.get(userId) + 1);
+                }
             }
         }
 
@@ -125,8 +135,8 @@ public class StandingsTableAgregator {
         Comparator<Integer> usersComparator;
         if (config.standingsType == StandingsType.ITMO) {
             usersComparator = (user1, user2) -> {
-                double rating1 = itmoRating.get(user1);
-                double rating2 = itmoRating.get(user2);
+                double rating1 = itmoRating.getOrDefault(user1, 0.0);
+                double rating2 = itmoRating.getOrDefault(user2, 0.0);
                 return -Double.compare(rating1, rating2);
             };
         } else if (config.type == StandingsTableType.ICPC) {

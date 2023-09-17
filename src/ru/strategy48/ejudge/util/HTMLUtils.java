@@ -19,9 +19,15 @@ public class HTMLUtils {
         StringBuilder html = new StringBuilder();
 
         if (standings.config.standingsType == StandingsType.ITMO) {
-            html.append(String.format("<td class=\"stat%s\">", fixedCol ? " fixed-side" : ""));
-            html.append(String.format("%.2f", standings.itmoRating.getOrDefault(userId, 0.0) / standings.contests.size()));
-            html.append("</td>");
+            if (standings.contestsCntByUser.getOrDefault(userId, 0) == 0) {
+                html.append(String.format("<td class=\"stat%s\">", fixedCol ? " fixed-side" : ""));
+                html.append("–");
+                html.append("</td>");
+            } else {
+                html.append(String.format("<td class=\"stat%s\">", fixedCol ? " fixed-side" : ""));
+                html.append(String.format("%.2f", standings.itmoRating.get(userId) / standings.contestsCntByUser.get(userId)));
+                html.append("</td>");
+            }
         } else if (standings.config.type == StandingsTableType.ICPC) {
             html.append(String.format("<td class=\"stat%s\">", fixedCol ? " fixed-side" : ""));
             html.append(standings.solved.get(userId));
@@ -224,12 +230,18 @@ public class HTMLUtils {
 
                 if (standings.config.standingsType == StandingsType.ITMO) {
                     double curRating = table.getRating(userId);
-                    int r = (int) (247 + (208 - 247) * Math.sqrt(curRating / 200.0));
-                    int g = (int) (94 + (240 - 94) * Math.sqrt(curRating / 200.0));
-                    int b = (int) (99 + (208 - 99) * Math.sqrt(curRating / 200.0));
-                    html.append(String.format("<td style=\"background-color: rgb(%d, %d, %d); text-align: center;\">", r, g, b));
-                    html.append(String.format("%.2f", curRating));
-                    html.append("</td>");
+                    if (curRating == -1.0) {
+                        html.append("<td style=\"background-color: white; text-align: center;\">");
+                        html.append("–");
+                        html.append("</td>");
+                    } else {
+                        int r = (int) (247 + (208 - 247) * Math.sqrt(curRating / 200.0));
+                        int g = (int) (94 + (240 - 94) * Math.sqrt(curRating / 200.0));
+                        int b = (int) (99 + (208 - 99) * Math.sqrt(curRating / 200.0));
+                        html.append(String.format("<td style=\"background-color: rgb(%d, %d, %d); text-align: center;\">", r, g, b));
+                        html.append(String.format("%.2f", curRating));
+                        html.append("</td>");
+                    }
                 } else {
                     if (rowId == -1) {
                         for (int i = 0; i < table.contest.getProblems().size(); i++) {

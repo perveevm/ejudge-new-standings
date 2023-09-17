@@ -31,6 +31,10 @@ public class StandingsTable {
     private int maxSolved = 0;
 
     public double getRating(final int userId) {
+        if (!userWithSubmissions.contains(userId)) {
+            return -1.0;
+        }
+
         int rowId = userToRow.get(userId);
         int n = Math.max(50, sortedRows.size());
         int place = rowId + 1;
