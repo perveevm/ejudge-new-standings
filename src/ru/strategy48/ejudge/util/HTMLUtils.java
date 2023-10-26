@@ -171,7 +171,6 @@ public class HTMLUtils {
         int prevScore = -1;
 
         for (Integer userId : standings.sortedUsers) {
-
             // Add place
             int minPlace = standings.minPlace.get(userId);
             int maxPlace = standings.maxPlace.get(userId);
@@ -192,34 +191,46 @@ public class HTMLUtils {
             String rowType = "r" + groupParity + parity;
             parity ^= 1;
 
-            html.append(String.format("<tr class=\"%s\">\n", rowType));
+            StringBuilder prefix = new StringBuilder();
+
+            prefix.append(String.format("<tr class=\"%s\">\n", rowType));
 
             if (minPlace == maxPlace) {
-                html.append(String.format("<td class=\"stat fixed-side\" valign=\"center\">%d</td>", minPlace));
+                prefix.append(String.format("<td class=\"stat fixed-side\" valign=\"center\">%d</td>", minPlace));
             } else {
-                html.append(String.format("<td class=\"stat fixed-side\" valign=\"center\">%d-%d</td>", minPlace, maxPlace));
+                prefix.append(String.format("<td class=\"stat fixed-side\" valign=\"center\">%d-%d</td>", minPlace, maxPlace));
             }
 
+            boolean skipUser = false;
             // Add name
             if (standings.usersInfo == null) {
                 if (!standings.users.get(userId).getName().isEmpty() || standings.idToLogin == null) {
-                    html.append(String.format("<td class=\"user_info fixed-side\">%s</td>\n", standings.users.get(userId).getName()));
+                    prefix.append(String.format("<td class=\"user_info fixed-side\">%s</td>\n", standings.users.get(userId).getName()));
                 } else {
                     String login = standings.idToLogin.get(standings.users.get(userId).getId());
-                    html.append(String.format("<td class=\"user_info fixed-side\">%s</td>\n", login));
+                    prefix.append(String.format("<td class=\"user_info fixed-side\">%s</td>\n", login));
                 }
             } else {
                 String login = standings.idToLogin.get(standings.users.get(userId).getId());
                 if (!standings.usersInfo.fields.containsKey(login)) {
+                    if (standings.config.ignoreUsersWithoutUserInfo) {
+                        skipUser = true;
+                    }
                     for (int i = 0; i < standings.usersInfo.header.size(); i++) {
-                        html.append(String.format("<td class=\"user_info fixed-side\">%s</td>\n", login));
+                        prefix.append(String.format("<td class=\"user_info fixed-side\">%s</td>\n", login));
                     }
                 } else {
                     for (String param : standings.usersInfo.fields.get(login)) {
-                        html.append(String.format("<td class=\"user_info fixed-side\">%s</td>\n", param));
+                        prefix.append(String.format("<td class=\"user_info fixed-side\">%s</td>\n", param));
                     }
                 }
             }
+
+            if (skipUser) {
+                continue;
+            }
+
+            html.append(prefix);
 
             // Add stats
             html.append(getStatsHTML(standings, userId, true));

@@ -289,6 +289,11 @@ public class XMLUtils {
         if (mainConfig.hasAttribute("login_matching_path")) {
             config.usersLoginMatchingPath = mainConfig.getAttribute("login_matching_path");
         }
+        if (mainConfig.hasAttribute("ignore_users_without_info")) {
+            if (mainConfig.getAttribute("ignore_users_without_info").equals("true")) {
+                config.ignoreUsersWithoutUserInfo = true;
+            }
+        }
 
         if (mainConfig.hasAttribute("official")) {
             config.isOfficial = Boolean.parseBoolean(mainConfig.getAttribute("official"));

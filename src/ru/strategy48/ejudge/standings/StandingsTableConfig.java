@@ -9,6 +9,7 @@ public class StandingsTableConfig {
     public boolean showFirstAC = true;
     public boolean showPenalty = true;
     public boolean isOfficial = false;
+    public boolean ignoreUsersWithoutUserInfo = false;
 
     public StandingsType standingsType = StandingsType.STANDARD;
 
