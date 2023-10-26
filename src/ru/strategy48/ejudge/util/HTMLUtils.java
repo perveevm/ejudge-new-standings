@@ -81,6 +81,9 @@ public class HTMLUtils {
         if (standings.config.maxCountJudge != -1) {
             html.append(String.format("<p class=\"contest-shit-info\">Обратите внимание, что в данном контесте применяется необычная система оценивания! В качестве результата будет взята сумма по %d задачам с <b>наилучшими</b> баллами.</p>", standings.config.maxCountJudge));
         }
+        if (standings.config.ignoreUsersWithoutUserInfo) {
+            html.append("<p class=\"contest-shit-info\">Отображаются только <b>официальные</b> участники. Места в таблице рассчитываются с учетом всех участников,</p>");
+        }
 
         html.append("<div class=\"main\">\n" +
                 "            <div class=\"input-group\">\n" +
