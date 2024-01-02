@@ -136,9 +136,17 @@ public class HTMLUtils {
 
         for (Contest contest : standings.contests) {
             if (standings.config.standingsType == StandingsType.ITMO) {
-                html.append(String.format("<th><a href=\"/standings%s\" class=\"link-dark\">%s</a> <small><a href=\"/cgi-bin/new-client?contest_id=%d\">(перейти)</a></small></th>\n", url + "?contests=" + contest.getContestId(), standings.config.contestNames.get(contest.getContestId()), contest.getContestId()));
+                if (standings.config.pcmsStandingsDir.containsKey(contest.getContestId())) {
+                    html.append("<th><a href=\"/standings%s\" class=\"link-dark\">%s</a> <small><a href=\"pcms.perveevm.ru\">(перейти)</a></small></th>\n");
+                } else {
+                    html.append(String.format("<th><a href=\"/standings%s\" class=\"link-dark\">%s</a> <small><a href=\"/cgi-bin/new-client?contest_id=%d\">(перейти)</a></small></th>\n", url + "?contests=" + contest.getContestId(), standings.config.contestNames.get(contest.getContestId()), contest.getContestId()));
+                }
             } else {
-                html.append(String.format("<th colspan=\"%d\"><a href=\"/standings%s\" class=\"link-dark\">%s</a> <small><a href=\"/cgi-bin/new-client?contest_id=%d\">(перейти)</a></small></th>\n", contest.getProblems().size(), url + "?contests=" + contest.getContestId(), standings.config.contestNames.get(contest.getContestId()), contest.getContestId()));
+                if (standings.config.pcmsStandingsDir.containsKey(contest.getContestId())) {
+                    html.append("<th colspan=\"%d\"><a href=\"/standings%s\" class=\"link-dark\">%s</a> <small><a href=\"pcms.perveevm.ru\">(перейти)</a></small></th>\n");
+                } else {
+                    html.append(String.format("<th colspan=\"%d\"><a href=\"/standings%s\" class=\"link-dark\">%s</a> <small><a href=\"/cgi-bin/new-client?contest_id=%d\">(перейти)</a></small></th>\n", contest.getProblems().size(), url + "?contests=" + contest.getContestId(), standings.config.contestNames.get(contest.getContestId()), contest.getContestId()));
+                }
             }
         }
 
