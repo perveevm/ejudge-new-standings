@@ -81,6 +81,10 @@ public class XMLUtils {
             NodeList problemsNodes = session.getElementsByTagName("problem");
             for (int j = 0; j < problemsNodes.getLength(); j++) {
                 Element problem = (Element) problemsNodes.item(j);
+                int problemScore = Integer.parseInt(problem.getAttribute("score"));
+                contest.getPcmsScoreByUserAndProblemId().putIfAbsent(id, new HashMap<>());
+                contest.getPcmsScoreByUserAndProblemId().get(id).put(j + 1, problemScore);
+
                 NodeList runsNodes = problem.getElementsByTagName("run");
                 for (int k = 0; k < runsNodes.getLength(); k++) {
                     Element run = (Element) runsNodes.item(k);
@@ -109,7 +113,7 @@ public class XMLUtils {
                             status = Status.EM;
                     }
 
-                    contest.addRun(new Run(-1, time, status, loginToFakeId.get(login), j + 1, score));
+                    contest.addRun(new Run(-1, time, status, id, j + 1, score));
                 }
             }
         }

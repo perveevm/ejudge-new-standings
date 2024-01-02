@@ -165,6 +165,13 @@ public class StandingsTable {
             }
         }
 
+        // PCMS scores fix!
+        for (int userId : contest.getPcmsScoreByUserAndProblemId().keySet()) {
+            for (int problemId : contest.getPcmsScoreByUserAndProblemId().get(userId).keySet()) {
+                rows.get(userId).cells.get(problemId).score = contest.getPcmsScoreByUserAndProblemId().get(userId).get(problemId);
+            }
+        }
+
         for (Problem problem : contest.getProblems()) {
             int bestId = -1;
             int bestTime = -1;

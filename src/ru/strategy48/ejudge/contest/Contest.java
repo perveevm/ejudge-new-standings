@@ -15,6 +15,8 @@ public class Contest {
 
     private final Map<Integer, Long> virtualTimes = new HashMap<>();
 
+    private final Map<Integer, Map<Integer, Integer>> pcmsScoreByUserAndProblemId = new HashMap<>();
+
     public Contest(final String name, final int contestId, final Date startTime, final int duration, final int freezeTime) {
         this.name = name;
         this.contestId = contestId;
@@ -77,5 +79,9 @@ public class Contest {
 
     public boolean needFreeze(final int time) {
         return !isInfinite() && time >= duration - freezeTime;
+    }
+
+    public Map<Integer, Map<Integer, Integer>> getPcmsScoreByUserAndProblemId() {
+        return pcmsScoreByUserAndProblemId;
     }
 }
