@@ -106,6 +106,7 @@ public class StandingsServerHandler implements HttpHandler {
                 }
 
                 List<Contest> contests = new ArrayList<>();
+                Map<String, Integer> loginToFakeId = new HashMap<>();
                 for (Integer contestId : standingsConfig.contests) {
                     Path externalLog;
                     try {
@@ -118,7 +119,12 @@ public class StandingsServerHandler implements HttpHandler {
                     }
 
                     try {
-                        contests.add(XMLUtils.parseExternalLog(externalLog.toFile(), standingsConfig));
+                        if (standingsConfig.pcmsStandingsDir.containsKey(contestId)) {
+                            contests.add(XMLUtils.parsePCMSLog(standingsConfig.pcmsStandingsDir.get(contestId).toFile(),
+                                    standingsConfig, contestId, loginToFakeId));
+                        } else {
+                            contests.add(XMLUtils.parseExternalLog(externalLog.toFile(), standingsConfig));
+                        }
                     } catch (Exception e) {
                         System.out.println("Error parsing external log for contest " + contestId + ": " + e.getMessage());
                         exchange.sendResponseHeaders(404, 0);

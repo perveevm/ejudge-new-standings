@@ -26,6 +26,97 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class XMLUtils {
+    public static Contest parsePCMSLog(final File pcmsLogFile, final StandingsTableConfig config, final int contestId,
+                                       final Map<String, Integer> loginToFakeId) throws ParserConfigurationException, SAXException, IOException, ParseException {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        Document document = builder.parse(pcmsLogFile);
+
+        document.getDocumentElement().normalize();
+
+        Element contestNode = (Element) document.getElementsByTagName("contest").item(0);
+        String contestName = contestNode.getAttribute("name");
+        DateFormat format = new SimpleDateFormat("yyyy-MM-ddTHH:mm:ss.SSS");
+        Date startTime = format.parse(contestNode.getAttribute("start-time"));
+        int duration = Integer.parseInt(contestNode.getAttribute("length")) / 1000;
+        int freezeTime = 0;
+        if (contestNode.hasAttribute("freeze-millis")) {
+            freezeTime = duration - Integer.parseInt(contestNode.getAttribute("freeze-millis")) / 1000;
+        }
+
+        if (config.isOfficial && config.startDate != null && config.endDate != null) {
+            startTime = config.startDate;
+            if (config.freezeDate != null) {
+                freezeTime = (int) ((config.endDate.getTime() - config.freezeDate.getTime()) / 1000);
+            }
+            duration = (int) ((config.endDate.getTime() - config.startDate.getTime()) / 1000);
+        }
+
+        Contest contest = new Contest(contestName, contestId, startTime, duration, freezeTime);
+
+        Element challengeNode = (Element) document.getElementsByTagName("challenge").item(0);
+        NodeList problemsList = challengeNode.getElementsByTagName("problem");
+        NodeList sessionsList = contestNode.getElementsByTagName("session");
+
+        for (int i = 0; i < problemsList.getLength(); i++) {
+            Element problem = (Element) problemsList.item(i);
+            int problemId = i + 1;
+            String shortName = problem.getAttribute("alias");
+            String longName = problem.getAttribute("name");
+
+            if (config.ignoreProblems.getOrDefault(contestId, Collections.emptySet()).contains(problemId)) {
+                continue;
+            }
+            contest.addProblem(new Problem(problemId, shortName, longName));
+        }
+
+        for (int i = 0; i < sessionsList.getLength(); i++) {
+            Element session = (Element) sessionsList.item(i);
+            String login = session.getAttribute("alias");
+            String name = session.getAttribute("party");
+            loginToFakeId.putIfAbsent(login, loginToFakeId.size());
+            int id = loginToFakeId.get(login);
+            contest.addUser(new User(id, name));
+
+            NodeList problemsNodes = session.getElementsByTagName("problem");
+            for (int j = 0; j < problemsNodes.getLength(); j++) {
+                Element problem = (Element) problemsNodes.item(j);
+                NodeList runsNodes = problem.getElementsByTagName("run");
+                for (int k = 0; k < runsNodes.getLength(); k++) {
+                    Element run = (Element) runsNodes.item(k);
+
+                    int time = Integer.parseInt(run.getAttribute("time")) / 1000;
+                    String outcome = run.getAttribute("outcome");
+                    int score = Integer.parseInt(run.getAttribute("score"));
+                    if (config.isOfficial && time >= duration) {
+                        continue;
+                    }
+
+                    // TODO: support ICPC-style contests
+                    Status status;
+                    switch (outcome) {
+                        case "accepted":
+                            if (score == 100) {
+                                status =  Status.OK;
+                            } else {
+                                status = Status.PT;
+                            }
+                            break;
+                        case "compilation-error":
+                            status = Status.CE;
+                            break;
+                        default:
+                            status = Status.EM;
+                    }
+
+                    contest.addRun(new Run(-1, time, status, loginToFakeId.get(login), j, score));
+                }
+            }
+        }
+
+        return contest;
+    }
+
     public static Contest parseExternalLog(final File externalLogFile, final StandingsTableConfig config) throws ParserConfigurationException, SAXException, IOException, ParseException {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
@@ -264,6 +355,9 @@ public class XMLUtils {
             }
 
             config.contestNames.put(contestId, contest.getAttribute("name"));
+            if (contest.hasAttribute("pcms_dir")) {
+                config.pcmsStandingsDir.put(contestId, Path.of(contest.getAttribute("pcms_dir")));
+            }
             if (contest.hasAttribute("max_judge")) {
                 config.maxCountJudge = Integer.parseInt(contest.getAttribute("max_judge"));
             }
@@ -335,8 +429,9 @@ public class XMLUtils {
         Node hostNode = document.getElementsByTagName("host").item(0);
         Node portNode = document.getElementsByTagName("port").item(0);
         Node contestDirNode = document.getElementsByTagName("contests").item(0);
+        Node vfsDirNode = document.getElementsByTagName("vfs").item(0);
 
-        return new StandingsServerConfig(hostNode.getTextContent(), Integer.parseInt(portNode.getTextContent()), contestDirNode.getTextContent());
+        return new StandingsServerConfig(hostNode.getTextContent(), Integer.parseInt(portNode.getTextContent()), contestDirNode.getTextContent(), vfsDirNode.getTextContent());
     }
 
     public static List<StandingsTableEntity> parseAllConfigFiles(final Path dir) {

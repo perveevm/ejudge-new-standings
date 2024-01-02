@@ -1,5 +1,6 @@
 package ru.strategy48.ejudge.standings;
 
+import java.nio.file.Path;
 import java.util.*;
 
 public class StandingsTableConfig {
@@ -23,6 +24,7 @@ public class StandingsTableConfig {
 
     public List<Integer> contests = new ArrayList<>();
     public Map<Integer, String> contestNames = new HashMap<>();
+    public Map<Integer, Path> pcmsStandingsDir = new HashMap<>();
 
     public String standingsName = "";
     public String usersInfoPath = "";
