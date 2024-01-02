@@ -109,7 +109,7 @@ public class XMLUtils {
                             status = Status.EM;
                     }
 
-                    contest.addRun(new Run(-1, time, status, loginToFakeId.get(login), j, score));
+                    contest.addRun(new Run(-1, time, status, loginToFakeId.get(login), j + 1, score));
                 }
             }
         }
