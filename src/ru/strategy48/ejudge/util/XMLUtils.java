@@ -36,7 +36,7 @@ public class XMLUtils {
 
         Element contestNode = (Element) document.getElementsByTagName("contest").item(0);
         String contestName = contestNode.getAttribute("name");
-        DateFormat format = new SimpleDateFormat("yyyy-MM-ddTHH:mm:ss.SSS");
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
         Date startTime = format.parse(contestNode.getAttribute("start-time"));
         int duration = Integer.parseInt(contestNode.getAttribute("length")) / 1000;
         int freezeTime = 0;
