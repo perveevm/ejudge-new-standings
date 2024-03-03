@@ -14,7 +14,7 @@ public class StandingsTableAgregator {
 
     public final Map<Integer, User> users = new HashMap<>();
     public final Map<Integer, Integer> solved = new HashMap<>();
-    public final Map<Integer, Integer> penalty = new HashMap<>();
+    public final Map<Integer, Long> penalty = new HashMap<>();
     public final Map<Integer, Integer> score = new HashMap<>();
 
     public final Map<Integer, Double> itmoRating = new HashMap<>();
@@ -111,7 +111,7 @@ public class StandingsTableAgregator {
                 if (!users.containsKey(userId)) {
                     users.put(userId, user);
                     solved.put(userId, 0);
-                    penalty.put(userId, 0);
+                    penalty.put(userId, 0L);
                     score.put(userId, 0);
                 }
 
@@ -152,8 +152,8 @@ public class StandingsTableAgregator {
                 int solved1 = solved.get(user1);
                 int solved2 = solved.get(user2);
 
-                int penalty1 = penalty.get(user1);
-                int penalty2 = penalty.get(user2);
+                long penalty1 = penalty.get(user1);
+                long penalty2 = penalty.get(user2);
 
                 String name1 = users.get(user1).getName();
                 String name2 = users.get(user2).getName();
@@ -161,7 +161,7 @@ public class StandingsTableAgregator {
                 if (solved1 != solved2) {
                     return -Integer.compare(solved1, solved2);
                 } else if (penalty1 != penalty2) {
-                    return Integer.compare(penalty1, penalty2);
+                    return Long.compare(penalty1, penalty2);
                 } else {
                     return name1.compareTo(name2);
                 }

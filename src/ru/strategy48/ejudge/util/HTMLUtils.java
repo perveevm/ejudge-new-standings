@@ -274,7 +274,7 @@ public class HTMLUtils {
                         int cur = 0;
 
                         for (StandingsTableCell cell : row.cells.values()) {
-                            int time = cell.time / 60;
+                            long time = cell.time / 60;
                             cur++;
 
                             String style = "";

@@ -15,7 +15,7 @@ public class StandingsTable {
     public final StandingsTableConfig config;
 
     public final Set<Integer> userWithSubmissions = new HashSet<>();
-    public final Map<Integer, Integer> virtualStarts = new HashMap<>();
+    public final Map<Integer, Long> virtualStarts = new HashMap<>();
 
     public List<StandingsTableRow> sortedRows = new ArrayList<>();
     public Map<Integer, Integer> userToRow = new HashMap<>();
@@ -82,7 +82,7 @@ public class StandingsTable {
                 continue;
             }
 
-            int time = run.getTime();
+            long time = run.getTime();
 
             boolean wasFreezed = false;
             if (run.getProblemId() != -1 && userId != -1) {
@@ -174,7 +174,7 @@ public class StandingsTable {
 
         for (Problem problem : contest.getProblems()) {
             int bestId = -1;
-            int bestTime = -1;
+            long bestTime = -1;
 
             for (User user : contest.getUsers()) {
                 int userId = user.getId();
@@ -183,7 +183,7 @@ public class StandingsTable {
                 }
 
                 if (rows.get(userId).cells.get(problem.getId()).solved) {
-                    int curTime = rows.get(userId).cells.get(problem.getId()).time;
+                    long curTime = rows.get(userId).cells.get(problem.getId()).time;
 
                     if (bestId == -1 || curTime < bestTime) {
                         bestId = userId;

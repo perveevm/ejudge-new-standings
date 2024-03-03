@@ -38,18 +38,18 @@ public class XMLUtils {
         String contestName = contestNode.getAttribute("name");
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
         Date startTime = format.parse(contestNode.getAttribute("start-time"));
-        int duration = Integer.parseInt(contestNode.getAttribute("length")) / 1000;
-        int freezeTime = 0;
+        long duration = Long.parseLong(contestNode.getAttribute("length")) / 1000;
+        long freezeTime = 0;
         if (contestNode.hasAttribute("freeze-millis")) {
-            freezeTime = duration - Integer.parseInt(contestNode.getAttribute("freeze-millis")) / 1000;
+            freezeTime = duration - Long.parseLong(contestNode.getAttribute("freeze-millis")) / 1000;
         }
 
         if (config.isOfficial && config.startDate != null && config.endDate != null) {
             startTime = config.startDate;
             if (config.freezeDate != null) {
-                freezeTime = (int) ((config.endDate.getTime() - config.freezeDate.getTime()) / 1000);
+                freezeTime = (config.endDate.getTime() - config.freezeDate.getTime()) / 1000;
             }
-            duration = (int) ((config.endDate.getTime() - config.startDate.getTime()) / 1000);
+            duration = (config.endDate.getTime() - config.startDate.getTime()) / 1000;
         }
 
         Contest contest = new Contest(contestName, contestId, startTime, duration, freezeTime);
@@ -89,7 +89,7 @@ public class XMLUtils {
                 for (int k = 0; k < runsNodes.getLength(); k++) {
                     Element run = (Element) runsNodes.item(k);
 
-                    int time = Integer.parseInt(run.getAttribute("time")) / 1000;
+                    long time = Long.parseLong(run.getAttribute("time")) / 1000;
                     String outcome = run.getAttribute("outcome");
                     int score = Integer.parseInt(run.getAttribute("score"));
                     if (config.isOfficial && time >= duration) {
@@ -146,22 +146,22 @@ public class XMLUtils {
         } catch (Exception ignored) {
             startTime = newFormat.parse(contestNode.getAttribute("start_time"));
         }
-        int duration = -1;
-        int freezeTime = -1;
+        long duration = -1;
+        long freezeTime = -1;
 
         if (!contestNode.getAttribute("duration").isEmpty()) {
-            duration = Integer.parseInt(contestNode.getAttribute("duration"));
+            duration = Long.parseLong(contestNode.getAttribute("duration"));
         }
         if (!contestNode.getAttribute("fog_time").isEmpty()) {
-            freezeTime = Integer.parseInt(contestNode.getAttribute("fog_time"));
+            freezeTime = Long.parseLong(contestNode.getAttribute("fog_time"));
         }
 
         if (config.isOfficial && config.startDate != null && config.endDate != null) {
             startTime = config.startDate;
             if (config.freezeDate != null) {
-                freezeTime = (int) ((config.endDate.getTime() - config.freezeDate.getTime()) / 1000);
+                freezeTime = (config.endDate.getTime() - config.freezeDate.getTime()) / 1000;
             }
-            duration = (int) ((config.endDate.getTime() - config.startDate.getTime()) / 1000);
+            duration = ((config.endDate.getTime() - config.startDate.getTime()) / 1000);
         }
 
         Contest contest = new Contest(name, contestId, startTime, duration, freezeTime);
@@ -204,13 +204,13 @@ public class XMLUtils {
             Element run = (Element) runs.item(i);
             int userId = Integer.parseInt(run.getAttribute("user_id"));
             int runId = Integer.parseInt(run.getAttribute("run_id"));
-            int time = Integer.parseInt(run.getAttribute("time"));
+            long time = Long.parseLong(run.getAttribute("time"));
             if (contest.getVirtualTimes().get(userId) != null) {
                 long userStartTime = contest.getVirtualTimes().get(userId);
                 long submissionTime = startTime.getTime() + time * 1000L;
                 System.out.println("Start timestamp = " + userStartTime);
                 System.out.println("Submission timestamp = " + submissionTime);
-                time = (int)((submissionTime - userStartTime) / 1000);
+                time = ((submissionTime - userStartTime) / 1000);
             }
             Status status;
 

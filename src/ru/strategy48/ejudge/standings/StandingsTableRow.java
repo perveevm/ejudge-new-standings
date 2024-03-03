@@ -39,8 +39,8 @@ public class StandingsTableRow {
         return cnt;
     }
 
-    public int getPenalty() {
-        int penalty = 0;
+    public long getPenalty() {
+        long penalty = 0;
         for (StandingsTableCell cell : cells.values()) {
             penalty += cell.getPenalty();
         }

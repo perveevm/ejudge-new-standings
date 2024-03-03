@@ -2,13 +2,13 @@ package ru.strategy48.ejudge.contest;
 
 public class Run {
     private final int id;
-    private final int time;
+    private final long time;
     private final Status status;
     private final int userId;
     private final int problemId;
     private final int score;
 
-    public Run(final int id, final int time, final Status status, final int userId, final int problemId, final int score) {
+    public Run(final int id, final long time, final Status status, final int userId, final int problemId, final int score) {
         this.id = id;
         this.time = time;
         this.status = status;
@@ -21,7 +21,7 @@ public class Run {
         return id;
     }
 
-    public int getTime() {
+    public long getTime() {
         return time;
     }
 

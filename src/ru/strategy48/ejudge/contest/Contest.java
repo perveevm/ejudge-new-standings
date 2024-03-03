@@ -4,9 +4,9 @@ import java.util.*;
 
 public class Contest {
     private final int contestId;
-    private final int duration;
+    private final long duration;
     private final Date startTime;
-    private final int freezeTime;
+    private final long freezeTime;
     private final String name;
 
     private final List<Problem> problems = new ArrayList<>();
@@ -17,7 +17,7 @@ public class Contest {
 
     private final Map<Integer, Map<Integer, Integer>> pcmsScoreByUserAndProblemId = new HashMap<>();
 
-    public Contest(final String name, final int contestId, final Date startTime, final int duration, final int freezeTime) {
+    public Contest(final String name, final int contestId, final Date startTime, final long duration, final long freezeTime) {
         this.name = name;
         this.contestId = contestId;
         this.duration = duration;
@@ -29,7 +29,7 @@ public class Contest {
         return contestId;
     }
 
-    public int getDuration() {
+    public long getDuration() {
         return duration;
     }
 
@@ -37,7 +37,7 @@ public class Contest {
         return startTime;
     }
 
-    public int getFreezeTime() {
+    public long getFreezeTime() {
         return freezeTime;
     }
 
@@ -77,7 +77,7 @@ public class Contest {
         runs.add(run);
     }
 
-    public boolean needFreeze(final int time) {
+    public boolean needFreeze(final long time) {
         return !isInfinite() && time >= duration - freezeTime;
     }
 
