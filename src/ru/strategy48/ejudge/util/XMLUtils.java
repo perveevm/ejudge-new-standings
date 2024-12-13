@@ -249,9 +249,9 @@ public class XMLUtils {
                 case "IG":
                     status = Status.IG;
                     break;
-                case "DQ":
-                    status = Status.DQ;
-                    break;
+//                case "DQ":
+//                    status = Status.DQ;
+//                    break;
                 case "PD":
                     status = Status.PD;
                     break;
