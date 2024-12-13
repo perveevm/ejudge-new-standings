@@ -98,7 +98,6 @@ public class StandingsTable {
                 case CE:
                 case CF:
                 case IG:
-                case DQ:
                 case SK:
                 case EM:
                 case VT:
