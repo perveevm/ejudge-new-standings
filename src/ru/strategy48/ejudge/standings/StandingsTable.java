@@ -95,7 +95,6 @@ public class StandingsTable {
                 case VS:
                     virtualStarts.put(userId, run.getTime());
                     break;
-                case CE:
                 case CF:
                 case IG:
                 case SK:
