@@ -314,7 +314,11 @@ public class XMLUtils {
                 problemId = Integer.parseInt(run.getAttribute("prob_id"));
             }
             if (!run.getAttribute("score").isEmpty()) {
-                score = Integer.parseInt(run.getAttribute("score"));
+                if (status == Status.DQ) {
+                    score = 0;
+                } else {
+                    score = Integer.parseInt(run.getAttribute("score"));
+                }
             }
 
             contest.addRun(new Run(runId, time, status, userId, problemId, score));
