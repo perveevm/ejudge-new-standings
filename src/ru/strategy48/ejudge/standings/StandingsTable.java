@@ -1,9 +1,6 @@
 package ru.strategy48.ejudge.standings;
 
-import ru.strategy48.ejudge.contest.Contest;
-import ru.strategy48.ejudge.contest.Problem;
-import ru.strategy48.ejudge.contest.Run;
-import ru.strategy48.ejudge.contest.User;
+import ru.strategy48.ejudge.contest.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -145,14 +142,18 @@ public class StandingsTable {
                     if (config.lastACProblems.get(contest.getContestId()).contains(run.getProblemId())) {
                         rows.get(userId).cells.get(run.getProblemId()).solved = false;
                         rows.get(userId).cells.get(run.getProblemId()).score = run.getScore();
-                        rows.get(userId).cells.get(run.getProblemId()).attempts++;
+                        if (run.getStatus() != Status.CE) {
+                            rows.get(userId).cells.get(run.getProblemId()).attempts++;
+                        }
                         rows.get(userId).cells.get(run.getProblemId()).time = time;
                     } else if (!rows.get(userId).cells.get(run.getProblemId()).solved) {
                         int curScore = rows.get(userId).cells.get(run.getProblemId()).score;
                         rows.get(userId).cells.get(run.getProblemId()).score = Math.max(curScore, run.getScore());
 
                         if (!rows.get(userId).cells.get(run.getProblemId()).solved) {
-                            rows.get(userId).cells.get(run.getProblemId()).attempts++;
+                            if (run.getStatus() != Status.CE) {
+                                rows.get(userId).cells.get(run.getProblemId()).attempts++;
+                            }
                             rows.get(userId).cells.get(run.getProblemId()).time = time;
                         }
                     }
