@@ -97,9 +97,7 @@ public class StandingsTable {
                 case SK:
                 case EM:
                 case VT:
-                    break;
                 case CE:
-                    System.out.println("Skipping CE run: " + run.getId());
                     break;
                 case RU:
                 case CD:
@@ -142,18 +140,14 @@ public class StandingsTable {
                     if (config.lastACProblems.get(contest.getContestId()).contains(run.getProblemId())) {
                         rows.get(userId).cells.get(run.getProblemId()).solved = false;
                         rows.get(userId).cells.get(run.getProblemId()).score = run.getScore();
-                        if (run.getStatus() != Status.CE) {
-                            rows.get(userId).cells.get(run.getProblemId()).attempts++;
-                        }
+                        rows.get(userId).cells.get(run.getProblemId()).attempts++;
                         rows.get(userId).cells.get(run.getProblemId()).time = time;
                     } else if (!rows.get(userId).cells.get(run.getProblemId()).solved) {
                         int curScore = rows.get(userId).cells.get(run.getProblemId()).score;
                         rows.get(userId).cells.get(run.getProblemId()).score = Math.max(curScore, run.getScore());
 
                         if (!rows.get(userId).cells.get(run.getProblemId()).solved) {
-                            if (run.getStatus() != Status.CE) {
-                                rows.get(userId).cells.get(run.getProblemId()).attempts++;
-                            }
+                            rows.get(userId).cells.get(run.getProblemId()).attempts++;
                             rows.get(userId).cells.get(run.getProblemId()).time = time;
                         }
                     }

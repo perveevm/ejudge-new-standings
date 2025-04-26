@@ -223,7 +223,6 @@ public class XMLUtils {
                     status = Status.OK;
                     break;
                 case "CE":
-                    System.out.println("Got CE run!");
                     status = Status.CE;
                     break;
                 case "RT":
