@@ -100,7 +100,9 @@ public class StandingsTable {
                 case SK:
                 case EM:
                 case VT:
+                    break;
                 case CE:
+                    System.out.println("Skipping CE run: " + run.getId());
                     break;
                 case RU:
                 case CD:
