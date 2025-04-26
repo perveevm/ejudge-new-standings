@@ -100,6 +100,7 @@ public class StandingsTable {
                 case SK:
                 case EM:
                 case VT:
+                case CE:
                     break;
                 case RU:
                 case CD:
