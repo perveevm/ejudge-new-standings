@@ -17,7 +17,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.FileVisitor;
+import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.DateFormat;
@@ -365,6 +365,9 @@ public class XMLUtils {
             config.contestNames.put(contestId, contest.getAttribute("name"));
             if (contest.hasAttribute("pcms_dir")) {
                 config.pcmsStandingsDir.put(contestId, Path.of(contest.getAttribute("pcms_dir")));
+            }
+            if (contest.hasAttribute("domjudge_api_url")) {
+                config.domjudgeApiUrl.put(contestId, URI.create(contest.getAttribute("domjudge_api_url")));
             }
             if (contest.hasAttribute("max_judge")) {
                 config.maxCountJudge = Integer.parseInt(contest.getAttribute("max_judge"));

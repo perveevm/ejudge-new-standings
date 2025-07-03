@@ -1,5 +1,6 @@
 package ru.strategy48.ejudge.standings;
 
+import java.net.URI;
 import java.nio.file.Path;
 import java.util.*;
 
@@ -25,6 +26,7 @@ public class StandingsTableConfig {
     public List<Integer> contests = new ArrayList<>();
     public Map<Integer, String> contestNames = new HashMap<>();
     public Map<Integer, Path> pcmsStandingsDir = new HashMap<>();
+    public Map<Integer, URI> domjudgeApiUrl = new HashMap<>();
 
     public String standingsName = "";
     public String usersInfoPath = "";

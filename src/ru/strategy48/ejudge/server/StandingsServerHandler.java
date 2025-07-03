@@ -8,6 +8,7 @@ import ru.strategy48.ejudge.standings.StandingsTableAgregator;
 import ru.strategy48.ejudge.standings.StandingsTableConfig;
 import ru.strategy48.ejudge.standings.StandingsTableEntity;
 import ru.strategy48.ejudge.util.HTMLUtils;
+import ru.strategy48.ejudge.util.JSONUtils;
 import ru.strategy48.ejudge.util.XMLUtils;
 
 import java.io.File;
@@ -122,6 +123,8 @@ public class StandingsServerHandler implements HttpHandler {
                         if (standingsConfig.pcmsStandingsDir.containsKey(contestId)) {
                             contests.add(XMLUtils.parsePCMSLog(standingsConfig.pcmsStandingsDir.get(contestId).toFile(),
                                     standingsConfig, contestId, loginToFakeId));
+                        } else if (standingsConfig.domjudgeApiUrl.containsKey(contestId)) {
+                            contests.add(JSONUtils.getDOMJudgeContest(standingsConfig.domjudgeApiUrl.get(contestId), standingsConfig, contestId));
                         } else {
                             contests.add(XMLUtils.parseExternalLog(externalLog.toFile(), standingsConfig));
                         }
