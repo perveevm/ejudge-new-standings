@@ -143,7 +143,7 @@ public class HTMLUtils {
                     String domjudgeURL = "";
                     try {
                         URL tmp = standings.config.domjudgeApiUrl.get(contest.getContestId()).toURL();
-                        domjudgeURL = tmp.getHost();
+                        domjudgeURL = "https://" + tmp.getHost();
                     } catch (Exception ignored) {
                     }
                     html.append(String.format("<th><a href=\"/standings%s\" class=\"link-dark\">%s</a> <small><a href=\"%s\">(перейти)</a></small></th>\n", url + "?contests=" + contest.getContestId(), standings.config.contestNames.get(contest.getContestId()), domjudgeURL));
@@ -157,7 +157,7 @@ public class HTMLUtils {
                     String domjudgeURL = "";
                     try {
                         URL tmp = standings.config.domjudgeApiUrl.get(contest.getContestId()).toURL();
-                        domjudgeURL = tmp.getHost();
+                        domjudgeURL = "https://" + tmp.getHost();
                     } catch (Exception ignored) {
                     }
                     html.append(String.format("<th colspan=\"%d\"><a href=\"/standings%s\" class=\"link-dark\">%s</a> <small><a href=\"%s\">(перейти)</a></small></th>\n", contest.getProblems().size(), url + "?contests=" + contest.getContestId(), standings.config.contestNames.get(contest.getContestId()), domjudgeURL));
