@@ -140,14 +140,14 @@ public class HTMLUtils {
         }
 
         if (standings.config.standingsType == StandingsType.ITMO) {
-            html.append("<th class=\"fixed-side\">Рейтинг</th>\n");
+            html.append(String.format("<th class=\"fixed-side\">%s</th>\n", getMessage("rating", standings.config.english)));
         } else if (standings.config.type == StandingsTableType.ICPC) {
-            html.append("<th rowspan=\"2\" class=\"fixed-side\">Решено задач</th>\n");
+            html.append(String.format("<th rowspan=\"2\" class=\"fixed-side\">%s</th>\n", getMessage("solved", standings.config.english)));
             if (standings.config.showPenalty) {
-                html.append("<th rowspan=\"2\" class=\"fixed-side\">Штраф</th>\n");
+                html.append(String.format("<th rowspan=\"2\" class=\"fixed-side\">%s</th>\n", getMessage("penalty", standings.config.english)));
             }
         } else {
-            html.append("<th rowspan=\"2\" class=\"fixed-side\">Баллы</th>\n");
+            html.append(String.format("<th rowspan=\"2\" class=\"fixed-side\">%s</th>\n", getMessage("score", standings.config.english)));
         }
 
         for (Contest contest : standings.contests) {
