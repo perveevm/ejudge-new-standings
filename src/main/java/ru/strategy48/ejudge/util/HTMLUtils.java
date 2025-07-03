@@ -84,7 +84,7 @@ public class HTMLUtils {
             long contestDuration = end.getTime() - start.getTime();
             long curDuration = now.getTime() - start.getTime();
 
-            html.append(String.format("<div align=\"center\"><h4>%s из %s<br/>", formatDuration(Math.min(curDuration, contestDuration)), formatDuration(contestDuration)));
+            html.append(String.format("<div align=\"center\"><h4>%s %s %s<br/>", formatDuration(Math.min(curDuration, contestDuration)), getMessage("of", standings.config.english), formatDuration(contestDuration)));
             if (curDuration >= contestDuration) {
                 html.append(getMessage("finished", standings.config.english));
             } else {
@@ -101,9 +101,9 @@ public class HTMLUtils {
             html.append("<p class=\"contest-shit-info\">Отображаются только <b>официальные</b> участники. Места в таблице рассчитываются с учетом всех участников.</p>");
         }
 
-        html.append("<div class=\"main\">\n" +
+        html.append(String.format("<div class=\"main\">\n" +
                 "            <div class=\"input-group\">\n" +
-                "                <input type=\"text\" class=\"form-control\" placeholder=\"Поиск...\" id=\"search-field\">\n" +
+                "                <input type=\"text\" class=\"form-control\" placeholder=\"%s...\" id=\"search-field\">\n" +
                 "                <div class=\"input-group-append\">\n" +
                 "                    <button class=\"btn btn-secondary\" type=\"button\">\n" +
                 "                        <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-search\" viewBox=\"0 0 16 16\">\n" +
@@ -112,11 +112,11 @@ public class HTMLUtils {
                 "                        <i class=\"fa fa-search\"></i>\n" +
                 "                    </button>\n" +
                 "                    <button class=\"btn btn-info btn-secondary\" type=\"button\" onclick=\"clearFilter()\">\n" +
-                "                        Сбросить фильтр\n" +
+                "                        %s\n" +
                 "                    </button>\n" +
                 "                </div>\n" +
                 "            </div>\n" +
-                "        </div>");
+                "        </div>", getMessage("search", standings.config.english), getMessage("flushFilter", standings.config.english)));
 
         // Add standings table header
         html.append("<div id=\"table-scroll\" class=\"table-scroll\"><div class=\"table-wrap\">");
