@@ -188,9 +188,14 @@ public class StandingsTable {
                 }
             }
 
-            if (bestId != -1 && config.showFirstAC) {
+            if (bestId != -1 && config.showFirstAC && !contest.getDomjudgeFirstACFix().containsKey(problem.getId())) {
                 rows.get(bestId).cells.get(problem.getId()).firstAC = true;
             }
+        }
+
+        // DOMJudge firstAC fix
+        for (Map.Entry<Integer, Integer> entry : contest.getDomjudgeFirstACFix().entrySet()) {
+            rows.get(entry.getValue()).cells.get(entry.getKey()).firstAC = true;
         }
 
         System.out.println("Filtering...");

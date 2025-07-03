@@ -17,6 +17,8 @@ public class Contest {
 
     private final Map<Integer, Map<Integer, Integer>> pcmsScoreByUserAndProblemId = new HashMap<>();
 
+    private final Map<Integer, Integer> domjudgeFirstACFix = new HashMap<>();
+
     public Contest(final String name, final int contestId, final Date startTime, final long duration, final long freezeTime) {
         this.name = name;
         this.contestId = contestId;
@@ -83,5 +85,9 @@ public class Contest {
 
     public Map<Integer, Map<Integer, Integer>> getPcmsScoreByUserAndProblemId() {
         return pcmsScoreByUserAndProblemId;
+    }
+
+    public Map<Integer, Integer> getDomjudgeFirstACFix() {
+        return domjudgeFirstACFix;
     }
 }

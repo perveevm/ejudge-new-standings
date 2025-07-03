@@ -318,6 +318,10 @@ public class JSONUtils {
                     contest.addRun(new Run(runId, problemScore.time * 60, Status.WA, row.team_id, problemId, 0));
                     ++runId;
                 }
+
+                if (problemScore.first_to_solve) {
+                    contest.getDomjudgeFirstACFix().put(problemId, row.team_id);
+                }
             }
         }
 
