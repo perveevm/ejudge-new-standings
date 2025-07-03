@@ -40,6 +40,21 @@ public class StandingsTable {
         return 200.0 * (double)(n - place + 1) / (double)n * (double)solved / (double)maxSolved;
     }
 
+    public int lastHourAC(final int userId) {
+        if (!userWithSubmissions.contains(userId)) {
+            return 0;
+        }
+
+        int rowId = userToRow.get(userId);
+        int cnt = 0;
+        for (StandingsTableCell cell : sortedRows.get(rowId).cells.values()) {
+            if (cell.solved && !cell.freezedSolved) {
+                ++cnt;
+            }
+        }
+        return cnt;
+    }
+
     public StandingsTable(final Contest contest, final StandingsTableConfig config, final Map<Integer, Integer> idMatching) {
         this.contest = contest;
         this.config = config;
