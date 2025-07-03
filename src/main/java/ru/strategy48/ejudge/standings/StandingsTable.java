@@ -194,8 +194,10 @@ public class StandingsTable {
         }
 
         // DOMJudge firstAC fix
-        for (Map.Entry<Integer, Integer> entry : contest.getDomjudgeFirstACFix().entrySet()) {
-            rows.get(entry.getValue()).cells.get(entry.getKey()).firstAC = true;
+        if (config.showFirstAC) {
+            for (Map.Entry<Integer, Integer> entry : contest.getDomjudgeFirstACFix().entrySet()) {
+                rows.get(entry.getValue()).cells.get(entry.getKey()).firstAC = true;
+            }
         }
 
         System.out.println("Filtering...");
