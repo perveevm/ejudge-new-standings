@@ -139,13 +139,19 @@ public class StandingsTableAgregator {
                 double rating2 = itmoRating.getOrDefault(user2, 0.0);
                 int contests1 = contestsCntByUser.getOrDefault(user1, 0);
                 int contests2 = contestsCntByUser.getOrDefault(user2, 0);
+                String name1 = users.get(user1).getName();
+                String name2 = users.get(user2).getName();
                 if (contests1 != 0) {
                     rating1 /= contests1;
                 }
                 if (contests2 != 0) {
                     rating2 /= contests2;
                 }
-                return -Double.compare(rating1, rating2);
+                if (rating1 == rating2) {
+                    return name1.compareTo(name2);
+                } else {
+                    return -Double.compare(rating1, rating2);
+                }
             };
         } else if (config.type == StandingsTableType.ICPC) {
             usersComparator = (user1, user2) -> {
