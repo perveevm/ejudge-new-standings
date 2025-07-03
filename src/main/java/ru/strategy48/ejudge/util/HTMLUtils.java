@@ -183,14 +183,14 @@ public class HTMLUtils {
         }
 
         if (standings.config.standingsType == StandingsType.ITMO) {
-            html.append("<th class=\"fixed-side\">Рейтинг</th>\n");
+            html.append(String.format("<th class=\"fixed-side\">%s</th>\n", getMessage("rating", standings.config.english)));
         } else if (standings.config.type == StandingsTableType.ICPC) {
-            html.append("<th rowspan=\"2\">Решено задач</th>\n");
+            html.append(String.format("<th rowspan=\"2\" class=\"fixed-side\">%s</th>\n", getMessage("solved", standings.config.english)));
             if (standings.config.showPenalty) {
-                html.append("<th rowspan=\"2\">Штраф</th>\n");
+                html.append(String.format("<th rowspan=\"2\" class=\"fixed-side\">%s</th>\n", getMessage("penalty", standings.config.english)));
             }
         } else {
-            html.append("<th rowspan=\"2\">Баллы</th>\n");
+            html.append(String.format("<th rowspan=\"2\" class=\"fixed-side\">%s</th>\n", getMessage("score", standings.config.english)));
         }
 
         html.append("</tr>\n");
@@ -416,7 +416,7 @@ public class HTMLUtils {
             }
 
             List<Integer> allStats = new ArrayList<>();
-            html.append(String.format("<td colspan=\"%d\" class=\"fixed-side\">Всего решений</td>", userSpan));
+            html.append(String.format("<td colspan=\"%d\" class=\"fixed-side\">%s</td>", userSpan, getMessage("totalSolutions", standings.config.english)));
             int allCnt = standings.standings.stream().map(table -> table.submittedCnt).reduce((a, b) -> a + b).get();
             allStats.add(allCnt);
             html.append(String.format("<td colspan=\"%d\" class=\"stat fixed-side\" valign=\"center\">%d</td>", colspan, allCnt));
@@ -434,7 +434,7 @@ public class HTMLUtils {
             // Problem statistics: AC
             List<Integer> correctStats = new ArrayList<>();
             html.append("<tr class=\"allstats\">");
-            html.append(String.format("<td colspan=\"%d\" class=\"fixed-side\">Правильных решений</td>", userSpan));
+            html.append(String.format("<td colspan=\"%d\" class=\"fixed-side\">%s</td>", userSpan, getMessage("correctSolutions", standings.config.english)));
             allCnt = standings.standings.stream().map(table -> table.acceptedCnt).reduce(Integer::sum).get();
             correctStats.add(allCnt);
             html.append(String.format("<td colspan=\"%d\" class=\"stat fixed-side\" valign=\"center\">%d</td>", colspan, allCnt));
@@ -451,7 +451,7 @@ public class HTMLUtils {
 
             // Problem statistics: percent
             html.append("<tr class=\"allstats\">");
-            html.append(String.format("<td colspan=\"%d\" class=\" fixed-side\">Процент правильных решений</td>", userSpan));
+            html.append(String.format("<td colspan=\"%d\" class=\" fixed-side\">%s</td>", userSpan, getMessage("correctSolutionsPercent", standings.config.english)));
             html.append(String.format("<td colspan=\"%d\" class=\"stat fixed-side\" valign=\"center\">%s</td>", colspan, getPercent(allStats.get(0), correctStats.get(0))));
             int ptr = 0;
             for (StandingsTable table : standings.standings) {
