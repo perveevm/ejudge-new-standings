@@ -13,7 +13,12 @@ import java.util.stream.Collectors;
 
 public class HTMLUtils {
     public static ResourceBundle getBundle(Locale locale) {
-        return ResourceBundle.getBundle("messages", locale);
+        try {
+            return ResourceBundle.getBundle("messages", locale);
+        } catch (MissingResourceException | NullPointerException e) {
+            System.out.println("Shit happened!!! NO RESOURCE BUNDLE!!!");
+            return ResourceBundle.getBundle("messages", locale);
+        }
     }
 
     public static String getMessage(String messageKey, boolean english) {
