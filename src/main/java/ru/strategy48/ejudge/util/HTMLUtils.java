@@ -148,7 +148,7 @@ public class HTMLUtils {
         }
 
         if (standings.config.standingsType == StandingsType.ITMO) {
-            html.append(String.format("<th class=\"fixed-side\">%s</th>\n", getMessage("rating", standings.config.english)));
+//            html.append(String.format("<th class=\"fixed-side\">%s</th>\n", getMessage("rating", standings.config.english)));
         } else if (standings.config.type == StandingsTableType.ICPC) {
             html.append(String.format("<th rowspan=\"2\" class=\"fixed-side\">%s</th>\n", getMessage("solved", standings.config.english)));
             if (standings.config.showPenalty) {
@@ -286,7 +286,9 @@ public class HTMLUtils {
             html.append(prefix);
 
             // Add stats
-//            html.append(getStatsHTML(standings, userId, true));
+            if (standings.config.standingsType != StandingsType.ITMO) {
+                html.append(getStatsHTML(standings, userId, true));
+            }
 
             // Add results
             for (StandingsTable table : standings.standings) {
