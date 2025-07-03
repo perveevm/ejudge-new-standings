@@ -18,6 +18,8 @@ public class StandingsTableAgregator {
     public final Map<Integer, Integer> score = new HashMap<>();
 
     public final Map<Integer, Double> itmoRating = new HashMap<>();
+    public final Map<Integer, Double> minItmoRating = new HashMap<>();
+    public final Map<Integer, Double> maxItmoRating = new HashMap<>();
 
     public final Map<Integer, Integer> minPlace = new HashMap<>();
     public final Map<Integer, Integer> maxPlace = new HashMap<>();
@@ -121,11 +123,15 @@ public class StandingsTableAgregator {
                 if (table.getRating(userId) != -1.0) {
                     if (!itmoRating.containsKey(userId)) {
                         itmoRating.put(userId, 0.0);
+                        minItmoRating.put(userId, Double.MAX_VALUE);
+                        maxItmoRating.put(userId, Double.MIN_VALUE);
                     }
                     if (!contestsCntByUser.containsKey(userId)) {
                         contestsCntByUser.put(userId, 0);
                     }
                     itmoRating.put(userId, itmoRating.get(userId) + table.getRating(userId));
+                    minItmoRating.put(userId, Math.min(minItmoRating.get(userId), table.getRating(userId)));
+                    maxItmoRating.put(userId, Math.max(maxItmoRating.get(userId), table.getRating(userId)));
                     contestsCntByUser.put(userId, contestsCntByUser.get(userId) + 1);
                 }
             }

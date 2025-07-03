@@ -36,12 +36,20 @@ public class HTMLUtils {
 
         if (standings.config.standingsType == StandingsType.ITMO) {
             if (standings.contestsCntByUser.getOrDefault(userId, 0) == 0) {
-                html.append(String.format("<td class=\"stat%s\">", fixedCol ? " fixed-side" : ""));
-                html.append("–");
-                html.append("</td>");
+                for (int i = 0; i < 3; ++i) {
+                    html.append(String.format("<td class=\"stat%s\">", fixedCol ? " fixed-side" : ""));
+                    html.append("–");
+                    html.append("</td>");
+                }
             } else {
                 html.append(String.format("<td class=\"stat%s\">", fixedCol ? " fixed-side" : ""));
                 html.append(String.format("%.2f", standings.itmoRating.get(userId) / standings.contestsCntByUser.get(userId)));
+                html.append("</td>");
+                html.append(String.format("<td class=\"stat%s\">", fixedCol ? " fixed-side" : ""));
+                html.append(String.format("%.2f", standings.minItmoRating.get(userId)));
+                html.append("</td>");
+                html.append(String.format("<td class=\"stat%s\">", fixedCol ? " fixed-side" : ""));
+                html.append(String.format("%.2f", standings.maxItmoRating.get(userId)));
                 html.append("</td>");
             }
         } else if (standings.config.type == StandingsTableType.ICPC) {
@@ -184,6 +192,8 @@ public class HTMLUtils {
 
         if (standings.config.standingsType == StandingsType.ITMO) {
             html.append(String.format("<th class=\"fixed-side\">%s</th>\n", getMessage("rating", standings.config.english)));
+            html.append(String.format("<th class=\"fixed-side\">%s</th>\n", getMessage("minRating", standings.config.english)));
+            html.append(String.format("<th class=\"fixed-side\">%s</th>\n", getMessage("maxRating", standings.config.english)));
         } else if (standings.config.type == StandingsTableType.ICPC) {
             html.append(String.format("<th rowspan=\"2\" class=\"fixed-side\">%s</th>\n", getMessage("solved", standings.config.english)));
             if (standings.config.showPenalty) {
@@ -276,7 +286,7 @@ public class HTMLUtils {
             html.append(prefix);
 
             // Add stats
-            html.append(getStatsHTML(standings, userId, true));
+//            html.append(getStatsHTML(standings, userId, true));
 
             // Add results
             for (StandingsTable table : standings.standings) {
