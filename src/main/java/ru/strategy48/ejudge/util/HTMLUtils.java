@@ -85,7 +85,7 @@ public class HTMLUtils {
         StringBuilder html = new StringBuilder();
 
         // Add standings table name
-        html.append(String.format("<div align=\"center\"><h3>%s</h3></div>\n", standings.config.standingsName + (standings.config.needFreeze ? getMessage("resultsFrozen", standings.config.english) : "")));
+        html.append(String.format("<div align=\"center\"><h3>%s</h3></div>\n", standings.config.standingsName + (standings.config.needFreeze ? " " + getMessage("resultsFrozen", standings.config.english) : "")));
 
         if (standings.config.isOfficial && standings.config.startDate != null && standings.config.endDate != null) {
             Date start = standings.config.startDate;
