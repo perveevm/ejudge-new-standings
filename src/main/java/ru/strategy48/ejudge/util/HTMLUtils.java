@@ -153,7 +153,7 @@ public class HTMLUtils {
         for (Contest contest : standings.contests) {
             if (standings.config.standingsType == StandingsType.ITMO) {
                 if (standings.config.pcmsStandingsDir.containsKey(contest.getContestId())) {
-                    html.append(String.format("<th><a href=\"/standings%s\" class=\"link-dark\">%s</a> <small><a href=\"/pcms\">(перейти)</a></small></th>\n", url + "?contests=" + contest.getContestId(), standings.config.contestNames.get(contest.getContestId())));
+                    html.append(String.format("<th><a href=\"/standings%s\" class=\"link-dark\">%s</a> <small><a href=\"/pcms\">(%s)</a></small></th>\n", url + "?contests=" + contest.getContestId(), standings.config.contestNames.get(contest.getContestId()), getMessage("go", standings.config.english)));
                 } else if (standings.config.domjudgeApiUrl.containsKey(contest.getContestId())) {
                     String domjudgeURL = "";
                     try {
@@ -161,13 +161,13 @@ public class HTMLUtils {
                         domjudgeURL = "https://" + tmp.getHost();
                     } catch (Exception ignored) {
                     }
-                    html.append(String.format("<th><a href=\"/standings%s\" class=\"link-dark\">%s</a> <small><a href=\"%s\">(перейти)</a></small></th>\n", url + "?contests=" + contest.getContestId(), standings.config.contestNames.get(contest.getContestId()), domjudgeURL));
+                    html.append(String.format("<th><a href=\"/standings%s\" class=\"link-dark\">%s</a> <small><a href=\"%s\">(%s)</a></small></th>\n", url + "?contests=" + contest.getContestId(), standings.config.contestNames.get(contest.getContestId()), domjudgeURL, getMessage("go", standings.config.english)));
                 } else {
-                    html.append(String.format("<th><a href=\"/standings%s\" class=\"link-dark\">%s</a> <small><a href=\"/cgi-bin/new-client?contest_id=%d\">(перейти)</a></small></th>\n", url + "?contests=" + contest.getContestId(), standings.config.contestNames.get(contest.getContestId()), contest.getContestId()));
+                    html.append(String.format("<th><a href=\"/standings%s\" class=\"link-dark\">%s</a> <small><a href=\"/cgi-bin/new-client?contest_id=%d\">(%s)</a></small></th>\n", url + "?contests=" + contest.getContestId(), standings.config.contestNames.get(contest.getContestId()), contest.getContestId(), getMessage("go", standings.config.english)));
                 }
             } else {
                 if (standings.config.pcmsStandingsDir.containsKey(contest.getContestId())) {
-                    html.append(String.format("<th colspan=\"%d\"><a href=\"/standings%s\" class=\"link-dark\">%s</a> <small><a href=\"/pcms\">(перейти)</a></small></th>\n", contest.getProblems().size(), url + "?contests=" + contest.getContestId(), standings.config.contestNames.get(contest.getContestId())));
+                    html.append(String.format("<th colspan=\"%d\"><a href=\"/standings%s\" class=\"link-dark\">%s</a> <small><a href=\"/pcms\">(%s)</a></small></th>\n", contest.getProblems().size(), url + "?contests=" + contest.getContestId(), standings.config.contestNames.get(contest.getContestId()), getMessage("go", standings.config.english)));
                 } else if (standings.config.domjudgeApiUrl.containsKey(contest.getContestId())) {
                     String domjudgeURL = "";
                     try {
@@ -175,9 +175,9 @@ public class HTMLUtils {
                         domjudgeURL = "https://" + tmp.getHost();
                     } catch (Exception ignored) {
                     }
-                    html.append(String.format("<th colspan=\"%d\"><a href=\"/standings%s\" class=\"link-dark\">%s</a> <small><a href=\"%s\">(перейти)</a></small></th>\n", contest.getProblems().size(), url + "?contests=" + contest.getContestId(), standings.config.contestNames.get(contest.getContestId()), domjudgeURL));
+                    html.append(String.format("<th colspan=\"%d\"><a href=\"/standings%s\" class=\"link-dark\">%s</a> <small><a href=\"%s\">(%s)</a></small></th>\n", contest.getProblems().size(), url + "?contests=" + contest.getContestId(), standings.config.contestNames.get(contest.getContestId()), domjudgeURL, getMessage("go", standings.config.english)));
                 } else {
-                    html.append(String.format("<th colspan=\"%d\"><a href=\"/standings%s\" class=\"link-dark\">%s</a> <small><a href=\"/cgi-bin/new-client?contest_id=%d\">(перейти)</a></small></th>\n", contest.getProblems().size(), url + "?contests=" + contest.getContestId(), standings.config.contestNames.get(contest.getContestId()), contest.getContestId()));
+                    html.append(String.format("<th colspan=\"%d\"><a href=\"/standings%s\" class=\"link-dark\">%s</a> <small><a href=\"/cgi-bin/new-client?contest_id=%d\">(%s)</a></small></th>\n", contest.getProblems().size(), url + "?contests=" + contest.getContestId(), standings.config.contestNames.get(contest.getContestId()), contest.getContestId(), getMessage("go", standings.config.english)));
                 }
             }
         }
