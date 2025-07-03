@@ -7,15 +7,25 @@ import ru.strategy48.ejudge.standings.*;
 
 import java.io.*;
 import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class HTMLUtils {
+    public static ResourceBundle getBundle(Locale locale) {
+        return ResourceBundle.getBundle("messages", locale);
+    }
+
+    public static String getMessage(String messageKey, boolean english) {
+        String message;
+        if (english) {
+            message = getBundle(Locale.forLanguageTag("en")).getString(messageKey);
+        } else {
+            message = getBundle(Locale.forLanguageTag("ru")).getString(messageKey);
+        }
+        return message;
+    }
+
     private static String getStatsHTML(final StandingsTableAgregator standings, final int userId, final boolean fixedCol) {
         StringBuilder html = new StringBuilder();
 
@@ -59,7 +69,7 @@ public class HTMLUtils {
         StringBuilder html = new StringBuilder();
 
         // Add standings table name
-        html.append(String.format("<div align=\"center\"><h3>%s</h3></div>\n", standings.config.standingsName + (standings.config.needFreeze ? " (Результаты заморожены)" : "")));
+        html.append(String.format("<div align=\"center\"><h3>%s</h3></div>\n", standings.config.standingsName + (standings.config.needFreeze ? getMessage("resultsFrozen", standings.config.english) : "")));
 
         if (standings.config.isOfficial && standings.config.startDate != null && standings.config.endDate != null) {
             Date start = standings.config.startDate;
@@ -71,9 +81,9 @@ public class HTMLUtils {
 
             html.append(String.format("<div align=\"center\"><h4>%s из %s<br/>", formatDuration(Math.min(curDuration, contestDuration)), formatDuration(contestDuration)));
             if (curDuration >= contestDuration) {
-                html.append("ЗАВЕРШЕНО");
+                html.append(getMessage("finished", standings.config.english));
             } else {
-                html.append("В ПРОЦЕССЕ");
+                html.append(getMessage("inProgress", standings.config.english));
             }
             html.append("</h4></div>");
         }
@@ -114,10 +124,10 @@ public class HTMLUtils {
         }
         // Add caption row
         html.append("<tr>\n");
-        html.append(String.format("<th rowspan=\"%s\" class=\"fixed-side\"><div class=\"new-standings-cell\" valign=\"middle\">Место</div></th>\n", defaultRowSpan));
+        html.append(String.format("<th rowspan=\"%s\" class=\"fixed-side\"><div class=\"new-standings-cell\" valign=\"middle\">%s</div></th>\n", defaultRowSpan, getMessage("place", standings.config.english)));
 
         if (standings.usersInfo == null) {
-            html.append(String.format("<th rowspan=\"%d\" class=\"user_info_header fixed-side\">Участник</th>\n", defaultRowSpan));
+            html.append(String.format("<th rowspan=\"%d\" class=\"user_info_header fixed-side\">%s</th>\n", defaultRowSpan, getMessage("participant", standings.config.english)));
         } else {
             for (String caption : standings.usersInfo.header) {
                 html.append(String.format("<th rowspan=\"%d\" class=\"user_info_header fixed-side\">%s</th>", defaultRowSpan, caption));

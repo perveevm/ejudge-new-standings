@@ -399,6 +399,9 @@ public class XMLUtils {
                 config.ignoreUsersWithoutUserInfo = true;
             }
         }
+        if (mainConfig.hasAttribute("lang") && mainConfig.getAttribute("lang").equals("en")) {
+            config.english = true;
+        }
 
         if (mainConfig.hasAttribute("official")) {
             config.isOfficial = Boolean.parseBoolean(mainConfig.getAttribute("official"));
