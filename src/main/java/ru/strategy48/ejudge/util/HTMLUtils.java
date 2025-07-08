@@ -36,7 +36,7 @@ public class HTMLUtils {
 
         if (standings.config.standingsType == StandingsType.ITMO) {
             if (standings.contestsCntByUser.getOrDefault(userId, 0) == 0) {
-                for (int i = 0; i < 3; ++i) {
+                for (int i = 0; i < 4; ++i) {
                     html.append(String.format("<td class=\"stat%s\">", fixedCol ? " fixed-side" : ""));
                     html.append("–");
                     html.append("</td>");
@@ -50,6 +50,9 @@ public class HTMLUtils {
                 html.append("</td>");
                 html.append(String.format("<td class=\"stat%s\">", fixedCol ? " fixed-side" : ""));
                 html.append(String.format("%.2f", standings.maxItmoRating.get(userId)));
+                html.append("</td>");
+                html.append(String.format("<td class=\"stat%s\">", fixedCol ? " fixed-side" : ""));
+                html.append(String.format("%d", standings.solved.get(userId)));
                 html.append("</td>");
 //                html.append(String.format("<td class=\"stat%s\">", fixedCol ? " fixed-side" : ""));
 //                html.append(String.format("%.2f", (double)standings.lastHourACRuns.get(userId) / (double)standings.contestsCntByUser.get(userId)));
@@ -199,6 +202,7 @@ public class HTMLUtils {
             html.append(String.format("<th class=\"fixed-side\">%s</th>\n", getMessage("rating", standings.config.english)));
             html.append(String.format("<th class=\"fixed-side\">%s</th>\n", getMessage("minRating", standings.config.english)));
             html.append(String.format("<th class=\"fixed-side\">%s</th>\n", getMessage("maxRating", standings.config.english)));
+            html.append(String.format("<th class=\"fixed-side\">%s</th>\n", getMessage("solved", standings.config.english)));
 //            html.append(String.format("<th class=\"fixed-side\">%s</th>\n", getMessage("lastHour", standings.config.english)));
         } else if (standings.config.type == StandingsTableType.ICPC) {
             html.append(String.format("<th rowspan=\"2\" class=\"fixed-side\">%s</th>\n", getMessage("solved", standings.config.english)));
