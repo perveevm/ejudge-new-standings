@@ -325,12 +325,17 @@ public class HTMLUtils {
                 } else {
                     if (rowId == -1) {
                         for (int i = 0; i < table.contest.getProblems().size(); i++) {
-                            html.append("<td></td>\n");
+                            if (i == table.contest.getProblems().size() - 1) {
+                                html.append("<td class=\"last\"></td>\n");
+                            } else {
+                                html.append("<td></td>\n");
+                            }
                         }
                     } else {
                         StandingsTableRow row = table.sortedRows.get(rowId);
                         int cur = 0;
 
+                        int i = 0;
                         for (StandingsTableCell cell : row.cells.values()) {
                             long time = cell.time / 60;
                             cur++;
@@ -341,8 +346,9 @@ public class HTMLUtils {
 //                            style = " style=\"border-right: solid black 3px;\"";
 //                        }
 
+                            boolean isLast = (i == row.cells.size() - 1);
                             if (cell.freezed) {
-                                html.append(String.format("<td class=\"freezed\">%s", style));
+                                html.append(String.format("<td class=\"freezed%s\">%s", isLast ? " last" : "", style));
                                 time = cell.freezedTime / 60;
 
                                 if (cell.freezedSolved) {
@@ -379,13 +385,13 @@ public class HTMLUtils {
 
                             } else if (cell.running) {
                                 // TODO: running cells
-                                html.append(String.format("<td class=\"running\"%s>", style));
+                                html.append(String.format("<td class=\"running%s\"%s>", isLast ? " last" : "", style));
                                 html.append("TODO");
                             } else if (cell.solved) {
                                 if (cell.firstAC) {
-                                    html.append(String.format("<td class=\"firstAC\"%s>", style));
+                                    html.append(String.format("<td class=\"firstAC%s\"%s>", isLast ? " last" : "", style));
                                 } else {
-                                    html.append(String.format("<td class=\"ok\"%s>", style));
+                                    html.append(String.format("<td class=\"ok%s\"%s>", isLast ? " last" : "", style));
                                 }
 
                                 if (standings.config.type == StandingsTableType.ICPC) {
@@ -404,7 +410,7 @@ public class HTMLUtils {
                                 }
                             } else if (cell.attempts != 0) {
                                 if (standings.config.type == StandingsTableType.ICPC) {
-                                    html.append(String.format("<td class=\"rj\"%s>", style));
+                                    html.append(String.format("<td class=\"rj%s\"%s>", isLast ? " last" : "", style));
                                     html.append("<div class=\"sign\">");
                                     html.append("-");
                                     html.append(cell.attempts);
@@ -421,10 +427,11 @@ public class HTMLUtils {
                                     html.append(cell.score);
                                 }
                             } else {
-                                html.append(String.format("<td%s>", style));
+                                html.append(String.format("<td class=\"%s\">", style));
                             }
 
                             html.append("</td>");
+                            ++i;
                         }
                     }
                 }
