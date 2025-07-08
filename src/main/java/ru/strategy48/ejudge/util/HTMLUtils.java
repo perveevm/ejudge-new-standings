@@ -315,9 +315,9 @@ public class HTMLUtils {
                         html.append("–");
                         html.append("</td>");
                     } else {
-                        int r = (int) (247 + (208 - 247) * Math.sqrt(curRating / 200.0));
-                        int g = (int) (94 + (240 - 94) * Math.sqrt(curRating / 200.0));
-                        int b = (int) (99 + (208 - 99) * Math.sqrt(curRating / 200.0));
+                        int r = (int) (153 + (22 - 153) * Math.sqrt(curRating / 200.0));
+                        int g = (int) (27 + (101 - 27) * Math.sqrt(curRating / 200.0));
+                        int b = (int) (27 + (52 - 27) * Math.sqrt(curRating / 200.0));
                         html.append(String.format("<td style=\"background-color: rgb(%d, %d, %d); text-align: center;\">", r, g, b));
                         html.append(String.format("%.2f", curRating));
                         html.append("</td>");
