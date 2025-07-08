@@ -34,10 +34,31 @@ public class StandingsTable {
 
         int rowId = userToRow.get(userId);
         int n = Math.max(50, sortedRows.size());
-        int place = rowId + 1;
+        int place = rowId + 1;  // TODO: FIXME
         int solved = sortedRows.get(rowId).getSolvedCnt();
         System.out.println(userId + " " + n + " " + place + " " + solved + " " + maxSolved);
         return 200.0 * (double)(n - place + 1) / (double)n * (double)solved / (double)maxSolved;
+    }
+
+    public double getDirt(final int userId) {
+        if (!userWithSubmissions.contains(userId)) {
+            return 0.0;
+        }
+
+        int rowId = userToRow.get(userId);
+        int solved = sortedRows.get(rowId).getSolvedCnt();
+        int totalSubmissions = 0;
+        for (StandingsTableCell cell : sortedRows.get(rowId).cells.values()) {
+            if (cell.solved) {
+                totalSubmissions += cell.attempts;
+            }
+        }
+
+        if (solved == 0) {
+            return 0.0;
+        } else {
+            return (double)solved / (double)totalSubmissions;
+        }
     }
 
     public int lastHourAC(final int userId) {
