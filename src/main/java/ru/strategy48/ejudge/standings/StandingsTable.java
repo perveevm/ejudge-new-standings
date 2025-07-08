@@ -34,7 +34,19 @@ public class StandingsTable {
 
         int rowId = userToRow.get(userId);
         int n = Math.max(50, sortedRows.size());
-        int place = rowId + 1;  // TODO: FIXME
+        int place = 1;
+        for (int i = 0; i < rowId; i++) {
+            if (sortedRows.get(i).getSolvedCnt() > sortedRows.get(rowId).getSolvedCnt()) {
+                place++;
+                continue;
+            }
+            if (sortedRows.get(i).getPenalty() < sortedRows.get(rowId).getPenalty()) {
+                place++;
+                continue;
+            }
+            break;
+        }
+//        int place = rowId + 1;
         int solved = sortedRows.get(rowId).getSolvedCnt();
         System.out.println(userId + " " + n + " " + place + " " + solved + " " + maxSolved);
         return 200.0 * (double)(n - place + 1) / (double)n * (double)solved / (double)maxSolved;
