@@ -305,6 +305,7 @@ public class HTMLUtils {
             }
 
             // Add results
+            int tableId = 0;
             for (StandingsTable table : standings.standings) {
                 int rowId = table.userToRow.getOrDefault(userId, -1);
 
@@ -346,7 +347,7 @@ public class HTMLUtils {
 //                            style = " style=\"border-right: solid black 3px;\"";
 //                        }
 
-                            boolean isLast = (i == row.cells.size() - 1);
+                            boolean isLast = (i == row.cells.size() - 1) && tableId != standings.standings.size() - 1;
                             if (cell.freezed) {
                                 html.append(String.format("<td class=\"freezed%s\">%s", isLast ? " last" : "", style));
                                 time = cell.freezedTime / 60;
@@ -435,6 +436,7 @@ public class HTMLUtils {
                         }
                     }
                 }
+                ++tableId;
             }
 
             // Add stats
