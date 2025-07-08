@@ -311,7 +311,7 @@ public class HTMLUtils {
                 if (standings.config.standingsType == StandingsType.ITMO) {
                     double curRating = table.getRating(userId);
                     if (curRating == -1.0) {
-                        html.append("<td style=\"background-color: white; text-align: center;\">");
+                        html.append("<td style=\"text-align: center;\">");
                         html.append("–");
                         html.append("</td>");
                     } else {
