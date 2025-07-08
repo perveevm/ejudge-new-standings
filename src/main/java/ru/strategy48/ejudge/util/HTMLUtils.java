@@ -427,7 +427,7 @@ public class HTMLUtils {
                                     html.append(cell.score);
                                 }
                             } else {
-                                html.append(String.format("<td class=\"%s\">", isLast ? " last" : ""));
+                                html.append(String.format("<td%s>", isLast ? " class=\"last\"" : ""));
                             }
 
                             html.append("</td>");
