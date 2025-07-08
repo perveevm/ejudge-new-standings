@@ -209,12 +209,12 @@ public class HTMLUtils {
             html.append(String.format("<th class=\"fixed-side\">%s</th>\n", getMessage("dirt", standings.config.english)));
 //            html.append(String.format("<th class=\"fixed-side\">%s</th>\n", getMessage("lastHour", standings.config.english)));
         } else if (standings.config.type == StandingsTableType.ICPC) {
-            html.append(String.format("<th rowspan=\"2\" class=\"fixed-side\">%s</th>\n", getMessage("solved", standings.config.english)));
-            if (standings.config.showPenalty) {
-                html.append(String.format("<th rowspan=\"2\" class=\"fixed-side\">%s</th>\n", getMessage("penalty", standings.config.english)));
-            }
+//            html.append(String.format("<th rowspan=\"2\" class=\"fixed-side\">%s</th>\n", getMessage("solved", standings.config.english)));
+//            if (standings.config.showPenalty) {
+//                html.append(String.format("<th rowspan=\"2\" class=\"fixed-side\">%s</th>\n", getMessage("penalty", standings.config.english)));
+//            }
         } else {
-            html.append(String.format("<th rowspan=\"2\" class=\"fixed-side\">%s</th>\n", getMessage("score", standings.config.english)));
+//            html.append(String.format("<th rowspan=\"2\" class=\"fixed-side\">%s</th>\n", getMessage("score", standings.config.english)));
         }
 
         html.append("</tr>\n");
@@ -438,7 +438,9 @@ public class HTMLUtils {
             }
 
             // Add stats
-            html.append(getStatsHTML(standings, userId, false));
+            if (standings.config.standingsType == StandingsType.ITMO) {
+                html.append(getStatsHTML(standings, userId, false));
+            }
 
             html.append("</tr>");
         }
