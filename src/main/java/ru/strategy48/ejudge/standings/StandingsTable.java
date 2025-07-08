@@ -50,14 +50,14 @@ public class StandingsTable {
         int totalSubmissions = 0;
         for (StandingsTableCell cell : sortedRows.get(rowId).cells.values()) {
             if (cell.solved) {
-                totalSubmissions += cell.attempts;
+                totalSubmissions += cell.attempts + 1;
             }
         }
 
         if (solved == 0) {
             return 0.0;
         } else {
-            return (double)solved / (double)totalSubmissions;
+            return 1.0 - (double)solved / (double)totalSubmissions;
         }
     }
 
