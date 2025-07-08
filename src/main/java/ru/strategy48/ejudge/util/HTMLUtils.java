@@ -347,10 +347,12 @@ public class HTMLUtils {
 
                                 if (cell.freezedSolved) {
                                     if (standings.config.type == StandingsTableType.ICPC) {
+                                        html.append("<div class=\"sign\">");
                                         html.append("+");
                                         if (cell.freezedAttempts != 0) {
                                             html.append(cell.freezedAttempts);
                                         }
+                                        html.append("</div>");
 
                                         if (standings.config.showPenalty) {
                                             html.append(String.format("<div class=\"penalty-time\">%d:%02d</div>", time / 60, time % 60));
@@ -361,8 +363,10 @@ public class HTMLUtils {
                                 } else if (cell.attempts != 0) {
                                     if (standings.config.type == StandingsTableType.ICPC) {
                                         if (cell.freezedAttempts != 0) {
+                                            html.append("<div class=\"sign\">");
                                             html.append("-");
                                             html.append(cell.freezedAttempts);
+                                            html.append("</div>");
 
                                             if (standings.config.showPenalty) {
                                                 html.append(String.format("<div class=\"penalty-time\">%d:%02d</div>", time / 60, time % 60));
@@ -385,10 +389,12 @@ public class HTMLUtils {
                                 }
 
                                 if (standings.config.type == StandingsTableType.ICPC) {
+                                    html.append("<div class=\"sign\">");
                                     html.append("+");
                                     if (cell.attempts != 0) {
                                         html.append(cell.attempts);
                                     }
+                                    html.append("</div>");
 
                                     if (standings.config.showPenalty) {
                                         html.append(String.format("<div class=\"penalty-time\">%d:%02d</div>", time / 60, time % 60));
@@ -399,8 +405,10 @@ public class HTMLUtils {
                             } else if (cell.attempts != 0) {
                                 if (standings.config.type == StandingsTableType.ICPC) {
                                     html.append(String.format("<td class=\"rj\"%s>", style));
+                                    html.append("<div class=\"sign\">");
                                     html.append("-");
                                     html.append(cell.attempts);
+                                    html.append("</div>");
 
                                     if (standings.config.showPenalty) {
                                         html.append(String.format("<div class=\"penalty-time\">%d:%02d</div>", time / 60, time % 60));
