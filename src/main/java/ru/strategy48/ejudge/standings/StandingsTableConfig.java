@@ -13,6 +13,7 @@ public class StandingsTableConfig {
     public boolean isOfficial = false;
     public boolean ignoreUsersWithoutUserInfo = false;
     public boolean english = false;
+    public boolean disableSearch = false;
 
     public StandingsType standingsType = StandingsType.STANDARD;
 

@@ -402,6 +402,9 @@ public class XMLUtils {
         if (mainConfig.hasAttribute("lang") && mainConfig.getAttribute("lang").equals("en")) {
             config.english = true;
         }
+        if (mainConfig.hasAttribute("disable_search") && mainConfig.getAttribute("disable_search").equals("true")) {
+            config.disableSearch = true;
+        }
 
         if (mainConfig.hasAttribute("official")) {
             config.isOfficial = Boolean.parseBoolean(mainConfig.getAttribute("official"));
