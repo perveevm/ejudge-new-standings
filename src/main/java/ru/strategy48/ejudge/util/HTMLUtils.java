@@ -151,7 +151,7 @@ public class HTMLUtils {
         html.append(String.format("<th rowspan=\"%s\" class=\"fixed-side\"><div class=\"new-standings-cell\" valign=\"middle\">%s</div></th>\n", defaultRowSpan, getMessage("place", standings.config.english)));
 
         if (standings.usersInfo == null) {
-            html.append(String.format("<th rowspan=\"%d\" class=\"user_info_header fixed-side\">%s</th>\n", defaultRowSpan, getMessage("participant", standings.config.english)));
+            html.append(String.format("<th rowspan=\"%d\" class=\"user_info_header fixed-side\"><div class=\"new-standings-cell\" valign=\"middle\">%s</div></th>\n", defaultRowSpan, getMessage("participant", standings.config.english)));
         } else {
             for (String caption : standings.usersInfo.header) {
                 html.append(String.format("<th rowspan=\"%d\" class=\"user_info_header fixed-side\">%s</th>", defaultRowSpan, caption));
