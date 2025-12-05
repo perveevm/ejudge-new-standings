@@ -87,9 +87,9 @@ public class HTMLUtils {
         return String.format("%d:%02d:%02d", hh, mm, ss);
     }
 
-    private static String getUserDataHTMLTag(final String data, final boolean disqualified) {
+    private static String getUserDataHTMLTag(final String data, final boolean disqualified, final boolean isFirstColumn) {
         if (disqualified) {
-            return String.format("<td class=\"user_info fixed-side disqualified\">%s [Дисквалифицирован]</td>\n", data);
+            return String.format("<td class=\"user_info fixed-side disqualified\">%s%s</td>\n", data, isFirstColumn ? " [Дисквалифицирован]" : "");
         } else {
             return String.format("<td class=\"user_info fixed-side\">%s</td>\n", data);
         }
@@ -281,11 +281,11 @@ public class HTMLUtils {
             boolean disqualified = standings.users.get(userId).getDisqualified();
             if (standings.usersInfo == null) {
                 if (!standings.users.get(userId).getName().isEmpty() || standings.idToLogin == null) {
-                    prefix.append(getUserDataHTMLTag(standings.users.get(userId).getName(), disqualified));
+                    prefix.append(getUserDataHTMLTag(standings.users.get(userId).getName(), disqualified, true));
 //                    prefix.append(String.format("<td class=\"user_info fixed-side\">%s</td>\n", standings.users.get(userId).getName()));
                 } else {
                     String login = standings.idToLogin.get(standings.users.get(userId).getId());
-                    prefix.append(getUserDataHTMLTag(login, disqualified));
+                    prefix.append(getUserDataHTMLTag(login, disqualified, true));
 //                    prefix.append(String.format("<td class=\"user_info fixed-side\">%s</td>\n", login));
                 }
             } else {
@@ -295,12 +295,14 @@ public class HTMLUtils {
                         skipUser = true;
                     }
                     for (int i = 0; i < standings.usersInfo.header.size(); i++) {
-                        prefix.append(getUserDataHTMLTag(login, disqualified));
+                        prefix.append(getUserDataHTMLTag(login, disqualified, i == 0));
 //                        prefix.append(String.format("<td class=\"user_info fixed-side\">%s</td>\n", login));
                     }
                 } else {
+                    boolean isFirst = true;
                     for (String param : standings.usersInfo.fields.get(login)) {
-                        prefix.append(getUserDataHTMLTag(param, disqualified));
+                        prefix.append(getUserDataHTMLTag(param, disqualified, isFirst));
+                        isFirst = false;
 //                        prefix.append(String.format("<td class=\"user_info fixed-side\">%s</td>\n", param));
                     }
                 }
