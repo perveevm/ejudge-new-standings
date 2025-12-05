@@ -89,7 +89,7 @@ public class HTMLUtils {
 
     private static String getUserDataHTMLTag(final String data, final boolean disqualified, final boolean isFirstColumn) {
         if (disqualified) {
-            return String.format("<td class=\"user_info fixed-side disqualified\">%s%s</td>\n", data, isFirstColumn ? " [Дисквалифицирован]" : "");
+            return String.format("<td class=\"user_info fixed-side disqualified\">%s%s</td>\n", data, isFirstColumn ? " [Дисквалификация]" : "");
         } else {
             return String.format("<td class=\"user_info fixed-side\">%s</td>\n", data);
         }
