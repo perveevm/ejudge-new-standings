@@ -113,7 +113,7 @@ public class XMLUtils {
                             status = Status.EM;
                     }
 
-                    contest.addRun(new Run(-1, time, status, id, j + 1, score));
+                    contest.addRun(new Run(-1, time, status, id, j + 1, score, false));
                 }
             }
         }
@@ -321,7 +321,10 @@ public class XMLUtils {
                 }
             }
 
-            contest.addRun(new Run(runId, time, status, userId, problemId, score));
+            contest.addRun(new Run(runId, time, status, userId, problemId, score, status == Status.DQ));
+            if (status == Status.DQ) {
+                contest.disqualifyUser(userId);
+            }
         }
 
         return contest;

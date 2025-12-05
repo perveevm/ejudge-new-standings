@@ -7,14 +7,16 @@ public class Run {
     private final int userId;
     private final int problemId;
     private final int score;
+    private final boolean disqualified;
 
-    public Run(final int id, final long time, final Status status, final int userId, final int problemId, final int score) {
+    public Run(final int id, final long time, final Status status, final int userId, final int problemId, final int score, final boolean disqualified) {
         this.id = id;
         this.time = time;
         this.status = status;
         this.userId = userId;
         this.problemId = problemId;
         this.score = score;
+        this.disqualified = disqualified;
     }
 
     public int getId() {
@@ -39,5 +41,9 @@ public class Run {
 
     public int getScore() {
         return score;
+    }
+
+    public boolean getDisqualified() {
+        return disqualified;
     }
 }

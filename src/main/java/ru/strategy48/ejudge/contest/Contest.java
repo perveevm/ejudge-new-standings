@@ -79,6 +79,14 @@ public class Contest {
         runs.add(run);
     }
 
+    public void disqualifyUser(final int userId) {
+        for (User user : users) {
+            if (user.getId() == userId) {
+                user.setDisqualified();
+            }
+        }
+    }
+
     public boolean needFreeze(final long time) {
         return !isInfinite() && time >= duration - freezeTime;
     }

@@ -87,6 +87,14 @@ public class HTMLUtils {
         return String.format("%d:%02d:%02d", hh, mm, ss);
     }
 
+    private static String getUserDataHTMLTag(final String data, final boolean disqualified) {
+        if (disqualified) {
+            return String.format("<td class=\"user_info fixed-side disqualified\">%s [Дисквалифицирован]</td>\n", data);
+        } else {
+            return String.format("<td class=\"user_info fixed-side\">%s</td>\n", data);
+        }
+    }
+
     public static String getStandingsHTML(final StandingsTableAgregator standings, final String url) {
         StringBuilder html = new StringBuilder();
 
@@ -270,12 +278,15 @@ public class HTMLUtils {
 
             boolean skipUser = false;
             // Add name
+            boolean disqualified = standings.users.get(userId).getDisqualified();
             if (standings.usersInfo == null) {
                 if (!standings.users.get(userId).getName().isEmpty() || standings.idToLogin == null) {
-                    prefix.append(String.format("<td class=\"user_info fixed-side\">%s</td>\n", standings.users.get(userId).getName()));
+                    prefix.append(getUserDataHTMLTag(standings.users.get(userId).getName(), disqualified));
+//                    prefix.append(String.format("<td class=\"user_info fixed-side\">%s</td>\n", standings.users.get(userId).getName()));
                 } else {
                     String login = standings.idToLogin.get(standings.users.get(userId).getId());
-                    prefix.append(String.format("<td class=\"user_info fixed-side\">%s</td>\n", login));
+                    prefix.append(getUserDataHTMLTag(login, disqualified));
+//                    prefix.append(String.format("<td class=\"user_info fixed-side\">%s</td>\n", login));
                 }
             } else {
                 String login = standings.idToLogin.get(standings.users.get(userId).getId());
@@ -284,11 +295,13 @@ public class HTMLUtils {
                         skipUser = true;
                     }
                     for (int i = 0; i < standings.usersInfo.header.size(); i++) {
-                        prefix.append(String.format("<td class=\"user_info fixed-side\">%s</td>\n", login));
+                        prefix.append(getUserDataHTMLTag(login, disqualified));
+//                        prefix.append(String.format("<td class=\"user_info fixed-side\">%s</td>\n", login));
                     }
                 } else {
                     for (String param : standings.usersInfo.fields.get(login)) {
-                        prefix.append(String.format("<td class=\"user_info fixed-side\">%s</td>\n", param));
+                        prefix.append(getUserDataHTMLTag(param, disqualified));
+//                        prefix.append(String.format("<td class=\"user_info fixed-side\">%s</td>\n", param));
                     }
                 }
             }

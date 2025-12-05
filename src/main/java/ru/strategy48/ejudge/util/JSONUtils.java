@@ -308,14 +308,14 @@ public class JSONUtils {
                 ++problemId;
 
                 for (int it = 0; it < problemScore.num_judged - 1; it++) {
-                    contest.addRun(new Run(runId, problemScore.time * 60, Status.WA, row.team_id, problemId, 0));
+                    contest.addRun(new Run(runId, problemScore.time * 60, Status.WA, row.team_id, problemId, 0, false));
                     ++runId;
                 }
                 if (problemScore.solved) {
-                    contest.addRun(new Run(runId, problemScore.time * 60, Status.OK, row.team_id, problemId, 100));
+                    contest.addRun(new Run(runId, problemScore.time * 60, Status.OK, row.team_id, problemId, 100, false));
                     ++runId;
                 } else if (problemScore.num_judged != 0) {
-                    contest.addRun(new Run(runId, problemScore.time * 60, Status.WA, row.team_id, problemId, 0));
+                    contest.addRun(new Run(runId, problemScore.time * 60, Status.WA, row.team_id, problemId, 0, false));
                     ++runId;
                 }
 
